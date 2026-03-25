@@ -243,7 +243,7 @@ export const SERVICES = [
       "Reportes con fotos y ruta GPS",
       "Grupos reducidos y supervisión dedicada",
     ],
-    image: "/img/hero.webp",
+    image: "/img/paseos_paws.webp",
     exclusiveBranch: "zona-norte" as BranchId,
   },
 ] as const;
