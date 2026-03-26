@@ -11,6 +11,7 @@ import {
   Sparkles,
   Shield,
   Clock,
+  Truck,
 } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -30,34 +31,47 @@ const service = SERVICES.find((s) => s.id === "guarderia")!;
 
 const DETAILS = [
   {
-    icon: <Sun className="h-6 w-6 text-brand" />,
+    icon: <Sun className="h-6 w-6 text-brand" aria-hidden="true" />,
     title: "Días Llenos de Diversión",
+    titleDisplay: "Días Llenos de Diversión",
     desc: "Actividades diseñadas para estimular a tu perro física y mentalmente durante todo el día.",
   },
   {
-    icon: <Users className="h-6 w-6 text-brand" />,
+    icon: <Users className="h-6 w-6 text-brand" aria-hidden="true" />,
     title: "Máximo 5 Lomitos",
+    titleDisplay: "Máximo 5 Lomitos",
     desc: "Cupo estrictamente limitado para garantizar atención personalizada y seguridad.",
   },
   {
-    icon: <Camera className="h-6 w-6 text-brand" />,
+    icon: <Camera className="h-6 w-6 text-brand" aria-hidden="true" />,
     title: "Reportes en Tiempo Real",
+    titleDisplay: "Reportes en Tiempo Real",
     desc: "Fotos, videos y actualizaciones de tu peludo directo a tu WhatsApp.",
   },
   {
-    icon: <Sparkles className="h-6 w-6 text-brand" />,
-    title: "Higiene Premium",
-    desc: "Limpieza profunda diaria de todas las áreas. Ambiente siempre limpio y libre de olores.",
+    icon: <Truck className="h-6 w-6 text-brand" aria-hidden="true" />,
+    title: "Transporte a Domicilio",
+    titleDisplay: (
+      <>
+        Transporte a Domicilio{" "}
+        <span className="text-xs font-normal text-gray-400">
+          (costo adicional)
+        </span>
+      </>
+    ),
+    desc: "Servicio de recolección y entrega disponible en las zonas de cobertura de ambas sucursales.",
   },
   {
-    icon: <Shield className="h-6 w-6 text-brand" />,
+    icon: <Shield className="h-6 w-6 text-brand" aria-hidden="true" />,
     title: "Socialización Supervisada",
+    titleDisplay: "Socialización Supervisada",
     desc: "Fomentamos interacciones positivas. Cada perro pasa una prueba de socialización antes de ingresar.",
   },
   {
-    icon: <Clock className="h-6 w-6 text-brand" />,
+    icon: <Clock className="h-6 w-6 text-brand" aria-hidden="true" />,
     title: "Horario Flexible",
-    desc: "Entrada desde las 7:00 AM, salida hasta las 8:00 PM. Lunes a Sábado.",
+    titleDisplay: "Horario Flexible",
+    desc: "Entrada desde las 6:00 a.m. (L-V) o 7:00 a.m. (S). Reporte a las 6:00 p.m.",
   },
 ];
 
@@ -150,7 +164,7 @@ export default function GuarderiaPage() {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gray-50">
                   {d.icon}
                 </div>
-                <h3 className="text-lg font-bold text-gray-900">{d.title}</h3>
+                <h3 className="text-lg font-bold text-gray-900">{d.titleDisplay}</h3>
                 <p className="mt-2 text-sm text-gray-500">{d.desc}</p>
               </div>
             ))}
@@ -164,27 +178,73 @@ export default function GuarderiaPage() {
           <h2 className="mb-10 text-center text-3xl font-extrabold text-gray-900">
             Rutina del Día
           </h2>
+          <div className="mb-12 grid gap-6 md:grid-cols-2">
+            <div className="rounded-2xl border border-brand/10 bg-white p-6 shadow-sm">
+              <h3 className="mb-4 flex items-center gap-2 text-lg font-bold text-gray-900">
+                <Clock className="h-5 w-5 text-brand" />
+                Horarios de Reserva (L-V)
+              </h3>
+              <ul className="space-y-3 text-sm text-gray-600">
+                <li className="flex justify-between border-b border-gray-50 pb-2">
+                  <span>Bloque Matutino:</span>
+                  <span className="font-bold text-brand">6:00 a.m. - 10:00 a.m.</span>
+                </li>
+                <li className="flex justify-between">
+                  <span>Bloque Vespertino:</span>
+                  <span className="font-bold text-brand">1:00 p.m. - 3:00 p.m.</span>
+                </li>
+              </ul>
+            </div>
+            <div className="rounded-2xl border border-brand/10 bg-white p-6 shadow-sm">
+              <h3 className="mb-4 flex items-center gap-2 text-lg font-bold text-gray-900">
+                <Clock className="h-5 w-5 text-brand" />
+                Horarios de Reserva (S)
+              </h3>
+              <ul className="space-y-3 text-sm text-gray-600">
+                <li className="flex justify-between border-b border-gray-50 pb-2">
+                  <span>Bloque Matutino:</span>
+                  <span className="font-bold text-brand">7:00 a.m. - 1:00 p.m.</span>
+                </li>
+                <li className="flex justify-between">
+                  <span>Bloque Vespertino:</span>
+                  <span className="font-bold text-brand">3:00 p.m. - 6:00 p.m.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
           <div className="space-y-0">
             {[
-              { time: "7:00 AM", activity: "Recepción y bienvenida", desc: "Check-in, saludo y evaluación del estado de ánimo del lomito." },
-              { time: "8:00 AM", activity: "Socialización matutina", desc: "Juego libre supervisado para iniciar el día con energía." },
-              { time: "10:00 AM", activity: "Actividades dirigidas", desc: "Ejercicios de estimulación mental y juegos interactivos." },
-              { time: "12:00 PM", activity: "Descanso y almuerzo", desc: "Tiempo de relajación, agua fresca y comida (si la traen)." },
-              { time: "2:00 PM", activity: "Segundo bloque de juego", desc: "Más socialización y actividades según energía del grupo." },
-              { time: "4:00 PM", activity: "Reporte del día", desc: "Fotos, videos y resumen enviado por WhatsApp." },
-              { time: "5:00 - 8:00 PM", activity: "Pick-up", desc: "Recogida dentro del horario o transporte a domicilio." },
-            ].map((slot, i) => (
-              <div key={slot.time} className="flex gap-4">
+              {
+                time: "Recepción",
+                activity: "Recepción y bienvenida",
+                desc: "Check-in, saludo y evaluación del estado de ánimo del lomito.",
+              },
+              {
+                time: "6:00 p.m.",
+                activity: "Reporte del día",
+                desc: "Fotos, videos y resumen enviado por WhatsApp.",
+              },
+              {
+                time: "7:00 p.m.",
+                activity: "Pick-up en sucursal",
+                desc: "Cierre de actividades y salida de perritos en sucursal.",
+              },
+              {
+                time: "7:30 p.m.",
+                activity: "Entrega a domicilio",
+                desc: "Después de este horario inicia la transportación a casa.",
+              },
+            ].map((slot, i, arr) => (
+              <div key={i} className="flex gap-4">
                 <div className="flex flex-col items-center">
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand text-xs font-bold text-white">
                     {i + 1}
                   </div>
-                  {i < 6 && <div className="h-full w-0.5 bg-brand/20" />}
+                  {i < arr.length - 1 && <div className="h-full w-0.5 bg-brand/20" />}
                 </div>
                 <div className="pb-8">
-                  <span className="text-xs font-bold text-brand">
-                    {slot.time}
-                  </span>
+                  <span className="text-xs font-bold text-brand">{slot.time}</span>
                   <h3 className="text-sm font-bold text-gray-900">
                     {slot.activity}
                   </h3>
@@ -209,7 +269,6 @@ export default function GuarderiaPage() {
           </div>
 
           <div className="grid gap-8 md:grid-cols-2">
-            {/* Poniente */}
             <div className="rounded-2xl border-2 border-gray-200 bg-white p-8 shadow-sm">
               <h3 className="text-xl font-bold text-gray-900">
                 {BRANCHES.poniente.name}
@@ -228,15 +287,25 @@ export default function GuarderiaPage() {
                   </span>
                 </div>
               </div>
+              
+              <div className="mt-6 flex flex-col gap-2 rounded-xl bg-orange-50 p-4 border border-orange-100">
+                <span className="text-sm font-bold text-orange-800 flex items-center gap-1">
+                  ⚠️ Cupo Lleno
+                </span>
+                <p className="text-xs text-orange-700">
+                  Te invitamos a conocer nuestra Experiencia Insignia en la zona Norte, donde aún tenemos espacios disponibles.
+                </p>
+              </div>
+
               <a
                 href={SITE.whatsappUrl(
-                  "¡Hola! ☀️ Quiero informes sobre la Guardería. Me interesa la sucursal Poniente. ¿Tienen cupo?"
+                  "¡Hola! ☀️ Deseo unirme a la lista de espera para la Guardería en la sucursal Poniente."
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-6 block rounded-full bg-brand py-3 text-center text-sm font-semibold text-white transition-all hover:bg-brand-hover"
+                className="mt-6 block rounded-full bg-gray-200 py-3 text-center text-sm font-semibold text-gray-600 transition-all hover:bg-gray-300 pointer-events-auto"
               >
-                Inscribir en Poniente
+                Unirse a Lista de Espera
               </a>
             </div>
 

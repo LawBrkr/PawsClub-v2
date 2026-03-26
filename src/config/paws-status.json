@@ -1,7 +1,7 @@
 {
   "poniente": {
     "hotel": { "full": true },
-    "guarderia": { "full": false },
+    "guarderia": { "full": true },
     "adiestramiento": { "full": false }
   },
   "zona-norte": {

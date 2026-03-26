@@ -30,57 +30,57 @@ const service = SERVICES.find((s) => s.id === "adiestramiento")!;
 
 const DETAILS = [
   {
-    icon: <Heart className="h-6 w-6 text-brand" />,
+    icon: <Heart aria-hidden="true" className="h-6 w-6 text-brand" />,
     title: "Refuerzo Positivo",
     desc: "Entrenamos con motivación, nunca con castigo. Tu perro aprende porque quiere, no porque teme.",
   },
   {
-    icon: <Brain className="h-6 w-6 text-brand" />,
+    icon: <Brain aria-hidden="true" className="h-6 w-6 text-brand" />,
     title: "Modificación de Conducta",
-    desc: "Ladrido excesivo, ansiedad por separación, reactividad. Trabajamos las raíces del comportamiento.",
+    desc: "Ladrido excesivo, ansiedad por separación, reactividad. Trabajamos las raíces del comportamiento mediante sesiones de desensibilización sistemática.",
   },
   {
-    icon: <Award className="h-6 w-6 text-brand" />,
+    icon: <Award aria-hidden="true" className="h-6 w-6 text-brand" />,
     title: "Obediencia Básica y Avanzada",
-    desc: "Sentado, echado, ven, quieto, caminar con correa. De lo fundamental a lo avanzado.",
+    desc: "Sentado, echado, ven, quieto, caminar con correa. De lo fundamental a la disciplina avanzada.",
   },
   {
-    icon: <Home className="h-6 w-6 text-brand" />,
+    icon: <Home aria-hidden="true" className="h-6 w-6 text-brand" />,
     title: "En Casa o a Domicilio",
-    desc: "Las sesiones pueden ser en nuestras instalaciones o en tu hogar, donde tu perro tiene sus hábitos.",
+    desc: "Las sesiones pueden ser en nuestras instalaciones o en tu hogar, donde tu perro tiene sus hábitos y rutinas.",
   },
   {
-    icon: <Users className="h-6 w-6 text-brand" />,
+    icon: <Users aria-hidden="true" className="h-6 w-6 text-brand" />,
     title: "Perros Mentor",
-    desc: "Usamos perros equilibrados como modelos para enseñar a los nuevos. Aprenden más rápido con el ejemplo.",
+    desc: "Usamos perros equilibrados como modelos de conducta. Aprenden más rápido con el ejemplo de un par.",
   },
   {
-    icon: <Target className="h-6 w-6 text-brand" />,
-    title: "Plan Personalizado",
-    desc: "Cada perro es diferente. Diseñamos un plan de entrenamiento según su temperamento y necesidades.",
+    icon: <Target aria-hidden="true" className="h-6 w-6 text-brand" />,
+    title: "Plan Integral",
+    desc: "Cada perro es único. Diseñamos un plan de desarrollo conductual según su temperamento y contexto.",
   },
 ];
 
 const PROGRAMS = [
   {
     name: "Obediencia Básica",
-    desc: "Sentado, echado, ven, quieto, caminar sin jalar. Ideal para cachorros o perros sin entrenamiento previo.",
-    sessions: "4 sesiones",
+    desc: "Comunicación efectiva y fundamentos. Ideal para perros sin instrucción previa.",
+    sessions: "4 sesiones introductorias",
   },
   {
     name: "Modificación de Conducta",
-    desc: "Ansiedad por separación, ladrido excesivo, reactividad con otros perros o personas.",
-    sessions: "4-8 sesiones según caso",
+    desc: "Abordaje de reactividad o ladrido mediante protocolos de habituación.",
+    sessions: "4-8 sesiones según diagnóstico",
   },
   {
-    name: "Socialización Asistida",
-    desc: "Integración gradual con otros perros usando perros mentor equilibrados como modelos.",
-    sessions: "4 sesiones",
+    name: "Cachorro Pro",
+    desc: "Socialización temprana, prevención de problemas a futuro y establecimiento de reglas en el hogar.",
+    sessions: "8 sesiones a domicilio",
   },
   {
-    name: "Obediencia Avanzada",
-    desc: "Comandos a distancia, permanencia prolongada, paseo sin correa. Para perros con base sólida.",
-    sessions: "4 sesiones",
+    name: "Adiós Ansiedad",
+    desc: "Protocolo gradual con sesiones de desensibilización para episodios de pánico o fijación.",
+    sessions: "10 sesiones a domicilio",
   },
 ];
 
@@ -141,7 +141,7 @@ export default function AdiestramientoPage() {
               className="inline-flex items-center gap-2 rounded-full bg-brand px-8 py-4 text-lg font-bold text-white shadow-xl transition-all hover:-translate-y-1 hover:bg-brand-hover hover:shadow-2xl"
             >
               Solicitar evaluación
-              <ArrowRight className="h-5 w-5" />
+              <ArrowRight aria-hidden="true" className="h-5 w-5" />
             </a>
             <Link
               href="#precios"
@@ -209,92 +209,171 @@ export default function AdiestramientoPage() {
         <div className="mx-auto max-w-5xl px-4 lg:px-8">
           <div className="mb-12 text-center">
             <h2 className="text-3xl font-extrabold text-gray-900 md:text-4xl">
-              Precios por Sucursal
+              Planes y Precios
             </h2>
             <p className="mt-3 text-lg text-gray-500">
-              Paquete de 4 sesiones individuales. Mismo método, precio justo por
-              zona.
+              Mismo método, precio proporcional por zona de cobertura.
             </p>
           </div>
 
-          <div className="grid gap-8 md:grid-cols-2">
-            {/* Poniente */}
-            <div className="rounded-2xl border-2 border-gray-200 bg-white p-8 shadow-sm">
-              <h3 className="text-xl font-bold text-gray-900">
-                {BRANCHES.poniente.name}
+          <div className="space-y-12">
+            {/* Base Package */}
+            <div>
+              <h3 className="mb-6 text-center text-2xl font-bold text-gray-900">
+                Obediencia Básica / Modificación (4 Sesiones)
               </h3>
-              <p className="mt-1 text-sm text-gray-500">
-                Polanco · Lomas · Tecamachalco
-              </p>
-              <div className="mt-6">
-                <span className="text-3xl font-extrabold text-gray-900">
-                  {formatPrice(PRICES.adiestramiento.poniente)}
-                </span>
-                <span className="text-sm font-normal text-gray-400">
-                  {" "}
-                  / paquete 4 sesiones
-                </span>
+              <div className="grid gap-8 md:grid-cols-2">
+                {/* Poniente */}
+                <div className="rounded-2xl border-2 border-gray-200 bg-white p-8 shadow-sm">
+                  <h3 className="text-xl font-bold text-gray-900">
+                    {BRANCHES.poniente.name}
+                  </h3>
+                  <p className="mt-1 text-sm text-gray-500">
+                    Polanco · Lomas · Tecamachalco
+                  </p>
+                  <div className="mt-6">
+                    <span className="text-3xl font-extrabold text-gray-900">
+                      {formatPrice(PRICES.adiestramiento.poniente)}
+                    </span>
+                    <span className="text-sm font-normal text-gray-400">
+                      {" "}
+                      / paquete
+                    </span>
+                  </div>
+                  <p className="mt-2 text-xs text-gray-400">
+                    Equivale a{" "}
+                    {formatPrice(Math.round(PRICES.adiestramiento.poniente / 4))}{" "}
+                    por sesión
+                  </p>
+                  <a
+                    href={SITE.whatsappUrl(
+                      "¡Hola! 🎓 Necesito ayuda con el comportamiento de mi perro. Me interesa la sucursal Poniente."
+                    )}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-6 block rounded-full bg-brand py-3 text-center text-sm font-semibold text-white transition-all hover:bg-brand-hover"
+                  >
+                    Agendar en Poniente
+                  </a>
+                </div>
+
+                {/* Zona Norte */}
+                <div className="relative rounded-2xl border-2 border-brand bg-white p-8 shadow-lg">
+                  <span className="absolute -top-3 right-6 rounded-full bg-accent-orange px-3 py-1 text-xs font-bold text-white">
+                    Mejor precio
+                  </span>
+                  <h3 className="text-xl font-bold text-gray-900">
+                    {BRANCHES["zona-norte"].name}
+                  </h3>
+                  <p className="mt-1 text-sm text-gray-500">
+                    Lindavista · Sta. María la Ribera · Tlatelolco
+                  </p>
+                  <div className="mt-6">
+                    <span className="text-3xl font-extrabold text-brand">
+                      {formatPrice(PRICES.adiestramiento.zonaNorte)}
+                    </span>
+                    <span className="text-sm font-normal text-gray-400">
+                      {" "}
+                      / paquete
+                    </span>
+                  </div>
+                  <p className="mt-2 text-xs text-gray-400">
+                    Equivale a{" "}
+                    {formatPrice(
+                      Math.round(PRICES.adiestramiento.zonaNorte / 4)
+                    )}{" "}
+                    por sesión
+                  </p>
+                  <a
+                    href={SITE.whatsappUrl(
+                      "¡Hola! 🎓 Necesito ayuda con el comportamiento de mi perro. Me interesa la sucursal Zona Norte."
+                    )}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-6 block rounded-full bg-brand py-3 text-center text-sm font-semibold text-white transition-all hover:bg-brand-hover"
+                  >
+                    Agendar en Zona Norte
+                  </a>
+                </div>
               </div>
-              <p className="mt-2 text-xs text-gray-400">
-                Equivale a{" "}
-                {formatPrice(Math.round(PRICES.adiestramiento.poniente / 4))}{" "}
-                por sesión
-              </p>
-              <a
-                href={SITE.whatsappUrl(
-                  "¡Hola! 🎓 Necesito ayuda con el comportamiento de mi perro. Me interesa la sucursal Poniente."
-                )}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-6 block rounded-full bg-brand py-3 text-center text-sm font-semibold text-white transition-all hover:bg-brand-hover"
-              >
-                Agendar en Poniente
-              </a>
             </div>
 
-            {/* Zona Norte */}
-            <div className="relative rounded-2xl border-2 border-brand bg-white p-8 shadow-lg">
-              <span className="absolute -top-3 right-6 rounded-full bg-accent-orange px-3 py-1 text-xs font-bold text-white">
-                Mejor precio
-              </span>
-              <h3 className="text-xl font-bold text-gray-900">
-                {BRANCHES["zona-norte"].name}
+            {/* Specialized Packages (Stackable Cards) */}
+            <div>
+              <h3 className="mb-6 text-center text-2xl font-bold text-gray-900">
+                Programas Especializados (A Domicilio)
               </h3>
-              <p className="mt-1 text-sm text-gray-500">
-                Lindavista · Sta. María la Ribera · Tlatelolco
-              </p>
-              <div className="mt-6">
-                <span className="text-3xl font-extrabold text-brand">
-                  {formatPrice(PRICES.adiestramiento.zonaNorte)}
-                </span>
-                <span className="text-sm font-normal text-gray-400">
-                  {" "}
-                  / paquete 4 sesiones
-                </span>
+              <div className="flex flex-col gap-6">
+                {/* Cachorro Pro */}
+                <div className="flex flex-col gap-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-all hover:shadow-md md:flex-row md:items-center">
+                  <div className="flex-1">
+                    <h4 className="text-xl font-extrabold text-gray-900">Cachorro Pro (8 Sesiones)</h4>
+                    <p className="mt-2 text-sm text-gray-500">
+                      Prevención de problemas de conducta, habituación al entorno y obediencia temprana en el hogar.
+                    </p>
+                  </div>
+                  <div className="flex w-full shrink-0 flex-col gap-3 md:w-[320px]">
+                    <div className="flex items-center justify-between rounded-xl border border-brand/20 bg-brand/5 p-4">
+                      <span className="text-xs font-bold uppercase tracking-wider text-brand">Zona Norte</span>
+                      <span className="text-lg font-extrabold text-brand">{formatPrice(PRICES.adiestramiento.paquetes.cachorroPro.zonaNorte)}</span>
+                    </div>
+                    <div className="flex items-center justify-between rounded-xl border border-gray-100 bg-gray-50 p-4">
+                      <span className="text-xs font-bold uppercase tracking-wider text-gray-500">Poniente</span>
+                      <span className="text-lg font-bold text-gray-900">{formatPrice(PRICES.adiestramiento.paquetes.cachorroPro.poniente)}</span>
+                    </div>
+                    {/* TODO: Vincular flujo dinámico de Cal.com cuando se agreguen los IDs al .env */}
+                    <a
+                      href={SITE.whatsappUrl(
+                        "¡Hola! 🎓 Me interesa coordinar el programa Cachorro Pro a domicilio para mi perrito."
+                      )}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-2 block w-full rounded-full bg-brand py-3 text-center text-sm font-semibold text-white transition-all hover:bg-brand-hover"
+                    >
+                      Agendar Cachorro Pro
+                    </a>
+                  </div>
+                </div>
+
+                {/* Adiós Ansiedad */}
+                <div className="flex flex-col gap-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-all hover:shadow-md md:flex-row md:items-center">
+                  <div className="flex-1">
+                    <h4 className="text-xl font-extrabold text-gray-900">Adiós Ansiedad (10 Sesiones)</h4>
+                    <p className="mt-2 text-sm text-gray-500">
+                      Protocolo gradual mediante sesiones de desensibilización sistemática para ansiedad por separación y reactividad.
+                    </p>
+                  </div>
+                  <div className="flex w-full shrink-0 flex-col gap-3 md:w-[320px]">
+                    <div className="flex items-center justify-between rounded-xl border border-brand/20 bg-brand/5 p-4">
+                      <span className="text-xs font-bold uppercase tracking-wider text-brand">Zona Norte</span>
+                      <span className="text-lg font-extrabold text-brand">{formatPrice(PRICES.adiestramiento.paquetes.adiosAnsiedad.zonaNorte)}</span>
+                    </div>
+                    <div className="flex items-center justify-between rounded-xl border border-gray-100 bg-gray-50 p-4">
+                      <span className="text-xs font-bold uppercase tracking-wider text-gray-500">Poniente</span>
+                      <span className="text-lg font-bold text-gray-900">{formatPrice(PRICES.adiestramiento.paquetes.adiosAnsiedad.poniente)}</span>
+                    </div>
+                    {/* TODO: Vincular flujo dinámico de Cal.com cuando se agreguen los IDs al .env */}
+                    <a
+                      href={SITE.whatsappUrl(
+                        "¡Hola! 🎓 Me interesa coordinar el programa Adiós Ansiedad a domicilio para mi perrito."
+                      )}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-2 block w-full rounded-full bg-brand py-3 text-center text-sm font-semibold text-white transition-all hover:bg-brand-hover"
+                    >
+                      Agendar Adiós Ansiedad
+                    </a>
+                  </div>
+                </div>
               </div>
-              <p className="mt-2 text-xs text-gray-400">
-                Equivale a{" "}
-                {formatPrice(
-                  Math.round(PRICES.adiestramiento.zonaNorte / 4)
-                )}{" "}
-                por sesión
-              </p>
-              <a
-                href={SITE.whatsappUrl(
-                  "¡Hola! 🎓 Necesito ayuda con el comportamiento de mi perro. Me interesa la sucursal Zona Norte."
-                )}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-6 block rounded-full bg-brand py-3 text-center text-sm font-semibold text-white transition-all hover:bg-brand-hover"
-              >
-                Agendar en Zona Norte
-              </a>
             </div>
           </div>
 
-          <p className="mt-6 text-center text-sm text-gray-400">
-            Cada sesión es individual (1 entrenador + 1 perro). Incluye plan
-            personalizado y seguimiento.
+          <p className="mt-10 text-center text-sm text-gray-400">
+            Cada sesión es 1 a 1 (1 especialista + 1 perro). Incluye programa de desarrollo conductual.
+          </p>
+          <p className="mt-2 text-center text-xs font-bold text-gray-400/80">
+            Paws Club es una marca registrada.
           </p>
         </div>
       </section>
@@ -307,17 +386,17 @@ export default function AdiestramientoPage() {
           </h2>
           <div className="grid gap-3 sm:grid-cols-2">
             {[
-              "4 sesiones individuales con entrenador",
-              "Evaluación inicial de comportamiento",
-              "Plan de entrenamiento personalizado",
-              "Uso de perros mentor cuando sea necesario",
-              "Guía de ejercicios para practicar en casa",
-              "Seguimiento post-entrenamiento por WhatsApp",
-              "Sesiones en instalaciones o a domicilio",
-              "Reporte de progreso al finalizar",
+              "Sesiones 1 a 1 con especialista",
+              "Evaluación conductual inicial exhaustiva",
+              "Programa estructurado de deconstrucción de malos hábitos",
+              "Incorporación de perros mentor (sujeto a perfil)",
+              "Manual de mantenimiento para los tutores",
+              "Acompañamiento post-sesión vía conciergerie (WhatsApp)",
+              "Flexibilidad de sede (Instalaciones o Domicilio)",
+              "Reporte ejecutivo de avances",
             ].map((item) => (
               <div key={item} className="flex items-center gap-3 py-2">
-                <CheckCircle className="h-5 w-5 shrink-0 text-brand" />
+                <CheckCircle aria-hidden="true" className="h-5 w-5 shrink-0 text-brand" />
                 <span className="text-sm text-gray-700">{item}</span>
               </div>
             ))}
@@ -370,7 +449,7 @@ export default function AdiestramientoPage() {
               className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-bold text-brand shadow-xl transition-all hover:-translate-y-1 hover:shadow-2xl"
             >
               Evaluar a mi perro
-              <ArrowRight className="h-5 w-5" />
+              <ArrowRight aria-hidden="true" className="h-5 w-5" />
             </a>
             <Link
               href="/servicios/guarderia"

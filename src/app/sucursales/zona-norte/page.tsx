@@ -10,17 +10,19 @@ import {
   MapPin,
   Phone,
   Star,
+  Home,
+  ShieldCheck,
 } from "lucide-react";
 import type { Metadata } from "next";
 
 const branch = BRANCHES["zona-norte"];
 
 export const metadata: Metadata = {
-  title: `${branch.name} — Hotel, Guardería, Adiestramiento y Paseos | Paws Club`,
-  description: `${branch.name}: servicios caninos completos incluyendo paseos diarios. Cobertura en Lindavista, Sta. María la Ribera, Tlatelolco, GAM. Precios accesibles desde ${formatPrice(PRICES.hotel.zonaNorte.weekday)}/noche.`,
+  title: `${branch.name} — Premium Homestay Canino | Paws Club`,
+  description: `${branch.name}: Premium Homestay con cuidado 24/7 sin jaulas. Servicios caninos completos incluyendo paseos diarios en Lindavista, Sta. María la Ribera, etc.`,
   openGraph: {
     title: `${branch.name} | Paws Club CDMX`,
-    description: `La sucursal más completa: hotel, guardería, adiestramiento y paseos caninos. Zona Norte CDMX.`,
+    description: `Premium Homestay: Cuidado 24/7 sin jaulas y ambiente 100% hogareño en Zona Norte CDMX.`,
     images: ["/img/Pome_feliz_en_parque.webp"],
   },
 };
@@ -32,7 +34,7 @@ export default function ZonaNortePage() {
       <section className="relative flex min-h-[50vh] items-center overflow-hidden">
         <Image
           src="/img/Pome_feliz_en_parque.webp"
-          alt={`${branch.name} — Servicios caninos completos`}
+          alt={`${branch.name} — Premium Homestay y servicios completos`}
           fill
           className="object-cover"
           priority
@@ -41,20 +43,18 @@ export default function ZonaNortePage() {
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/30" />
         <div className="relative z-10 mx-auto w-full max-w-7xl px-4 py-20 lg:px-8">
           <div className="mb-4 flex flex-wrap gap-2">
-            <span className="inline-block rounded-full bg-brand/90 px-4 py-1.5 text-sm font-semibold text-white">
-              📍 Sucursal
+            <span className="inline-flex items-center gap-1 rounded-full bg-brand/90 px-4 py-1.5 text-sm font-semibold text-white">
+              <Home className="h-4 w-4" /> Premium Homestay
             </span>
             <span className="inline-block rounded-full bg-accent-orange px-4 py-1.5 text-sm font-semibold text-white">
-              4 servicios disponibles
+              Cuidado 24/7 sin jaulas
             </span>
           </div>
           <h1 className="max-w-3xl text-4xl font-extrabold leading-tight text-white md:text-5xl lg:text-6xl">
             {branch.name}
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-white/90">
-            Nuestra sucursal más completa. Hotel, guardería, adiestramiento y
-            paseos caninos exclusivos. Precios accesibles para la zona norte de
-            CDMX.
+            Experimenta el verdadero <strong>Premium Homestay</strong>. Ofrecemos un ambiente 100% hogareño, supervisión constante y libertad total (cero jaulas). Disfruta de la tranquilidad de saber que tu mejor amigo es tratado como familia.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
             <a

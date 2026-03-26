@@ -17,7 +17,7 @@ interface PriceResult {
 
 export default function CalculadoraPage() {
   const [service, setService] = useState<ServiceType>("hotel");
-  const [branch, setBranch] = useState<BranchType>("poniente");
+  const [branch, setBranch] = useState<BranchType>("zona-norte");
   const [days, setDays] = useState(1);
   const [includeSunday, setIncludeSunday] = useState(false);
   const [secondDog, setSecondDog] = useState(false);
@@ -196,16 +196,19 @@ export default function CalculadoraPage() {
                 </label>
                 <div className="mt-2 grid grid-cols-2 gap-3">
                   {[
-                    { id: "poniente" as const, label: "📍 Poniente" },
-                    { id: "zona-norte" as const, label: "📍 Zona Norte" },
+                    { id: "poniente" as const, label: "📍 Poniente (Cupo Lleno)", disabled: true },
+                    { id: "zona-norte" as const, label: "📍 Zona Norte", disabled: false },
                   ].map((b) => (
                     <button
                       key={b.id}
-                      onClick={() => setBranch(b.id)}
+                      onClick={() => !b.disabled && setBranch(b.id)}
+                      disabled={b.disabled}
                       className={`rounded-xl border-2 p-3 text-center text-sm font-semibold transition-all ${
-                        branch === b.id
-                          ? "border-brand bg-brand/5 text-brand"
-                          : "border-gray-200 text-gray-600 hover:border-gray-300"
+                        b.disabled 
+                          ? "opacity-50 cursor-not-allowed bg-gray-50 border-gray-200 text-gray-400" 
+                          : branch === b.id
+                            ? "border-brand bg-brand/5 text-brand"
+                            : "border-gray-200 text-gray-600 hover:border-gray-300"
                       }`}
                     >
                       {b.label}

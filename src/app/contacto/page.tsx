@@ -129,7 +129,7 @@ export default function ContactoPage() {
                       className="mt-1 w-full rounded-xl border border-gray-300 px-4 py-3 text-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
                     >
                       <option value="">Selecciona...</option>
-                      <option value="Poniente">📍 Poniente (Polanco, Lomas)</option>
+                      <option value="Poniente" disabled>📍 Poniente (Cupo Lleno)</option>
                       <option value="Zona Norte">📍 Zona Norte (Lindavista, Sta. María)</option>
                       <option value="No estoy seguro">No estoy seguro</option>
                     </select>
@@ -213,7 +213,10 @@ export default function ContactoPage() {
                       Horario de Atención
                     </h3>
                     <p className="text-sm text-gray-600">
-                      Lunes a Sábado: 7:00 AM - 8:00 PM
+                      Lunes a Viernes: 6:00 a.m. - 8:00 p.m.
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      Sábado: 7:00 a.m. - 8:00 p.m.
                     </p>
                     <p className="text-xs text-gray-400">
                       Domingo: Solo hotel con reserva previa

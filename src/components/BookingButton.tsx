@@ -9,7 +9,7 @@ interface BookingButtonProps {
   children: React.ReactNode;
 }
 
-export default function BookingButton({ calLink = "pawsclub/visita", className, children }: BookingButtonProps) {
+export default function BookingButton({ calLink = "pawsclub", className, children }: BookingButtonProps) {
   useEffect(() => {
     (async function () {
       const cal = await getCalApi({});

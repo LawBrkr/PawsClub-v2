@@ -31,33 +31,46 @@ const service = SERVICES.find((s) => s.id === "hotel")!;
 
 const DETAILS = [
   {
-    icon: <Home className="h-6 w-6 text-brand" />,
+    icon: <Home className="h-6 w-6 text-brand" aria-hidden="true" />,
     title: "Sin Jaulas",
+    titleDisplay: "Sin Jaulas",
     desc: "Tu lomito dormirá dentro de casa, en su propia cama o las nuestras. Nunca en jaulas ni kennels.",
   },
   {
-    icon: <Camera className="h-6 w-6 text-brand" />,
+    icon: <Camera className="h-6 w-6 text-brand" aria-hidden="true" />,
     title: "Reportes Diarios",
+    titleDisplay: "Reportes Diarios",
     desc: "Recibe fotos y videos de tu peludo por WhatsApp todos los días para que estés tranquilo.",
   },
   {
-    icon: <Truck className="h-6 w-6 text-brand" />,
+    icon: <Truck className="h-6 w-6 text-brand" aria-hidden="true" />,
     title: "Transporte a Domicilio",
+    titleDisplay: (
+      <>
+        Transporte a Domicilio{" "}
+        <span className="text-xs font-normal text-gray-400">
+          (costo adicional)
+        </span>
+      </>
+    ),
     desc: "Servicio de recolección y entrega disponible en las zonas de cobertura de ambas sucursales.",
   },
   {
-    icon: <Moon className="h-6 w-6 text-brand" />,
+    icon: <Moon className="h-6 w-6 text-brand" aria-hidden="true" />,
     title: "Check-in / Check-out Flexible",
-    desc: "Nos adaptamos a tu horario. Check-in desde las 7:00 AM, check-out hasta las 8:00 PM.",
+    titleDisplay: "Check-in / Check-out Flexible",
+    desc: "Nos adaptamos a tu horario. Check-in desde las 6:00 a.m. (L-V) o 7:00 a.m. (S).",
   },
   {
-    icon: <Shield className="h-6 w-6 text-brand" />,
+    icon: <Shield className="h-6 w-6 text-brand" aria-hidden="true" />,
     title: "Cupo Limitado",
+    titleDisplay: "Cupo Limitado",
     desc: "Máximo 5 lomitos por turno. Garantizamos atención personalizada y supervisión constante.",
   },
   {
-    icon: <Clock className="h-6 w-6 text-brand" />,
+    icon: <Clock className="h-6 w-6 text-brand" aria-hidden="true" />,
     title: "Supervisión 24/7",
+    titleDisplay: "Supervisión 24/7",
     desc: "Monitoreo constante durante el día y la noche. Tu perro nunca está solo.",
   },
 ];
@@ -65,7 +78,7 @@ const DETAILS = [
 const FAQS = [
   {
     q: "¿Cuál es el horario de check-in y check-out?",
-    a: "Check-in: Lunes a Sábado de 7:00 AM a 8:00 PM. Check-out: en el mismo horario. Los domingos solo aceptamos huéspedes con reserva previa y aplica un cargo adicional del 20%.",
+    a: "Check-in: Lunes a Viernes de 6:00 a.m. a 8:00 p.m., Sábados de 7:00 a.m. a 8:00 p.m. Check-out: en el mismo horario. Los domingos solo aceptamos huéspedes con reserva previa y aplica un cargo adicional del 20%.",
   },
   {
     q: "¿Qué necesito para hospedar a mi perro?",
@@ -151,7 +164,7 @@ export default function HotelPage() {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gray-50">
                   {d.icon}
                 </div>
-                <h3 className="text-lg font-bold text-gray-900">{d.title}</h3>
+                <h3 className="text-lg font-bold text-gray-900">{d.titleDisplay}</h3>
                 <p className="mt-2 text-sm text-gray-500">{d.desc}</p>
               </div>
             ))}
@@ -201,7 +214,6 @@ export default function HotelPage() {
           </div>
 
           <div className="grid gap-8 md:grid-cols-2">
-            {/* Poniente */}
             <div className="rounded-2xl border-2 border-gray-200 bg-white p-8 shadow-sm">
               <h3 className="text-xl font-bold text-gray-900">
                 {BRANCHES.poniente.name}
@@ -231,15 +243,25 @@ export default function HotelPage() {
                   </span>
                 </div>
               </div>
+              
+              <div className="mt-6 flex flex-col gap-2 rounded-xl bg-orange-50 p-4 border border-orange-100">
+                <span className="text-sm font-bold text-orange-800 flex items-center gap-1">
+                  ⚠️ Cupo Lleno
+                </span>
+                <p className="text-xs text-orange-700">
+                  Te invitamos a conocer nuestra Experiencia Insignia en la zona Norte, donde aún tenemos espacios disponibles.
+                </p>
+              </div>
+
               <a
                 href={SITE.whatsappUrl(
-                  "¡Hola! 🏨 Me interesa el Hotel Canino. Me interesa la sucursal Poniente. ¿Tienen cupo?"
+                  "¡Hola! 🏨 Deseo unirme a la lista de espera para el Hotel Canino en la sucursal Poniente."
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-6 block rounded-full bg-brand py-3 text-center text-sm font-semibold text-white transition-all hover:bg-brand-hover"
+                className="mt-6 block rounded-full bg-gray-200 py-3 text-center text-sm font-semibold text-gray-600 transition-all hover:bg-gray-300 pointer-events-auto"
               >
-                Reservar en Poniente
+                Unirse a Lista de Espera
               </a>
             </div>
 

@@ -59,13 +59,13 @@ export default function PonientePage() {
           <div className="mt-8 flex flex-wrap gap-4">
             <a
               href={SITE.whatsappUrl(
-                "¡Hola! 📍 Me interesa conocer sus servicios en la sucursal Poniente. ¿Me podrían dar informes?"
+                "¡Hola! 📍 Deseo unirme a la lista de espera para la sucursal Poniente."
               )}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full bg-brand px-8 py-4 text-lg font-bold text-white shadow-xl transition-all hover:-translate-y-1 hover:bg-brand-hover hover:shadow-2xl"
             >
-              Contactar Poniente
+              Lista de Espera
               <ArrowRight className="h-5 w-5" />
             </a>
             <Link
@@ -193,6 +193,24 @@ export default function PonientePage() {
               Hotel boutique, guardería y adiestramiento canino.
             </p>
           </div>
+
+          {(statusConfig.poniente.hotel.full || statusConfig.poniente.guarderia.full) && (
+            <div className="mb-8 rounded-xl bg-orange-50 p-6 text-center border border-orange-200">
+              <h3 className="text-lg font-bold text-orange-800">
+                ⚠️ Cupo Lleno en Sucursal Poniente
+              </h3>
+              <p className="mt-2 text-sm text-orange-700">
+                Nuestros servicios de Hotel y Guardería se encuentran en capacidad máxima. Te invitamos a conocer nuestra Experiencia Insignia en la zona Norte, donde aún tenemos espacios disponibles.
+              </p>
+              <Link
+                href="/sucursales/zona-norte"
+                className="mt-4 inline-flex items-center gap-2 font-bold text-brand hover:underline"
+              >
+                Ver disponibilidad en Zona Norte <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          )}
+
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {branchServices.map((s) => {
               const isFull = s.id === "hotel" || s.id === "guarderia" 
@@ -230,8 +248,8 @@ export default function PonientePage() {
                       </li>
                     ))}
                   </ul>
-                  <span className={`mt-4 inline-flex items-center gap-1 text-sm font-semibold ${isFull ? "text-gray-400" : "text-brand"}`}>
-                    Ver detalles y precios
+                  <span className={`mt-4 inline-flex items-center gap-1 text-sm font-semibold ${isFull ? "text-red-600 hover:text-red-700 hover:underline" : "text-brand"}`}>
+                    {isFull ? "Unirse a la lista de espera" : "Ver detalles y precios"}
                     <ArrowRight className="h-4 w-4" />
                   </span>
                 </Link>
@@ -357,12 +375,17 @@ export default function PonientePage() {
             socialización es gratuita.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <BookingButton
+            <a
+              href={SITE.whatsappUrl(
+                "¡Hola! 📍 Deseo unirme a la lista de espera para la sucursal Poniente."
+              )}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-bold text-brand shadow-xl transition-all hover:-translate-y-1 hover:shadow-2xl"
             >
-              Agendar visita
+              Lista de Espera
               <ArrowRight className="h-5 w-5" />
-            </BookingButton>
+            </a>
             <Link
               href="/sucursales/zona-norte"
               className="inline-flex items-center gap-2 text-lg font-semibold text-white/90 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white"

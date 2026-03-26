@@ -57,7 +57,7 @@ Un cachorro correctamente socializado será un adulto seguro, confiado y capaz d
 
 ## ¿A qué debe exponerse tu cachorro?
 
-Personas de diferentes edades, géneros y apariencias. Otros perros (vacunados y equilibrados). Diferentes superficies, sonidos y ambientes. Vehículos, bicicletas, patinetas. El veterinario (¡con experiencias positivas!).
+Personas de diferentes edades, generos y apariencias. Otros perros (vacunados y equilibrados). Diferentes superficies, sonidos y ambientes. Vehículos, bicicletas, patinetas. El veterinario (¡con experiencias positivas!).
 
 ## Errores comunes
 
@@ -94,5 +94,87 @@ Que no te dejen visitar las instalaciones. Que no pidan vacunas ni prueba de soc
 ## ¿Por qué Paws Club?
 
 En Paws Club tenemos cupo máximo de 5 lomitos, cero jaulas, supervisión 24/7, y reportes diarios con fotos y videos por WhatsApp. Además, la prueba de socialización es gratuita y obligatoria para todos los huéspedes.`,
+  },
+  {
+    slug: "exploracion-libertad-paseos-marquesa-dinamos",
+    title: "Exploración y Libertad: La importancia de los paseos en La Marquesa y Los Dinamos",
+    excerpt:
+      "Descubre cómo las aventuras de fin de semana en espacios naturales impactan positivamente en la salud mental y física de tu lomito.",
+    date: "2026-03-26",
+    author: "Paws Club",
+    category: "Aventuras",
+    image: "/img/paseos-la-marquesa-los-dinamos.webp",
+    readTime: "6 min",
+    content: `La estimulación sensorial fuera del entorno urbano es vital para el equilibrio cognitivo de los caninos. En Paws Club, hemos diseñado nuestras "Aventuras de Fin de Semana" en destinos como La Marquesa y Los Dinamos para ofrecer algo más que un simple paseo: una experiencia de reconexión instintiva.
+
+## Socialización en Espacios Abiertos
+
+A diferencia de los parques urbanos, la inmensidad de La Marquesa permite una socialización de "baja presión". Los lomitos pueden interactuar en dinámicas de grupo más fluidas, reduciendo la reactividad y fomentando una jerarquía saludable bajo la supervisión de nuestros especialistas. El aire puro y los senderos naturales de Los Dinamos proporcionan una riqueza de estímulos olfativos que el asfalto simplemente no puede ofrecer.
+
+## Beneficios Físicos y Mentales
+
+Estas expediciones no solo agotan la energía física; la navegación por terrenos irregulares mejora la propiocepción y fortalece el sistema muscular. Para el tutor, esto se traduce en un lomito más tranquilo, satisfecho y emocionalmente estable al regresar a casa.
+
+## Logística y Seguridad
+
+Nuestras aventuras sabatinas comienzan con la recolección a domicilio desde las 8:00 a.m. a 9:00 a.m. (sujeto a zona). Mantenemos grupos reducidos para garantizar que cada integrante reciba atención personalizada. Si buscas que tu mejor amigo experimente la verdadera libertad en un entorno controlado, nuestras salidas a La Marquesa son la opción ideal.
+
+¿Listo para la próxima aventura? Agenda el próximo sábado de exploración y dale a tu lomito el regalo de la naturaleza.`,
+  },
+  {
+    slug: "impacto-emocional-adiestramiento-pro",
+    title: "Más que obediencia: El impacto emocional del Adiestramiento Pro",
+    excerpt:
+      "El adiestramiento moderno no busca el control, sino la comunicación. Analizamos cómo los paquetes 'Cachorro Pro' y 'Adiós Ansiedad' transforman vidas.",
+    date: "2026-03-25",
+    author: "Paws Club",
+    category: "Bienestar",
+    image: "/img/adiestramiento-pro-paws-club.webp",
+    readTime: "8 min",
+    content: `El adiestramiento canino ha evolucionado de la dominancia hacia la cooperación. En Paws Club, entendemos que un lomito que "obedece" por miedo no es un animal equilibrado. Nuestra metodología Pro se enfoca en el vínculo emocional entre el tutor y su compañero.
+
+## Cachorro Pro: Cimentando el Futuro
+
+El programa "Cachorro Pro" está diseñado para intervenir en la ventana crítica de socialización. No solo enseñamos comandos básicos; establecemos un lenguaje común en el hogar. Prevenir problemas como el ladrido excesivo o la destrucción de muebles es mucho más efectivo que corregirlos años después. Un cachorro que entiende sus límites es un lomito feliz y seguro.
+
+## Adiós Ansiedad: Desensibilización Sistemática
+
+Para aquellos que sufren de ansiedad por separación o reactividad severa, el paquete "Adiós Ansiedad" utiliza protocolos de desensibilización sistemática. Trabajamos de forma gradual, exponiendo al lomito a sus detonantes en niveles manejables, recompensando la calma. Este enfoque técnico permite que el sistema nervioso del animal aprenda a autorregularse, eliminando el pánico por soledad.
+
+## El Rol del Tutor
+
+El éxito de estos programas radica en la transferencia de conocimiento. No entrenamos perros para nosotros, sino para ti. Cada sesión incluye una fase de aprendizaje para el tutor, asegurando que el progreso sea sostenible en el tiempo.
+
+Transforma la relación con tu mejor amigo. Solicita una evaluación conductual hoy mismo y descubre el potencial de tu lomito.`,
+  },
+  {
+    slug: "ecosistema-paws-club-bienestar-total",
+    title: "El ecosistema Paws Club: Cómo integramos Hotel, Guardería y Paseos para el bienestar total",
+    excerpt:
+      "La salud de un lomito es multifactorial. Te explicamos cómo nuestra integración de servicios crea un círculo virtuoso de felicidad.",
+    date: "2026-03-24",
+    author: "Paws Club",
+    category: "Paws Club",
+    image: "/img/ecosistema-paws-club.webp",
+    readTime: "5 min",
+    content: `En Paws Club no vemos los servicios como unidades aisladas, sino como un ecosistema diseñado para cubrir todas las dimensiones de la vida canina: física, social y emocional. Esta integración es lo que nos define como el club más exclusivo de la ciudad.
+
+## Guardería y Paseos: El Motor Diario
+
+La Guardería Canina proporciona la estructura y socialización diaria necesaria para prevenir el aburrimiento. Al combinarla con nuestro servicio de Paseos, aseguramos que el lomito reciba tanto ejercicio cardiovascular como estimulación mental olfativa. Un lomito que asiste a la guardería y tiene sus paseos regulares es 80% menos propenso a desarrollar conductas destructivas.
+
+## Hotel Boutique: Continuidad del Hogar
+
+Cuando el tutor viaja, el Hotel Boutique ofrece una transición sin estrés. Al ser un ambiente ya conocido por los clientes de guardería, el lomito no siente el abandono; siente que está en una "pijamada" prolongada con sus amigos de siempre, sin jaulas y con supervisión 24/7.
+
+## Adiestramiento: El Hilo Conductor
+
+El Adiestramiento Pro atraviesa todos nuestros servicios. El personal de guardería y hotel aplica los mismos principios de refuerzo positivo, reforzando los buenos hábitos de manera constante. Si tu lomito está en un programa de modificación de conducta, nuestro ecosistema garantiza que no habrá mensajes contradictorios durante su estancia con nosotros.
+
+## Un Solo Lugar, Todo el Cuidado
+
+La ventaja para el tutor es la tranquilidad absoluta. Conocer a los cuidadores, saber que las rutinas se respetan y tener reportes unificados por WhatsApp simplifica la vida y maximiza el bienestar del lomito.
+
+Únete a la familia Paws Club y vive la experiencia de un cuidado integral. Agenda tu primera visita ahora.`,
   },
 ];

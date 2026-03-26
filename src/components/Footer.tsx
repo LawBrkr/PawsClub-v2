@@ -70,7 +70,7 @@ export default function Footer() {
                 </div>
                 <div className="mt-1 flex items-center gap-2 text-xs text-gray-400">
                   <Clock className="h-3 w-3 shrink-0" />
-                  <span>L-S 7:00 AM - 8:00 PM</span>
+                  <span>L-V 6:00 a.m. - 8:00 p.m. | S 7:00 a.m. - 8:00 p.m.</span>
                 </div>
               </div>
             ))}

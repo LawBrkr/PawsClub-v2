@@ -119,13 +119,13 @@ export default function LandingGuarderia() {
           </h2>
           <div className="mt-10 space-y-4">
             {[
-              { time: "7:00 AM", text: "Check-in y bienvenida" },
-              { time: "8:00 AM", text: "Socialización matutina y juego libre" },
-              { time: "10:00 AM", text: "Actividades de estimulación mental" },
-              { time: "12:00 PM", text: "Descanso, agua fresca y almuerzo" },
-              { time: "2:00 PM", text: "Segundo bloque de juego" },
-              { time: "4:00 PM", text: "Reporte del día enviado por WhatsApp" },
-              { time: "5-8 PM", text: "Pick-up o transporte a domicilio" },
+              { time: "6-10 a.m.", text: "Recepción matutina (L-V) — Check-in y bienvenida" },
+              { time: "7 a.m. - 1 p.m.", text: "Recepción (Sábado) — Bloque matutino" },
+              { time: "3-6 p.m.", text: "Recepción (Sábado) — Bloque vespertino" },
+              { time: "1-3 p.m.", text: "Recepción vespertina (L-V) — Check-in alterno" },
+              { time: "6:00 p.m.", text: "Reporte del día enviado por WhatsApp" },
+              { time: "7:00 p.m.", text: "Pick-up en sucursal y salida de lomitos" },
+              { time: "7:30 p.m.", text: "Inicio de entrega a domicilio (Transportación)" },
             ].map((item, i) => (
               <div key={i} className="flex items-center gap-4 rounded-xl bg-gray-50 p-4">
                 <span className="w-20 shrink-0 text-right text-sm font-bold text-brand">

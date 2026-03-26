@@ -28,7 +28,7 @@ const FAQ_SECTIONS = [
       },
       {
         q: "¿Cuál es el horario de atención?",
-        a: "Lunes a Sábado de 7:00 AM a 8:00 PM en ambas sucursales. Domingos solo hotel con reserva previa y recargo del 20%.",
+        a: "Lunes a Viernes de 6:00 a.m. a 8:00 p.m. y Sábados de 7:00 a.m. a 8:00 p.m. en ambas sucursales. Domingos solo hotel con reserva previa y recargo del 20%.",
       },
       {
         q: "¿Cómo los contacto?",

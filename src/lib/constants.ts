@@ -66,7 +66,7 @@ export const BRANCHES: Record<BranchId, Branch> = {
       "Miguel Hidalgo",
       "Naucalpan",
     ],
-    schedule: "Lunes a Sábado: 7:00 AM - 8:00 PM",
+    schedule: "Lunes a Viernes: 6:00 a.m. - 8:00 p.m. | Sábado: 7:00 a.m. - 8:00 p.m.",
     sundayNote: "Domingo: Solo hotel con reserva previa (+20%)",
     services: ["hotel", "guarderia", "adiestramiento"],
     hasWalks: false,
@@ -91,7 +91,7 @@ export const BRANCHES: Record<BranchId, Branch> = {
       "Guadalupe Tepeyac",
       "Industrial",
     ],
-    schedule: "Lunes a Sábado: 7:00 AM - 8:00 PM",
+    schedule: "Lunes a Viernes: 6:00 a.m. - 8:00 p.m. | Sábado: 7:00 a.m. - 8:00 p.m.",
     sundayNote: "Domingo: Solo hotel con reserva previa (+20%)",
     services: ["hotel", "guarderia", "adiestramiento", "paseos"],
     hasWalks: true,
@@ -124,6 +124,18 @@ export const PRICES = {
     poniente: 3950,
     zonaNorte: 2950,
     unit: "paquete 4 sesiones",
+    paquetes: {
+      cachorroPro: {
+        poniente: 7900,
+        zonaNorte: 5900,
+        unit: "8 sesiones a domicilio",
+      },
+      adiosAnsiedad: {
+        poniente: 11900,
+        zonaNorte: 8900,
+        unit: "10 sesiones a domicilio (protocolo gradual)",
+      },
+    },
   },
   paseos: {
     individual: 150,

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { SITE, SERVICES, PRICES, BRANCHES } from "@/lib/constants";
 import { formatPrice } from "@/lib/utils";
-import { Star, Shield, Camera, Sparkles, Home, MapPin, ArrowRight, CheckCircle } from "lucide-react";
+import { Star, Shield, Camera, Sparkles, Home, MapPin, ArrowRight, CheckCircle, ShieldCheck } from "lucide-react";
 import Counter from "@/components/Counter";
 import BookingButton from "@/components/BookingButton";
 
@@ -185,8 +185,13 @@ function BranchesPreview() {
             >
               <div className="flex items-start justify-between">
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900">
+                  <h3 className="text-xl font-bold text-gray-900 flex flex-wrap items-center gap-2">
                     {branch.name}
+                    {branch.id === "poniente" && (
+                      <span className="rounded-full bg-red-100 px-2 py-0.5 text-xs font-bold text-red-600">
+                        Cupo Lleno
+                      </span>
+                    )}
                   </h3>
                   <p className="mt-1 text-sm text-gray-500">{branch.schedule}</p>
                 </div>
@@ -254,19 +259,19 @@ function NumbersSection() {
         <div className="grid gap-8 grid-cols-2 md:grid-cols-4">
           <div className="text-center">
             <p className="text-4xl font-extrabold text-brand md:text-5xl">
-              +<Counter value={5000} />
+              +<Counter value={150} />
             </p>
             <p className="mt-2 text-sm font-medium text-gray-600">Noches de hotel</p>
           </div>
           <div className="text-center">
             <p className="text-4xl font-extrabold text-brand md:text-5xl">
-              +<Counter value={1200} />
+              +<Counter value={50} />
             </p>
             <p className="mt-2 text-sm font-medium text-gray-600">Perros felices</p>
           </div>
           <div className="text-center">
             <p className="text-4xl font-extrabold text-brand md:text-5xl">
-              +<Counter value={300} />
+              +<Counter value={15} />
             </p>
             <p className="mt-2 text-sm font-medium text-gray-600">Graduados de adiestramiento</p>
           </div>
@@ -346,6 +351,98 @@ function ReviewsSection() {
               <p className="mt-4 text-sm font-bold text-gray-900">
                 — {review.name}
               </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ============================================
+// TRUST SECTION
+// ============================================
+function TrustSection() {
+  return (
+    <section className="bg-white py-20">
+      <div className="mx-auto max-w-7xl px-4 lg:px-8">
+        <div className="mb-12 text-center">
+          <h2 className="text-3xl font-extrabold text-gray-900 md:text-4xl">
+            Confianza y Seguridad
+          </h2>
+          <p className="mt-4 text-lg text-gray-500">
+            Tu tranquilidad es nuestra prioridad. Cuidamos cada detalle.
+          </p>
+        </div>
+
+        <div className="grid gap-8 lg:grid-cols-2 items-center">
+          {/* Technical Care block & IMPI */}
+          <div className="flex flex-col justify-center space-y-8">
+            <div className="rounded-2xl border-2 border-brand/20 bg-brand/5 p-6 shadow-sm">
+              <h3 className="flex items-center gap-2 text-xl font-bold text-gray-900">
+                <Shield className="h-6 w-6 text-brand" /> Cuidado Especializado
+              </h3>
+              <p className="mt-3 text-sm text-gray-600 leading-relaxed">
+                Contamos con <strong>protocolos técnicos para razas especiales</strong> (braquicéfalos como Pugs y Bulldogs, razas gigantes y perros senior). Nuestras instalaciones mantienen control de temperatura adecuado, evitamos ejercicio extremo en horarios de calor, y nuestro personal está capacitado en primeros auxilios caninos para identificar signos de estrés térmico o respiratorio.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-4 rounded-xl border border-gray-100 bg-gray-50 p-4 shadow-sm">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-white shadow-sm">
+                <ShieldCheck className="h-6 w-6 text-green-600" />
+              </div>
+              <div>
+                <p className="font-bold text-gray-900">Paws Club® — Marca Registrada</p>
+                <p className="mt-1 text-xs text-gray-500">Paws Club es una marca registrada.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Huéspedes Felices Gallery */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="relative aspect-square overflow-hidden rounded-2xl shadow-md">
+              <Image src="/img/perro_alojado_sobre_cama_en_casa.webp" alt="Pomerania en cama del hotel" fill className="object-cover transition-transform hover:scale-105" loading="lazy" />
+            </div>
+            <div className="relative aspect-square overflow-hidden rounded-2xl shadow-md">
+              <Image src="/img/daycare.webp" alt="Perros jugando y socializando en guardería" fill className="object-cover transition-transform hover:scale-105" loading="lazy" />
+            </div>
+            <div className="relative col-span-2 aspect-[2/1] overflow-hidden rounded-2xl shadow-md">
+              <Image src="/img/Pome_feliz_en_parque.webp" alt="Perro Pomerania feliz en parque" fill className="object-cover transition-transform hover:scale-105" loading="lazy" />
+              <div className="absolute inset-0 flex items-end justify-start bg-gradient-to-t from-black/60 to-transparent p-4">
+                <p className="font-bold text-white tracking-wide">Galería: Huéspedes Felices</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ============================================
+// REQUISITOS DE INGRESO
+// ============================================
+function RequirementsSection() {
+  const reqs = [
+    { title: "Cartilla de Vacunación", desc: "Al día (Múltiple/Séxtuple y Rabia)." },
+    { title: "Vacunas Especiales", desc: "Bordetella y Giardia vigentes." },
+    { title: "Desparasitación", desc: "Interna y externa (pulgas/garrapatas) al día." },
+    { title: "Prueba de Socialización", desc: "Evaluación de comportamiento obligatoria." },
+  ];
+  return (
+    <section className="bg-cream py-20">
+      <div className="mx-auto max-w-5xl px-4 lg:px-8">
+        <h2 className="mb-10 text-center text-3xl font-extrabold text-gray-900">
+          Requisitos de Ingreso
+        </h2>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {reqs.map((r, i) => (
+            <div key={i} className="flex flex-col items-center rounded-2xl bg-white p-6 text-center shadow-sm">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-brand/10 text-brand">
+                <CheckCircle className="h-6 w-6" />
+              </div>
+              <h3 className="font-bold text-gray-900">{r.title}</h3>
+              <p className="mt-2 text-xs text-gray-500">{r.desc}</p>
             </div>
           ))}
         </div>
@@ -449,6 +546,8 @@ export default function HomePage() {
       <BranchesPreview />
       <NumbersSection />
       <ReviewsSection />
+      <TrustSection />
+      <RequirementsSection />
       <FAQSection />
       <CTASection />
     </>

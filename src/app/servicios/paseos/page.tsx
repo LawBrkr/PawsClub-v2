@@ -12,6 +12,10 @@ import {
   Route,
   Calendar,
   TreePine,
+  Pill,
+  Award,
+  ShieldCheck,
+  Footprints
 } from "lucide-react";
 import type { Metadata } from "next";
 import BookingButton from "@/components/BookingButton";
@@ -134,10 +138,10 @@ export default function PaseosPage() {
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
             <BookingButton
-              calLink="pawsclub/paseos"
+              calLink="pawsclub"
               className="inline-flex items-center gap-2 rounded-full bg-brand px-8 py-4 text-lg font-bold text-white shadow-xl transition-all hover:-translate-y-1 hover:bg-brand-hover hover:shadow-2xl"
             >
-              Contratar paseos
+              Agendar paseo
               <ArrowRight className="h-5 w-5" />
             </BookingButton>
             <Link
@@ -260,76 +264,136 @@ export default function PaseosPage() {
             </p>
           </div>
 
-          {/* Daily Walks Pricing */}
+          {/* Daily Walks Pricing Cards */}
           <div className="mb-10">
             <h3 className="mb-6 text-center text-xl font-bold text-gray-900">
-              Paseos Diarios (L-V)
+              Planes de Paseos Diarios (L-V)
             </h3>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {[
                 {
-                  name: "Individual",
-                  price: PRICES.paseos.individual,
-                  unit: "/paseo",
-                  desc: "Perfecto para probar",
-                },
-                {
-                  name: "Paquete 5",
+                  name: "Plan 5 Días",
                   price: PRICES.paseos.paquete5,
                   unit: "/5 paseos",
-                  desc: `${formatPrice(PRICES.paseos.paquete5 / 5)}/paseo`,
+                  desc: "Ideal para la semana",
                   savings: formatPrice(PRICES.paseos.individual * 5 - PRICES.paseos.paquete5),
+                  features: ["5 paseos de +1 hora", "Reportes diarios con GPS", "Agua y snacks"],
+                  icon: <Footprints className="h-6 w-6 text-brand" />
                 },
                 {
-                  name: "Paquete 10",
+                  name: "Plan 10 Días",
                   price: PRICES.paseos.paquete10,
                   unit: "/10 paseos",
-                  desc: `${formatPrice(PRICES.paseos.paquete10 / 10)}/paseo`,
+                  desc: "Nuestro plan más popular",
                   savings: formatPrice(PRICES.paseos.individual * 10 - PRICES.paseos.paquete10),
                   popular: true,
+                  features: ["10 paseos de +1 hora", "Reportes extendidos y fotos", "Prioridad en horarios de paseo", "Agua y snacks"],
+                  icon: <Award className="h-6 w-6 text-white" />
                 },
                 {
-                  name: "Mensual",
+                  name: "Membresía Mensual",
                   price: PRICES.paseos.mensual,
                   unit: "/mes",
-                  desc: "20 paseos (~$110/paseo)",
+                  desc: "Paseos de Lunes a Viernes (20 días)",
                   savings: formatPrice(PRICES.paseos.individual * 20 - PRICES.paseos.mensual),
+                  features: ["20 paseos garantizados al mes", "Descuento en Aventuras de Sábado", "Prioridad máxima de horarios", "Reportes VIP diarios con GPS", "Soporte y seguimiento directo"],
+                  icon: <ShieldCheck className="h-6 w-6 text-brand" />
                 },
               ].map((plan) => (
                 <div
                   key={plan.name}
-                  className={`relative rounded-2xl bg-white p-6 shadow-sm ${
+                  className={`relative flex flex-col rounded-2xl bg-white p-8 shadow-sm transition-transform hover:-translate-y-1 ${
                     "popular" in plan && plan.popular
-                      ? "border-2 border-brand shadow-lg"
+                      ? "border-2 border-brand shadow-xl relative z-10"
                       : "border border-gray-100"
                   }`}
                 >
                   {"popular" in plan && plan.popular && (
-                    <span className="absolute -top-3 right-4 rounded-full bg-brand px-3 py-1 text-xs font-bold text-white">
-                      Popular
-                    </span>
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-brand px-4 py-1 text-xs font-extrabold uppercase tracking-wide text-white shadow-md">
+                      MÁS POPULAR
+                    </div>
                   )}
-                  <h4 className="text-sm font-bold text-gray-900">
+                  <div className={`mb-6 flex h-14 w-14 items-center justify-center rounded-xl ${
+                    "popular" in plan ? "bg-brand" : "bg-brand/10"
+                  }`}>
+                    {plan.icon}
+                  </div>
+                  <h4 className="text-xl font-extrabold text-gray-900">
                     {plan.name}
                   </h4>
-                  <div className="mt-3">
-                    <span className="text-2xl font-extrabold text-gray-900">
+                  <p className="mt-1 text-sm text-gray-500">{plan.desc}</p>
+                  
+                  <div className="my-6">
+                    <span className="text-4xl font-black text-gray-900">
                       {formatPrice(plan.price)}
                     </span>
-                    <span className="text-xs text-gray-400">{plan.unit}</span>
+                    <span className="text-sm font-medium text-gray-400">{plan.unit}</span>
+                    {"savings" in plan && plan.savings && (
+                      <p className="mt-2 text-sm font-bold text-accent-orange">
+                        Ahorras {plan.savings}
+                      </p>
+                    )}
                   </div>
-                  <p className="mt-1 text-xs text-gray-500">{plan.desc}</p>
-                  {"savings" in plan && plan.savings && (
-                    <p className="mt-2 text-xs font-semibold text-brand">
-                      Ahorras {plan.savings}
-                    </p>
-                  )}
+                  
+                  <ul className="mb-8 mt-auto flex-grow space-y-3">
+                    {plan.features.map(f => (
+                      <li key={f} className="flex flex-start gap-2">
+                        <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
+                        <span className="text-sm text-gray-600">{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  
+                  <BookingButton
+                    calLink="pawsclub"
+                    className={`w-full rounded-full py-3 text-center text-sm font-bold transition-colors ${
+                      "popular" in plan
+                        ? "bg-brand text-white hover:bg-brand-hover shadow-md"
+                        : "bg-gray-100 text-gray-900 hover:bg-gray-200"
+                    }`}
+                  >
+                    Seleccionar Plan
+                  </BookingButton>
                 </div>
               ))}
             </div>
-            <p className="mt-4 text-center text-xs text-gray-400">
-              Segundo perro: {formatPrice(PRICES.paseos.segundoPerro)}/paseo
-            </p>
+
+            {/* Add-ons List */}
+            <div className="mt-12 rounded-2xl border border-gray-100 bg-white p-8 shadow-sm">
+              <h4 className="mb-6 text-center text-lg font-bold text-gray-900">Add-ons y Personalización</h4>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="flex items-center gap-4 rounded-xl bg-gray-50 p-4 transition-colors hover:bg-gray-100">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-white shadow-sm">
+                    <Footprints className="h-6 w-6 text-brand" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-gray-900">Segundo Perro</p>
+                    <p className="text-xs font-semibold text-brand">+{formatPrice(PRICES.paseos.segundoPerro)} /paseo</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4 rounded-xl bg-gray-50 p-4 transition-colors hover:bg-gray-100">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-white shadow-sm">
+                    <Pill className="h-6 w-6 text-brand" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-gray-900">Admin. Medicamentos</p>
+                    <p className="text-xs font-semibold text-brand">Incluido bajo solicitud</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4 rounded-xl bg-gray-50 p-4 transition-colors hover:bg-gray-100">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-white shadow-sm">
+                    <Camera className="h-6 w-6 text-brand" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-gray-900">Fotos Extra</p>
+                    <p className="text-xs font-semibold text-brand">Galería extendida gratis</p>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-4 text-center">
+                <p className="text-xs text-gray-500">¿Deseas contratar solo una vez? <span className="font-semibold text-gray-900">{formatPrice(PRICES.paseos.individual)} /paseo individual</span></p>
+              </div>
+            </div>
           </div>
 
           {/* Saturday Adventures Pricing */}
@@ -382,10 +446,10 @@ export default function PaseosPage() {
 
           <div className="mt-10 text-center">
             <BookingButton
-              calLink="pawsclub/paseos"
+              calLink="pawsclub"
               className="inline-flex items-center gap-2 rounded-full bg-brand px-8 py-4 text-lg font-bold text-white shadow-xl transition-all hover:-translate-y-1 hover:bg-brand-hover hover:shadow-2xl"
             >
-              Contratar paseos
+              Agendar paseo
               <ArrowRight className="h-5 w-5" />
             </BookingButton>
           </div>

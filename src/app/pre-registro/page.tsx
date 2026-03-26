@@ -298,8 +298,8 @@ export default function PreRegistroPage() {
                     className="mt-1 w-full rounded-xl border border-gray-300 px-4 py-3 text-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
                   >
                     <option value="">Selecciona...</option>
-                    <option value="Poniente">
-                      📍 Poniente (Polanco, Lomas)
+                    <option value="Poniente" disabled>
+                      📍 Poniente (Cupo Lleno)
                     </option>
                     <option value="Zona Norte">
                       📍 Zona Norte (Lindavista, Sta. María)

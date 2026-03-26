@@ -77,12 +77,12 @@ export default function NosotrosPage() {
       {/* Hero */}
       <section className="relative flex min-h-[50vh] items-center overflow-hidden">
         <Image
-          src="/img/hero.webp"
-          alt="Equipo Paws Club con perros felices"
+          src="/nosotros_header.webp"
+          alt="Conexión emocional y feliz entre humano y mascota en Paws Club"
           fill
           className="object-cover"
           priority
-          quality={85}
+          quality={90}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/30" />
         <div className="relative z-10 mx-auto w-full max-w-7xl px-4 py-20 lg:px-8">
