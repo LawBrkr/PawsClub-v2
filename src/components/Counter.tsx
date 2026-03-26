@@ -35,7 +35,7 @@ export default function Counter({
       springValue.on("change", (latest) => {
         if (ref.current) {
           ref.current.textContent = `${prefix}${Intl.NumberFormat("es-MX").format(
-            latest.toFixed(0)
+            Math.round(latest)
           )}${suffix}`;
         }
       }),
