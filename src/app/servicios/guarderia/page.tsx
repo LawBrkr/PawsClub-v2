@@ -111,7 +111,7 @@ export default function GuarderiaPage() {
           <div className="mt-8 flex flex-wrap gap-4">
             <a
               href={SITE.whatsappUrl(
-                "Hola Paws Club! ☀️ Me interesa la Guardería Canina."
+                "¡Hola! ☀️ Quiero informes sobre la Guardería. ¿Cómo puedo inscribir a mi perrito?"
               )}
               target="_blank"
               rel="noopener noreferrer"
@@ -230,7 +230,7 @@ export default function GuarderiaPage() {
               </div>
               <a
                 href={SITE.whatsappUrl(
-                  "Hola! Me interesa la Guardería en Poniente."
+                  "¡Hola! ☀️ Quiero informes sobre la Guardería. Me interesa la sucursal Poniente. ¿Tienen cupo?"
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -264,7 +264,7 @@ export default function GuarderiaPage() {
               </div>
               <a
                 href={SITE.whatsappUrl(
-                  "Hola! Me interesa la Guardería en Zona Norte."
+                  "¡Hola! ☀️ Quiero informes sobre la Guardería. Me interesa la sucursal Zona Norte. ¿Tienen cupo?"
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -345,7 +345,7 @@ export default function GuarderiaPage() {
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
               href={SITE.whatsappUrl(
-                "Hola! Quiero agendar una prueba de socialización para la Guardería. ☀️"
+                "¡Hola! ☀️ Quiero informes sobre la Guardería. ¿Cómo puedo inscribir a mi perrito?"
               )}
               target="_blank"
               rel="noopener noreferrer"

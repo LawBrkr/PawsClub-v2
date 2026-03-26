@@ -3,6 +3,8 @@ import Link from "next/link";
 import { SITE, SERVICES, PRICES, BRANCHES } from "@/lib/constants";
 import { formatPrice } from "@/lib/utils";
 import { Star, Shield, Camera, Sparkles, Home, MapPin, ArrowRight, CheckCircle } from "lucide-react";
+import Counter from "@/components/Counter";
+import BookingButton from "@/components/BookingButton";
 
 // ============================================
 // HERO
@@ -28,17 +30,12 @@ function Hero() {
           paseos en Zona Norte.
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <a
-            href={SITE.whatsappUrl(
-              "Hola PawsClub! 🐾 Vengo de su página web y quiero agendar una visita."
-            )}
-            target="_blank"
-            rel="noopener noreferrer"
+          <BookingButton
             className="inline-flex items-center gap-2 rounded-full bg-brand px-8 py-4 text-lg font-bold text-white shadow-xl transition-all hover:-translate-y-1 hover:bg-brand-hover hover:shadow-2xl"
           >
             Agenda tu visita
             <ArrowRight className="h-5 w-5" />
-          </a>
+          </BookingButton>
           <Link
             href="/servicios/paseos"
             className="inline-flex items-center gap-2 rounded-full border-2 border-white/80 px-8 py-4 text-lg font-bold text-white backdrop-blur-sm transition-all hover:bg-white/10"
@@ -240,6 +237,52 @@ function BranchesPreview() {
 }
 
 // ============================================
+// NUMBERS SECTION
+// ============================================
+function NumbersSection() {
+  return (
+    <section className="bg-white py-20">
+      <div className="mx-auto max-w-7xl px-4 lg:px-8">
+        <div className="mb-12 text-center">
+          <h2 className="text-3xl font-extrabold text-gray-900 md:text-4xl">
+            Paws Club en Números
+          </h2>
+          <p className="mt-4 text-lg text-gray-500">
+            Nuestra experiencia y dedicación hablan por sí solas.
+          </p>
+        </div>
+        <div className="grid gap-8 grid-cols-2 md:grid-cols-4">
+          <div className="text-center">
+            <p className="text-4xl font-extrabold text-brand md:text-5xl">
+              +<Counter value={5000} />
+            </p>
+            <p className="mt-2 text-sm font-medium text-gray-600">Noches de hotel</p>
+          </div>
+          <div className="text-center">
+            <p className="text-4xl font-extrabold text-brand md:text-5xl">
+              +<Counter value={1200} />
+            </p>
+            <p className="mt-2 text-sm font-medium text-gray-600">Perros felices</p>
+          </div>
+          <div className="text-center">
+            <p className="text-4xl font-extrabold text-brand md:text-5xl">
+              +<Counter value={300} />
+            </p>
+            <p className="mt-2 text-sm font-medium text-gray-600">Graduados de adiestramiento</p>
+          </div>
+          <div className="text-center">
+            <p className="text-4xl font-extrabold text-brand md:text-5xl">
+              <Counter value={24} />/7
+            </p>
+            <p className="mt-2 text-sm font-medium text-gray-600">Supervisión</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ============================================
 // REVIEWS
 // ============================================
 const REVIEWS = [
@@ -380,7 +423,7 @@ function CTASection() {
         </p>
         <a
           href={SITE.whatsappUrl(
-            "Hola, quiero más información sobre sus servicios."
+            "¡Hola! 👋 Me interesa conocer más sobre sus servicios. ¿Me podrían dar informes?"
           )}
           target="_blank"
           rel="noopener noreferrer"
@@ -404,6 +447,7 @@ export default function HomePage() {
       <FeaturesBar />
       <ServicesSection />
       <BranchesPreview />
+      <NumbersSection />
       <ReviewsSection />
       <FAQSection />
       <CTASection />

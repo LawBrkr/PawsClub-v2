@@ -169,7 +169,7 @@ export default function FAQPage() {
             Escríbenos por WhatsApp y te respondemos en minutos.
           </p>
           <a
-            href={SITE.whatsappUrl("Hola! Tengo una pregunta sobre Paws Club.")}
+            href={SITE.whatsappUrl("¡Hola! 👋 Revisé sus Preguntas Frecuentes pero tengo una duda adicional. ¿Me ayudan?")}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-6 inline-flex items-center gap-2 rounded-full bg-brand px-8 py-4 text-lg font-bold text-white transition-all hover:bg-brand-hover"

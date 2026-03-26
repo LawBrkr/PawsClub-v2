@@ -14,6 +14,7 @@ import {
   TreePine,
 } from "lucide-react";
 import type { Metadata } from "next";
+import BookingButton from "@/components/BookingButton";
 
 export const metadata: Metadata = {
   title: "Paseos Caninos Diarios y Aventuras de Sábado | Paws Club Zona Norte CDMX",
@@ -132,17 +133,13 @@ export default function PaseosPage() {
             {service.description}
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
-            <a
-              href={SITE.whatsappUrl(
-                "Hola Paws Club! 🐾 Me interesan los Paseos Caninos en Zona Norte."
-              )}
-              target="_blank"
-              rel="noopener noreferrer"
+            <BookingButton
+              calLink="pawsclub/paseos"
               className="inline-flex items-center gap-2 rounded-full bg-brand px-8 py-4 text-lg font-bold text-white shadow-xl transition-all hover:-translate-y-1 hover:bg-brand-hover hover:shadow-2xl"
             >
               Contratar paseos
               <ArrowRight className="h-5 w-5" />
-            </a>
+            </BookingButton>
             <Link
               href="#precios"
               className="inline-flex items-center gap-2 rounded-full border-2 border-white/80 px-8 py-4 text-lg font-bold text-white backdrop-blur-sm transition-all hover:bg-white/10"
@@ -384,17 +381,13 @@ export default function PaseosPage() {
           </div>
 
           <div className="mt-10 text-center">
-            <a
-              href={SITE.whatsappUrl(
-                "Hola! Quiero contratar Paseos Caninos en Zona Norte. 🐾"
-              )}
-              target="_blank"
-              rel="noopener noreferrer"
+            <BookingButton
+              calLink="pawsclub/paseos"
               className="inline-flex items-center gap-2 rounded-full bg-brand px-8 py-4 text-lg font-bold text-white shadow-xl transition-all hover:-translate-y-1 hover:bg-brand-hover hover:shadow-2xl"
             >
               Contratar paseos
               <ArrowRight className="h-5 w-5" />
-            </a>
+            </BookingButton>
           </div>
         </div>
       </section>
@@ -463,7 +456,7 @@ export default function PaseosPage() {
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
               href={SITE.whatsappUrl(
-                "Hola! Quiero empezar con Paseos Caninos para mi perro. 🐾"
+                "¡Hola! 🐾 Vi lo de los paseos en Zona Norte y me interesa para mi perrito. ¿Me dan más info?"
               )}
               target="_blank"
               rel="noopener noreferrer"

@@ -224,7 +224,7 @@ export default function NosotrosPage() {
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
               href={SITE.whatsappUrl(
-                "Hola Paws Club! Quiero conocer sus instalaciones. 🐶"
+                "¡Hola! Me gustaría agendar una visita para conocer sus instalaciones. ¿Cómo le hacemos?"
               )}
               target="_blank"
               rel="noopener noreferrer"

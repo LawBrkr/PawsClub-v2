@@ -26,7 +26,7 @@ export default function ContactoPage() {
     const mensaje = data.get("mensaje") as string;
     const sucursal = data.get("sucursal") as string;
 
-    const text = `Hola Paws Club! 🐶\n\nSoy ${nombre}.\nMe interesa: ${servicio}\nSucursal: ${sucursal}\n\n${mensaje}`;
+    const text = `¡Hola! 👋 Me interesa conocer más sobre sus servicios.\n\nSoy ${nombre}.\nMe interesa: ${servicio}\nSucursal: ${sucursal}\n\n${mensaje}`;
 
     window.open(SITE.whatsappUrl(text), "_blank");
     setSubmitted(true);
@@ -68,7 +68,7 @@ export default function ContactoPage() {
                     aquí:
                   </p>
                   <a
-                    href={SITE.whatsappUrl("Hola Paws Club!")}
+                    href={SITE.whatsappUrl("¡Hola! 👋 Me interesa conocer más sobre sus servicios. ¿Me podrían dar informes?")}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-4 inline-flex items-center gap-2 rounded-full bg-green-600 px-6 py-3 text-sm font-bold text-white"
@@ -176,7 +176,7 @@ export default function ContactoPage() {
                       WhatsApp / Teléfono
                     </h3>
                     <a
-                      href={SITE.whatsappUrl("Hola Paws Club!")}
+                      href={SITE.whatsappUrl("¡Hola! 👋 Me interesa conocer más sobre sus servicios. ¿Me podrían dar informes?")}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-sm font-semibold text-brand hover:underline"

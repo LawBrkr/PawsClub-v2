@@ -12,6 +12,8 @@ import {
   Star,
 } from "lucide-react";
 import type { Metadata } from "next";
+import BookingButton from "@/components/BookingButton";
+import statusConfig from "@/config/paws-status.json";
 
 const branch = BRANCHES.poniente;
 
@@ -57,7 +59,7 @@ export default function PonientePage() {
           <div className="mt-8 flex flex-wrap gap-4">
             <a
               href={SITE.whatsappUrl(
-                `Hola! Me interesa ${branch.name}. ¿Me dan más información?`
+                "¡Hola! 📍 Me interesa conocer sus servicios en la sucursal Poniente. ¿Me podrían dar informes?"
               )}
               target="_blank"
               rel="noopener noreferrer"
@@ -122,7 +124,7 @@ export default function PonientePage() {
                     </h3>
                     <a
                       href={SITE.whatsappUrl(
-                        "Hola! Quiero información de Paws Club Poniente."
+                        "¡Hola! 📍 Me interesa conocer sus servicios en la sucursal Poniente. ¿Me podrían dar informes?"
                       )}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -192,31 +194,49 @@ export default function PonientePage() {
             </p>
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {branchServices.map((s) => (
-              <Link
-                key={s.id}
-                href={`/servicios/${s.slug}`}
-                className="group rounded-2xl bg-white p-6 shadow-sm transition-all hover:shadow-lg"
-              >
-                <span className="text-3xl">{s.icon}</span>
-                <h3 className="mt-4 text-lg font-bold text-gray-900 group-hover:text-brand">
-                  {s.name}
-                </h3>
-                <p className="mt-2 text-sm text-gray-500">{s.tagline}</p>
-                <ul className="mt-4 space-y-2">
-                  {s.features.slice(0, 3).map((f) => (
-                    <li key={f} className="flex items-start gap-2 text-xs text-gray-600">
-                      <CheckCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-brand" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand">
-                  Ver detalles y precios
-                  <ArrowRight className="h-4 w-4" />
-                </span>
-              </Link>
-            ))}
+            {branchServices.map((s) => {
+              const isFull = s.id === "hotel" || s.id === "guarderia" 
+                ? statusConfig.poniente[s.id as "hotel" | "guarderia"].full 
+                : false;
+              
+              const isAvailable = s.id === "adiestramiento" && !statusConfig.poniente.adiestramiento.full;
+
+              return (
+                <Link
+                  key={s.id}
+                  href={`/servicios/${s.slug}`}
+                  className={`group relative overflow-hidden rounded-2xl bg-white p-6 shadow-sm transition-all hover:shadow-lg ${isFull ? "opacity-75" : ""}`}
+                >
+                  {isFull && (
+                    <div className="absolute right-0 top-0 rounded-bl-xl bg-red-600 px-4 py-1.5 text-xs font-bold text-white shadow-md">
+                      ⚠️ CUPO LLENO
+                    </div>
+                  )}
+                  {isAvailable && (
+                    <div className="absolute right-0 top-0 rounded-bl-xl bg-green-600 px-4 py-1.5 text-xs font-bold text-white shadow-md">
+                      ✅ DISPONIBLE
+                    </div>
+                  )}
+                  <span className="text-3xl">{s.icon}</span>
+                  <h3 className="mt-4 text-lg font-bold text-gray-900 group-hover:text-brand">
+                    {s.name}
+                  </h3>
+                  <p className="mt-2 text-sm text-gray-500">{s.tagline}</p>
+                  <ul className="mt-4 space-y-2">
+                    {s.features.slice(0, 3).map((f) => (
+                      <li key={f} className="flex items-start gap-2 text-xs text-gray-600">
+                        <CheckCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-brand" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <span className={`mt-4 inline-flex items-center gap-1 text-sm font-semibold ${isFull ? "text-gray-400" : "text-brand"}`}>
+                    Ver detalles y precios
+                    <ArrowRight className="h-4 w-4" />
+                  </span>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -337,17 +357,12 @@ export default function PonientePage() {
             socialización es gratuita.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <a
-              href={SITE.whatsappUrl(
-                "Hola! Quiero agendar una visita a Paws Club Poniente. 📍"
-              )}
-              target="_blank"
-              rel="noopener noreferrer"
+            <BookingButton
               className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-bold text-brand shadow-xl transition-all hover:-translate-y-1 hover:shadow-2xl"
             >
               Agendar visita
               <ArrowRight className="h-5 w-5" />
-            </a>
+            </BookingButton>
             <Link
               href="/sucursales/zona-norte"
               className="inline-flex items-center gap-2 text-lg font-semibold text-white/90 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white"

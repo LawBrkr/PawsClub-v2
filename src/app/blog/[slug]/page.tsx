@@ -121,7 +121,7 @@ export default async function BlogPostPage({ params }: Props) {
             </p>
             <a
               href={SITE.whatsappUrl(
-                `Hola! Leí el artículo "${post.title}" y me gustaría más información.`
+                `¡Hola! 👋 Leí su artículo sobre "${post.title}" y me gustaría saber más de sus servicios.`
               )}
               target="_blank"
               rel="noopener noreferrer"

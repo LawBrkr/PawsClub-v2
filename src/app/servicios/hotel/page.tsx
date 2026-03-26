@@ -112,7 +112,7 @@ export default function HotelPage() {
           <div className="mt-8 flex flex-wrap gap-4">
             <a
               href={SITE.whatsappUrl(
-                "Hola Paws Club! 🏨 Me interesa el Hotel Boutique para mi perro."
+                "¡Hola! 🏨 Me interesa el Hotel Canino. ¿Tienen disponibilidad para las próximas fechas?"
               )}
               target="_blank"
               rel="noopener noreferrer"
@@ -233,7 +233,7 @@ export default function HotelPage() {
               </div>
               <a
                 href={SITE.whatsappUrl(
-                  "Hola! Me interesa el Hotel Boutique en la sucursal Poniente."
+                  "¡Hola! 🏨 Me interesa el Hotel Canino. Me interesa la sucursal Poniente. ¿Tienen cupo?"
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -278,7 +278,7 @@ export default function HotelPage() {
               </div>
               <a
                 href={SITE.whatsappUrl(
-                  "Hola! Me interesa el Hotel Boutique en Zona Norte."
+                  "¡Hola! 🏨 Me interesa el Hotel Canino. Me interesa la sucursal Zona Norte. ¿Tienen cupo?"
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -360,7 +360,7 @@ export default function HotelPage() {
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
               href={SITE.whatsappUrl(
-                "Hola! Quiero agendar una visita para conocer el Hotel Boutique. 🏨"
+                "¡Hola! 🏨 Me interesa el Hotel Canino. ¿Tienen disponibilidad para las próximas fechas?"
               )}
               target="_blank"
               rel="noopener noreferrer"

@@ -5,7 +5,7 @@ import { SITE } from "@/lib/constants";
 export default function WhatsAppButton() {
   return (
     <a
-      href={SITE.whatsappUrl("Hola Paws Club! 🐾 Vengo de su página web y tengo una duda.")}
+      href={SITE.whatsappUrl("¡Hola! 👋 Me interesa conocer más sobre sus servicios. ¿Me podrían dar informes?")}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Contactar por WhatsApp"

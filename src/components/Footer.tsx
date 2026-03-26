@@ -90,7 +90,7 @@ export default function Footer() {
                 +52 1 56 4408 5356
               </a>
               <a
-                href={SITE.whatsappUrl("Hola, tengo una duda sobre sus servicios.")}
+                href={SITE.whatsappUrl("¡Hola! 👋 Me interesa conocer más sobre sus servicios. ¿Me podrían dar informes?")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full bg-green-600 px-4 py-2 text-sm font-semibold text-white transition-all hover:bg-green-700"

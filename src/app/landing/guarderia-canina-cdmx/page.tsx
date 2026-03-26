@@ -72,7 +72,7 @@ export default function LandingGuarderia() {
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <a
                 href={SITE.whatsappUrl(
-                  "Hola! Vi su anuncio de Guardería Canina. Quiero agendar una prueba. ☀️"
+                  "¡Hola! ☀️ Vi su anuncio de la guardería y me interesa para mi perrito. ¿Me pasan informes?"
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -252,7 +252,7 @@ export default function LandingGuarderia() {
           </p>
           <a
             href={SITE.whatsappUrl(
-              "Hola! Quiero agendar prueba de socialización para Guardería. Vi su anuncio. ☀️"
+              "¡Hola! ☀️ Vi su anuncio de la guardería y me interesa para mi perrito. ¿Me pasan informes?"
             )}
             target="_blank"
             rel="noopener noreferrer"

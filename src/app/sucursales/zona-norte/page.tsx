@@ -59,7 +59,7 @@ export default function ZonaNortePage() {
           <div className="mt-8 flex flex-wrap gap-4">
             <a
               href={SITE.whatsappUrl(
-                `Hola! Me interesa ${branch.name}. ¿Me dan más información?`
+                "¡Hola! 📍 Me interesa conocer sus servicios en la sucursal Zona Norte. ¿Me podrían dar informes?"
               )}
               target="_blank"
               rel="noopener noreferrer"
@@ -131,7 +131,7 @@ export default function ZonaNortePage() {
                     </h3>
                     <a
                       href={SITE.whatsappUrl(
-                        "Hola! Quiero información de Paws Club Zona Norte."
+                        "¡Hola! 📍 Me interesa conocer sus servicios en la sucursal Zona Norte. ¿Me podrían dar informes?"
                       )}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -388,7 +388,7 @@ export default function ZonaNortePage() {
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
               href={SITE.whatsappUrl(
-                "Hola! Quiero agendar una visita a Paws Club Zona Norte. 📍"
+                "¡Hola! 📍 Me gustaría visitar la sucursal Zona Norte para conocerlos. ¿En qué horarios puedo ir?"
               )}
               target="_blank"
               rel="noopener noreferrer"

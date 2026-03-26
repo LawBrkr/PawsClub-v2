@@ -1,0 +1,13 @@
+{
+  "poniente": {
+    "hotel": { "full": true },
+    "guarderia": { "full": false },
+    "adiestramiento": { "full": false }
+  },
+  "zona-norte": {
+    "hotel": { "full": false },
+    "guarderia": { "full": false },
+    "adiestramiento": { "full": false },
+    "paseos": { "full": false }
+  }
+}

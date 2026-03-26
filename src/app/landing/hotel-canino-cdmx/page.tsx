@@ -71,7 +71,7 @@ export default function LandingHotel() {
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <a
                 href={SITE.whatsappUrl(
-                  "Hola! Vi su anuncio de Hotel Canino. Quiero reservar. 🏨"
+                  "¡Hola! 🏨 Vi su anuncio del hotel sin jaulas y me interesa reservar. ¿Tienen disponibilidad?"
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -222,7 +222,7 @@ export default function LandingHotel() {
           </p>
           <a
             href={SITE.whatsappUrl(
-              "Hola! Quiero reservar en el Hotel Canino. Vi su anuncio. 🏨"
+              "¡Hola! 🏨 Vi su anuncio del hotel sin jaulas y me interesa reservar. ¿Tienen disponibilidad?"
             )}
             target="_blank"
             rel="noopener noreferrer"

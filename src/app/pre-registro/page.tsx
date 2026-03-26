@@ -90,7 +90,7 @@ export default function PreRegistroPage() {
               </p>
               <a
                 href={SITE.whatsappUrl(
-                  "Hola! Acabo de enviar mi pre-registro."
+                  "¡Hola! Acabo de enviar mi pre-registro. ¿Me confirman si les llegó bien? 🙌"
                 )}
                 target="_blank"
                 rel="noopener noreferrer"

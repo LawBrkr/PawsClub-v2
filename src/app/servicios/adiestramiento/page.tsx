@@ -134,7 +134,7 @@ export default function AdiestramientoPage() {
           <div className="mt-8 flex flex-wrap gap-4">
             <a
               href={SITE.whatsappUrl(
-                "Hola Paws Club! 🎓 Me interesa el Adiestramiento Canino."
+                "¡Hola! 🎓 Necesito ayuda con el comportamiento de mi perro. ¿Me dan informes del adiestramiento?"
               )}
               target="_blank"
               rel="noopener noreferrer"
@@ -242,7 +242,7 @@ export default function AdiestramientoPage() {
               </p>
               <a
                 href={SITE.whatsappUrl(
-                  "Hola! Quiero información sobre Adiestramiento en Poniente."
+                  "¡Hola! 🎓 Necesito ayuda con el comportamiento de mi perro. Me interesa la sucursal Poniente."
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -281,7 +281,7 @@ export default function AdiestramientoPage() {
               </p>
               <a
                 href={SITE.whatsappUrl(
-                  "Hola! Quiero información sobre Adiestramiento en Zona Norte."
+                  "¡Hola! 🎓 Necesito ayuda con el comportamiento de mi perro. Me interesa la sucursal Zona Norte."
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -363,7 +363,7 @@ export default function AdiestramientoPage() {
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
               href={SITE.whatsappUrl(
-                "Hola! Quiero agendar una evaluación de adiestramiento. 🎓"
+                "¡Hola! 🎓 Necesito ayuda con el comportamiento de mi perro. ¿Me dan informes del adiestramiento?"
               )}
               target="_blank"
               rel="noopener noreferrer"

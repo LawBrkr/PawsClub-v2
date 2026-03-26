@@ -382,7 +382,7 @@ export default function CalculadoraPage() {
                 </div>
                 <a
                   href={SITE.whatsappUrl(
-                    `Hola! Usé la calculadora y me interesa: ${result.label} por ${formatPrice(result.total)}. ¿Puedo agendar?`
+                    `¡Hola! 🐾 Usé su calculadora para ${result.label} en ${service === "paseos" ? "Zona Norte" : branch === "poniente" ? "Poniente" : "Zona Norte"} (${formatPrice(result.total)}). ¿Cómo puedo reservar?`
                   )}
                   target="_blank"
                   rel="noopener noreferrer"
