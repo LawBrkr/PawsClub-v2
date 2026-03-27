@@ -75,12 +75,12 @@ export default function NosotrosPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative flex min-h-[50vh] items-center overflow-hidden">
+      <section className="relative flex min-h-[50vh] items-end md:items-center overflow-hidden">
         <Image
           src="/nosotros_header.webp"
           alt="Conexión emocional y feliz entre humano y mascota en Paws Club"
           fill
-          className="object-cover"
+          className="object-cover object-[85%_center] md:object-center"
           priority
           quality={90}
         />

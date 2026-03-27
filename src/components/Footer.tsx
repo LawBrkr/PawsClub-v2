@@ -113,6 +113,7 @@ export default function Footer() {
         {/* Bottom */}
         <div className="mt-12 border-t border-gray-800 pt-8 text-center text-xs text-gray-500">
           <p>© {new Date().getFullYear()} Paws Club. Todos los derechos reservados.</p>
+          <p className="mt-2">Paws Club es una marca registrada.</p>
         </div>
       </div>
     </footer>

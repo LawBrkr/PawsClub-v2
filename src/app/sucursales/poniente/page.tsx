@@ -35,12 +35,12 @@ export default function PonientePage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative flex min-h-[50vh] items-center overflow-hidden">
+      <section className="relative flex min-h-[50vh] items-end md:items-center overflow-hidden">
         <Image
           src="/img/hotel-guarderia-canina-miguel-hidalgo.png"
           alt={`${branch.name} — Hotel y guardería canina en Miguel Hidalgo`}
           fill
-          className="object-cover"
+          className="object-cover object-[75%_center] md:object-center"
           priority
           quality={85}
         />

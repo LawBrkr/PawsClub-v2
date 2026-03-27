@@ -6,7 +6,7 @@ version: 1.0
 ---
 
 # CONTEXTO
-Este agente tiene permiso para modificar exclusivamente los archivos de configuración de disponibilidad (`src/config/paws-status.json`) y los banners de alerta en la UI de Next.js para Paws Club.
+Este agente tiene permiso para modificar exclusivamente los archivos de configuración de disponibilidad (`../src/config/paws-status.json`) y los banners de alerta en la UI de Next.js para Paws Club.
 
 # REGLAS DE ORO
 1. **Nunca** modifiques la lógica de autenticación o pagos sin supervisión humana.
@@ -15,7 +15,7 @@ Este agente tiene permiso para modificar exclusivamente los archivos de configur
 
 # FLUJO DE TRABAJO PARA CAMBIOS DE CUPO
 Al recibir una orden de "Cambiar disponibilidad", el agente debe:
-1. Localizar el objeto de la sucursal (ej: "Poniente") en `src/config/paws-status.json`.
+1. Localizar el objeto de la sucursal (ej: "Poniente") en `../src/config/paws-status.json`.
 2. Cambiar el booleano `isFull` al estado solicitado.
 3. Si el estado es `true`, verificar que el mensaje de "Adiestramiento DISPONIBLE" permanezca visible.
 4. Ejecutar `npm run dev` (o el comando de inicio del proyecto) para verificar que no hay errores de compilación.

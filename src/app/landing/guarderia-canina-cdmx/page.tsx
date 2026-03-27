@@ -29,12 +29,12 @@ export default function LandingGuarderia() {
       </div>
 
       {/* Hero */}
-      <section className="relative flex min-h-[70vh] items-center overflow-hidden">
+      <section className="relative flex min-h-[70vh] items-end md:items-center overflow-hidden">
         <Image
           src="/img/daycare.webp"
           alt="Guardería canina en CDMX — perros jugando"
           fill
-          className="object-cover"
+          className="object-cover object-[75%_center] md:object-center"
           priority
           quality={85}
         />

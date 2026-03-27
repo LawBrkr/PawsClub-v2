@@ -102,12 +102,12 @@ export default function HotelPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative flex min-h-[60vh] items-center overflow-hidden">
+      <section className="relative flex min-h-[60vh] items-end md:items-center overflow-hidden">
         <Image
           src="/img/hotel.webp"
           alt="Hotel boutique canino Paws Club — perro descansando sin jaulas"
           fill
-          className="object-cover"
+          className="object-cover object-[center_top] md:object-center"
           priority
           quality={85}
         />

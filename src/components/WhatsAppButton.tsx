@@ -10,9 +10,13 @@ export default function WhatsAppButton() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Contactar por WhatsApp"
-      className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 shadow-lg transition-all hover:-translate-y-1 hover:bg-green-600 hover:shadow-xl"
+      className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 shadow-lg transition-all hover:-translate-y-1 hover:bg-green-600 hover:shadow-xl overflow-hidden"
     >
-      <MessageCircle className="h-7 w-7 text-white" />
+      <img 
+        src="/img/whatsapp_logo_green.png" 
+        alt="WhatsApp" 
+        className="h-10 w-10 object-contain brightness-0 invert" 
+      />
     </a>
   );
 }

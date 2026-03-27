@@ -11,17 +11,17 @@ import BookingButton from "@/components/BookingButton";
 // ============================================
 function Hero() {
   return (
-    <section className="relative flex min-h-[85vh] items-center overflow-hidden">
+    <section className="relative flex min-h-[85vh] items-end md:items-center overflow-hidden">
       <Image
         src="/img/hero.webp"
         alt="Perros felices en Paws Club"
         fill
-        className="object-cover"
+        className="object-cover object-[80%_center] md:object-center"
         priority
         quality={85}
       />
-      <div className="absolute inset-0 bg-black/40" />
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 py-20 text-center text-white lg:px-8">
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20 md:bg-black/40" />
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 py-20 text-center md:text-center text-white lg:px-8">
         <h1 className="mx-auto max-w-4xl text-4xl font-extrabold leading-tight md:text-5xl lg:text-6xl">
           Guardería, Hotel y Adiestramiento Canino en CDMX
         </h1>

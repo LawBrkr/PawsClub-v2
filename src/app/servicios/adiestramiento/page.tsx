@@ -111,12 +111,12 @@ export default function AdiestramientoPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative flex min-h-[60vh] items-center overflow-hidden">
+      <section className="relative flex min-h-[60vh] items-end md:items-center overflow-hidden">
         <Image
           src="/img/training.webp"
           alt="Adiestramiento canino con refuerzo positivo en Paws Club"
           fill
-          className="object-cover"
+          className="object-cover object-[75%_top] md:object-center"
           priority
           quality={85}
         />

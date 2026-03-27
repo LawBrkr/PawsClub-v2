@@ -111,12 +111,12 @@ export default function PaseosPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative flex min-h-[60vh] items-center overflow-hidden">
+      <section className="relative flex min-h-[60vh] items-end md:items-center overflow-hidden">
         <Image
           src="/img/Pome_feliz_en_parque.webp"
           alt="Perro feliz en paseo canino en parque de CDMX"
           fill
-          className="object-cover"
+          className="object-cover object-[75%_center] md:object-center"
           priority
           quality={85}
         />

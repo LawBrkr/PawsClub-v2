@@ -31,12 +31,12 @@ export default function ZonaNortePage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative flex min-h-[50vh] items-center overflow-hidden">
+      <section className="relative flex min-h-[50vh] items-end md:items-center overflow-hidden">
         <Image
           src="/img/Pome_feliz_en_parque.webp"
           alt={`${branch.name} — Premium Homestay y servicios completos`}
           fill
-          className="object-cover"
+          className="object-cover object-[75%_center] md:object-center"
           priority
           quality={85}
         />
