@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     template: "%s | Paws Club",
   },
   description:
-    "Guardería y hotel canino sin jaulas en CDMX. Supervisión 24/7, cupo limitado y socialización segura. Dos sucursales: Poniente y Zona Norte. Agenda hoy.",
+    "Guardería y hotel canino sin jaulas en CDMX con +45 noches de hotel, +28 lomitos atendidos y +10 graduados de adiestramiento. Supervisión 24/7. Agenda hoy.",
   keywords: [
     "guardería canina CDMX",
     "hotel para perros CDMX",
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     siteName: SITE.name,
     title: "Guardería, Hotel & Adiestramiento Premium en CDMX | Paws Club",
     description:
-      "Guardería, Alojamiento Boutique y Adiestramiento. Seguridad y diversión garantizada para tu mejor amigo.",
+      "Guardería, Alojamiento Boutique y Adiestramiento para perros. Más de 45 noches de hotel, 28 lomitos felices y 10 graduados. Diversión y seguridad.",
     images: [
       {
         url: "/img/og-cover.png",

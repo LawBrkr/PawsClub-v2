@@ -116,7 +116,7 @@ export default function AdiestramientoPage() {
           src="/img/training.webp"
           alt="Adiestramiento canino con refuerzo positivo en Paws Club"
           fill
-          className="object-cover object-[75%_top] md:object-top"
+          className="object-cover object-bottom"
           priority
           quality={85}
         />
