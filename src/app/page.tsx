@@ -259,19 +259,19 @@ function NumbersSection() {
         <div className="grid gap-8 grid-cols-2 md:grid-cols-4">
           <div className="text-center">
             <p className="text-4xl font-extrabold text-brand md:text-5xl">
-              +<Counter value={150} />
+              +<Counter value={45} />
             </p>
             <p className="mt-2 text-sm font-medium text-gray-600">Noches de hotel</p>
           </div>
           <div className="text-center">
             <p className="text-4xl font-extrabold text-brand md:text-5xl">
-              +<Counter value={50} />
+              +<Counter value={28} />
             </p>
-            <p className="mt-2 text-sm font-medium text-gray-600">Perros felices</p>
+            <p className="mt-2 text-sm font-medium text-gray-600">lomitos atendidos</p>
           </div>
           <div className="text-center">
             <p className="text-4xl font-extrabold text-brand md:text-5xl">
-              +<Counter value={15} />
+              +<Counter value={10} />
             </p>
             <p className="mt-2 text-sm font-medium text-gray-600">Graduados de adiestramiento</p>
           </div>
