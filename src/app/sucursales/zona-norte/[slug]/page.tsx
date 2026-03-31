@@ -236,7 +236,7 @@ export default async function NeighborhoodPage({ params }: Props) {
               </div>
               <div className="bg-white px-6 py-4">
                 <p className="text-sm font-semibold text-gray-900">
-                  📍 Ubicación: Cerca de Tlatelolco y Santa María la Ribera. Dirección exacta tras confirmar reservación.
+                  📍 Ubicación: Colonia San Simón Tolnahuac, CDMX
                 </p>
                 <p className="text-xs text-gray-500">
                   A solo {neighborhood.travelTime} desde {neighborhood.name}
