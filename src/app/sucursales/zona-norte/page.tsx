@@ -14,6 +14,8 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import type { Metadata } from "next";
+import SchemaMarkup from "@/components/SchemaMarkup";
+import { getLocalBusinessSchema } from "@/lib/schema";
 
 const branch = BRANCHES["zona-norte"];
 
@@ -30,6 +32,7 @@ export const metadata: Metadata = {
 export default function ZonaNortePage() {
   return (
     <>
+      <SchemaMarkup data={getLocalBusinessSchema("zona-norte")} />
       {/* Hero */}
       <section className="relative flex min-h-[50vh] items-end md:items-center overflow-hidden">
         <Image

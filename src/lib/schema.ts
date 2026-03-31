@@ -18,6 +18,21 @@ export function getLocalBusinessSchema(branchId: "poniente" | "zona-norte") {
     telephone: SITE.phone,
     email: SITE.email,
     image: `${SITE.url}/img/${isZN ? "Pome_feliz_en_parque.webp" : "hotel-guarderia-canina-miguel-hidalgo.png"}`,
+    address: isZN
+      ? {
+          "@type": "PostalAddress",
+          streetAddress: "Zoltan Kodaly 126",
+          addressLocality: "San Simón Tolnáhuac",
+          addressRegion: "Ciudad de México",
+          postalCode: "06920",
+          addressCountry: "MX",
+        }
+      : {
+          "@type": "PostalAddress",
+          addressLocality: "Miguel Hidalgo",
+          addressRegion: "Ciudad de México",
+          addressCountry: "MX",
+        },
     geo: {
       "@type": "GeoCoordinates",
       latitude: branch.coordinates.lat,
@@ -50,6 +65,21 @@ export function getLocalBusinessSchema(branchId: "poniente" | "zona-norte") {
     priceRange: isZN
       ? `$${PRICES.paseos.individual} - $${PRICES.adiestramiento.zonaNorte} MXN`
       : `$${PRICES.guarderia.poniente} - $${PRICES.adiestramiento.poniente} MXN`,
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Servicios Caninos",
+      itemListElement: branch.services.map((sId) => {
+        const svc = SERVICES.find((s) => s.id === sId);
+        return {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: svc?.name ?? sId,
+            description: svc?.description ?? "",
+          },
+        };
+      }),
+    },
     sameAs: [SITE.instagram, SITE.facebook],
   };
 }

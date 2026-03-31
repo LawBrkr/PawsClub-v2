@@ -70,10 +70,10 @@ export default async function BlogPostPage({ params }: Props) {
           <h1 className="text-3xl font-extrabold text-white md:text-4xl lg:text-5xl">
             {post.title}
           </h1>
-          <div className="mt-4 flex items-center gap-4 text-sm text-white/80">
+          <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-white/80">
             <span className="flex items-center gap-1">
               <User className="h-4 w-4" />
-              {post.author}
+              Equipo Paws Club — Especialistas en bienestar canino
             </span>
             <time dateTime={post.date}>
               {new Date(post.date).toLocaleDateString("es-MX", {
@@ -130,6 +130,22 @@ export default async function BlogPostPage({ params }: Props) {
               Contáctanos por WhatsApp
               <ArrowRight className="h-4 w-4" />
             </a>
+          </div>
+
+          {/* Author Box — E-E-A-T */}
+          <div className="mt-12 flex items-center gap-4 rounded-2xl border border-gray-200 bg-gray-50 p-6">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-brand/10 text-2xl">
+              🐾
+            </div>
+            <div>
+              <p className="text-sm font-bold text-gray-900">
+                Equipo Paws Club
+              </p>
+              <p className="text-xs text-gray-500">
+                Especialistas en bienestar canino · Guardería, Hotel,
+                Adiestramiento y Paseos en CDMX
+              </p>
+            </div>
           </div>
 
           {/* Nav */}

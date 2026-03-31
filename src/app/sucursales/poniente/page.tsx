@@ -14,6 +14,7 @@ import {
 import type { Metadata } from "next";
 import BookingButton from "@/components/BookingButton";
 import statusConfig from "@/config/paws-status.json";
+import PonienteLeadForm from "@/components/PonienteLeadForm";
 
 const branch = BRANCHES.poniente;
 
@@ -195,19 +196,25 @@ export default function PonientePage() {
           </div>
 
           {(statusConfig.poniente.hotel.full || statusConfig.poniente.guarderia.full) && (
-            <div className="mb-8 rounded-xl bg-orange-50 p-6 text-center border border-orange-200">
-              <h3 className="text-lg font-bold text-orange-800">
-                ⚠️ Cupo Lleno en Sucursal Poniente
-              </h3>
-              <p className="mt-2 text-sm text-orange-700">
-                Nuestros servicios de Hotel y Guardería se encuentran en capacidad máxima. Te invitamos a conocer nuestra Experiencia Insignia en la zona Norte, donde aún tenemos espacios disponibles.
-              </p>
-              <Link
-                href="/sucursales/zona-norte"
-                className="mt-4 inline-flex items-center gap-2 font-bold text-brand hover:underline"
-              >
-                Ver disponibilidad en Zona Norte <ArrowRight className="h-4 w-4" />
-              </Link>
+            <div className="mb-8 grid gap-8 lg:grid-cols-2 items-start">
+              <div className="rounded-xl bg-amber-50 p-6 border border-amber-200">
+                <h3 className="text-lg font-bold text-amber-800">
+                  🔜 Próximamente · Lista de espera
+                </h3>
+                <p className="mt-2 text-sm text-amber-700">
+                  Paws Club Poniente se expande. Sé el primero en saberlo.
+                </p>
+                <p className="mt-2 text-sm text-amber-700">
+                  Mientras tanto, te invitamos a conocer nuestra Experiencia Insignia en la zona Norte, donde aún tenemos espacios disponibles.
+                </p>
+                <Link
+                  href="/sucursales/zona-norte"
+                  className="mt-4 inline-flex items-center gap-2 font-bold text-brand hover:underline"
+                >
+                  Ver disponibilidad en Zona Norte <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+              <PonienteLeadForm />
             </div>
           )}
 
@@ -226,8 +233,8 @@ export default function PonientePage() {
                   className={`group relative overflow-hidden rounded-2xl bg-white p-6 shadow-sm transition-all hover:shadow-lg ${isFull ? "opacity-75" : ""}`}
                 >
                   {isFull && (
-                    <div className="absolute right-0 top-0 rounded-bl-xl bg-red-600 px-4 py-1.5 text-xs font-bold text-white shadow-md">
-                      ⚠️ CUPO LLENO
+                    <div className="absolute right-0 top-0 rounded-bl-xl bg-amber-600 px-4 py-1.5 text-xs font-bold text-white shadow-md">
+                      🔜 PRÓXIMAMENTE
                     </div>
                   )}
                   {isAvailable && (

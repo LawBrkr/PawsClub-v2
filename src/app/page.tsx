@@ -3,7 +3,7 @@ import Link from "next/link";
 import { SITE, SERVICES, PRICES, BRANCHES } from "@/lib/constants";
 import { formatPrice } from "@/lib/utils";
 import { Star, Shield, Camera, Sparkles, Home, MapPin, ArrowRight, CheckCircle, ShieldCheck } from "lucide-react";
-import Counter from "@/components/Counter";
+
 import BookingButton from "@/components/BookingButton";
 
 // ============================================
@@ -188,8 +188,8 @@ function BranchesPreview() {
                   <h3 className="text-xl font-bold text-gray-900 flex flex-wrap items-center gap-2">
                     {branch.name}
                     {branch.id === "poniente" && (
-                      <span className="rounded-full bg-red-100 px-2 py-0.5 text-xs font-bold text-red-600">
-                        Cupo Lleno
+                      <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-bold text-amber-700">
+                        Próximamente · Lista de espera
                       </span>
                     )}
                   </h3>
@@ -250,7 +250,7 @@ function NumbersSection() {
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <div className="mb-12 text-center">
           <h2 className="text-3xl font-extrabold text-gray-900 md:text-4xl">
-            Paws Club en Números
+            ¿Por qué elegirnos?
           </h2>
           <p className="mt-4 text-lg text-gray-500">
             Nuestra experiencia y dedicación hablan por sí solas.
@@ -259,27 +259,27 @@ function NumbersSection() {
         <div className="grid gap-8 grid-cols-2 md:grid-cols-4">
           <div className="text-center">
             <p className="text-4xl font-extrabold text-brand md:text-5xl">
-              +<Counter value={45} />
+              4.9★
             </p>
-            <p className="mt-2 text-sm font-medium text-gray-600">Noches de hotel</p>
+            <p className="mt-2 text-sm font-medium text-gray-600">en Google</p>
           </div>
           <div className="text-center">
             <p className="text-4xl font-extrabold text-brand md:text-5xl">
-              +<Counter value={28} />
+              5
             </p>
-            <p className="mt-2 text-sm font-medium text-gray-600">lomitos atendidos</p>
+            <p className="mt-2 text-sm font-medium text-gray-600">Cupo exclusivo de</p>
           </div>
           <div className="text-center">
             <p className="text-4xl font-extrabold text-brand md:text-5xl">
-              +<Counter value={10} />
-            </p>
-            <p className="mt-2 text-sm font-medium text-gray-600">Graduados de adiestramiento</p>
-          </div>
-          <div className="text-center">
-            <p className="text-4xl font-extrabold text-brand md:text-5xl">
-              <Counter value={24} />/7
+              24/7
             </p>
             <p className="mt-2 text-sm font-medium text-gray-600">Supervisión</p>
+          </div>
+          <div className="text-center">
+            <p className="text-4xl font-extrabold text-brand md:text-5xl">
+              CDMX
+            </p>
+            <p className="mt-2 text-sm font-medium text-gray-600">Zona Norte</p>
           </div>
         </div>
       </div>
