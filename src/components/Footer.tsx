@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SITE, BRANCHES } from "@/lib/constants";
+import { ZONA_NORTE_NEIGHBORHOODS } from "@/data/neighborhoods";
 import { MapPin, Clock, Phone } from "lucide-react";
 
 export default function Footer() {
@@ -110,8 +111,26 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Zonas de Cobertura — Internal linking for SEO */}
+        <div className="mt-12 border-t border-gray-800 pt-8">
+          <h4 className="mb-3 text-center text-xs font-bold uppercase tracking-wider text-gray-500">
+            Nuestra Cobertura en Zona Norte
+          </h4>
+          <div className="flex flex-wrap justify-center gap-2">
+            {ZONA_NORTE_NEIGHBORHOODS.map((n) => (
+              <Link
+                key={n.slug}
+                href={`/sucursales/zona-norte/${n.slug}`}
+                className="rounded-full border border-gray-700 px-3 py-1 text-xs text-gray-400 transition-colors hover:border-brand hover:text-white"
+              >
+                {n.name}
+              </Link>
+            ))}
+          </div>
+        </div>
+
         {/* Bottom */}
-        <div className="mt-12 border-t border-gray-800 pt-8 text-center text-xs text-gray-500">
+        <div className="mt-8 border-t border-gray-800 pt-8 text-center text-xs text-gray-500">
           <p>© {new Date().getFullYear()} Paws Club. Todos los derechos reservados.</p>
           <p className="mt-2">Paws Club es una marca registrada.</p>
         </div>

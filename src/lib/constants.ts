@@ -76,7 +76,7 @@ export const BRANCHES: Record<BranchId, Branch> = {
     name: "Paws Club Zona Norte",
     shortName: "Zona Norte",
     slug: "zona-norte",
-    coordinates: { lat: 19.4610556, lng: -99.1422500 },
+    coordinates: { lat: 19.4590, lng: -99.1410 }, // Punto de referencia público en San Simón Tolnahuac
     coverage: [
       "Santa María la Ribera",
       "San Rafael",

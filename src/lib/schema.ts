@@ -21,9 +21,8 @@ export function getLocalBusinessSchema(branchId: "poniente" | "zona-norte") {
     address: isZN
       ? {
           "@type": "PostalAddress",
-          streetAddress: "Zoltan Kodaly 126",
-          addressLocality: "San Simón Tolnáhuac",
-          addressRegion: "Ciudad de México",
+          addressLocality: "Ciudad de México",
+          addressRegion: "CDMX",
           postalCode: "06920",
           addressCountry: "MX",
         }

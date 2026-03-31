@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { BLOG_POSTS } from "@/lib/blog-data";
+import { ZONA_NORTE_NEIGHBORHOODS } from "@/data/neighborhoods";
 
 const BASE_URL = "https://pawsclub.com.mx";
 
@@ -30,5 +31,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticPages, ...blogPages];
+  const neighborhoodPages: MetadataRoute.Sitemap = ZONA_NORTE_NEIGHBORHOODS.map((n) => ({
+    url: `${BASE_URL}/sucursales/zona-norte/${n.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
+  return [...staticPages, ...blogPages, ...neighborhoodPages];
 }
+
