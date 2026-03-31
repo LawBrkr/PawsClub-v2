@@ -78,7 +78,7 @@ Reconocer al dueño como vecino de la colonia. Generar pertenencia.
 Conectar la colonia con la sucursal mencionando la facilidad de acceso
 (distancia, tiempo, transporte).
 
-> *Ejemplo: "Nuestra sucursal en Zoltan Kodaly 126 está a menos de 10 minutos
+> *Ejemplo: "Nuestra ubicación en la Colonia San Simón Tolnahuac está a menos de 10 minutos
 > de tu colonia — sin tráfico complicado."*
 
 ### Paso 3 — CTA con urgencia suave
@@ -89,15 +89,14 @@ Cerrar con un llamado a la acción que incluya el concepto de exclusividad
 > *Ejemplo: "Agenda una visita y conoce nuestras instalaciones sin jaulas.
 > Los cupos son exclusivos para garantizar la atención que tu lomito merece."*
 
-### Dirección canónica de referencia
+### Ubicación de referencia
 
 ```
-Zoltan Kodaly 126, Colonia Vallejo, Alcaldía Gustavo A. Madero, CDMX
+Colonia San Simón Tolnahuac, CDMX (Zona Norte)
 ```
 
-- **Siempre** mencionar "Zoltan Kodaly 126" como ancla de ubicación.
-- **Nunca** abreviar la dirección a solo "Zona Norte" sin incluir la calle en
-  al menos una instancia por página.
+- **Ubicación de referencia:** Colonia San Simón Tolnahuac, CDMX (Zona Norte). Nunca mencionar número de calle o departamento en el sitio público.
+- **Nunca** proporcionar la dirección exacta públicamente. Solo debe compartirse por WhatsApp tras confirmar la reservación para proteger la privacidad del Host.
 
 ---
 
@@ -161,7 +160,7 @@ Zoltan Kodaly 126, Colonia Vallejo, Alcaldía Gustavo A. Madero, CDMX
 
 - [ ] El tono es cercano, profesional, empático y enfocado en libertad
 - [ ] Aparecen las 4 keywords mandatorias: Sin jaulas · Supervisión 24/7 · Cuidado personalizado · Zona Norte
-- [ ] La colonia mencionada se conecta con Zoltan Kodaly 126
+- [ ] La colonia mencionada se conecta con la Colonia San Simón Tolnahuac
 - [ ] Se usa "lomito(s)" en lugar de "perro(s)" en contexto casual
 - [ ] No hay CTAs genéricos — todos son específicos y emocionales
 - [ ] La marca se escribe como "Paws Club" (con espacio, capitalized)
