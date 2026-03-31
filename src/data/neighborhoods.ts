@@ -8,7 +8,7 @@ export interface Neighborhood {
   slug: string;
   /** Display name of the neighborhood */
   name: string;
-  /** Estimated travel time by car to Sucursal Zona Norte */
+  /** Estimated travel time by car to Paws Club Zona Norte */
   travelTime: string;
   /** Short customer testimonial from this area */
   localReview: string;

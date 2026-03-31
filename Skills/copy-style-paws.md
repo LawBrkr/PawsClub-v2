@@ -95,8 +95,7 @@ Cerrar con un llamado a la acción que incluya el concepto de exclusividad
 Colonia San Simón Tolnahuac, CDMX (Zona Norte)
 ```
 
-- **Ubicación de referencia:** Colonia San Simón Tolnahuac, CDMX (Zona Norte). Nunca mencionar número de calle o departamento en el sitio público.
-- **Nunca** proporcionar la dirección exacta públicamente. Solo debe compartirse por WhatsApp tras confirmar la reservación para proteger la privacidad del Host.
+- Nunca publicar número de calle o departamento. La dirección solo se entrega vía WhatsApp tras confirmación.
 
 ---
 
