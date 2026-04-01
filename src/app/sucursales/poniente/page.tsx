@@ -199,7 +199,7 @@ export default function PonientePage() {
             <div className="mb-8 grid gap-8 lg:grid-cols-2 items-start">
               <div className="rounded-xl bg-amber-50 p-6 border border-amber-200">
                 <h3 className="text-lg font-bold text-amber-800">
-                  🔜 Próximamente · Lista de espera
+                  🔜 Lista de espera
                 </h3>
                 <p className="mt-2 text-sm text-amber-700">
                   Paws Club Poniente se expande. Sé el primero en saberlo.
