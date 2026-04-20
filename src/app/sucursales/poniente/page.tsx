@@ -12,24 +12,21 @@ import {
   Star,
 } from "lucide-react";
 import type { Metadata } from "next";
-import BookingButton from "@/components/BookingButton";
-import statusConfig from "@/config/paws-status.json";
-import PonienteLeadForm from "@/components/PonienteLeadForm";
 
 const branch = BRANCHES.poniente;
 
 export const metadata: Metadata = {
-  title: `${branch.name} — Hotel, Guardería y Adiestramiento Canino | Paws Club`,
-  description: `${branch.name}: hotel boutique sin jaulas, guardería canina y adiestramiento con refuerzo positivo. Zona Polanco, Lomas de Chapultepec, Tecamachalco, Miguel Hidalgo. L-S 7am-8pm.`,
+  title: `Adiestramiento Canino y Paseos en Polanco | ${branch.name}`,
+  description: `${branch.name}: adiestramiento canino con refuerzo positivo y paseos en Polanco, Lomas de Chapultepec y Tecamachalco. Evaluación sin costo. L-S 8am-8pm.`,
   openGraph: {
-    title: `${branch.name} | Paws Club CDMX`,
-    description: `Servicios caninos premium en zona Polanco y Lomas. Hotel desde ${formatPrice(PRICES.hotel.poniente.weekday)}/noche.`,
+    title: `Adiestramiento Canino y Paseos en Polanco | ${branch.name}`,
+    description: `Adiestramiento canino profesional en Polanco y Lomas. Evaluación conductual sin costo. Sesiones 1 a 1 con refuerzo positivo.`,
     images: ["/img/hotel-guarderia-canina-miguel-hidalgo.png"],
   },
 };
 
 const branchServices = SERVICES.filter(
-  (s) => !("exclusiveBranch" in s) || s.exclusiveBranch === branch.id
+  (s) => branch.services.includes(s.id)
 );
 
 export default function PonientePage() {
@@ -54,19 +51,19 @@ export default function PonientePage() {
             {branch.name}
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-white/90">
-            Nuestra sucursal original. Servicios caninos premium en la zona más
-            exclusiva de CDMX: Polanco, Lomas de Chapultepec y Tecamachalco.
+            Adiestramiento canino profesional y paseos en Polanco, Lomas de
+            Chapultepec y Tecamachalco. Evaluación conductual sin costo.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
             <a
               href={SITE.whatsappUrl(
-                "¡Hola! 📍 Deseo unirme a la lista de espera para la sucursal Poniente."
+                "¡Hola! Quiero agendar la evaluación conductual sin costo en la sucursal Poniente."
               )}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full bg-brand px-8 py-4 text-lg font-bold text-white shadow-xl transition-all hover:-translate-y-1 hover:bg-brand-hover hover:shadow-2xl"
             >
-              Lista de Espera
+              Agendar evaluación sin costo
               <ArrowRight className="h-5 w-5" />
             </a>
             <Link
@@ -191,77 +188,36 @@ export default function PonientePage() {
               Servicios en Poniente
             </h2>
             <p className="mt-3 text-lg text-gray-500">
-              Hotel boutique, guardería y adiestramiento canino.
+              Adiestramiento canino profesional y paseos.
             </p>
           </div>
 
-          {(statusConfig.poniente.hotel.full || statusConfig.poniente.guarderia.full) && (
-            <div className="mb-8 grid gap-8 lg:grid-cols-2 items-start">
-              <div className="rounded-xl bg-amber-50 p-6 border border-amber-200">
-                <h3 className="text-lg font-bold text-amber-800">
-                  🔜 Lista de espera
+          <div className="grid gap-6 sm:grid-cols-2">
+            {branchServices.map((s) => (
+              <Link
+                key={s.id}
+                href={`/servicios/${s.slug}`}
+                className="group relative overflow-hidden rounded-2xl bg-white p-6 shadow-sm transition-all hover:shadow-lg"
+              >
+                <span className="text-3xl">{s.icon}</span>
+                <h3 className="mt-4 text-lg font-bold text-gray-900 group-hover:text-brand">
+                  {s.name}
                 </h3>
-                <p className="mt-2 text-sm text-amber-700">
-                  Paws Club Poniente se expande. Sé el primero en saberlo.
-                </p>
-                <p className="mt-2 text-sm text-amber-700">
-                  Mientras tanto, te invitamos a conocer nuestra Experiencia Insignia en la zona Norte, donde aún tenemos espacios disponibles.
-                </p>
-                <Link
-                  href="/sucursales/zona-norte"
-                  className="mt-4 inline-flex items-center gap-2 font-bold text-brand hover:underline"
-                >
-                  Ver disponibilidad en Zona Norte <ArrowRight className="h-4 w-4" />
-                </Link>
-              </div>
-              <PonienteLeadForm />
-            </div>
-          )}
-
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {branchServices.map((s) => {
-              const isFull = s.id === "hotel" || s.id === "guarderia" 
-                ? statusConfig.poniente[s.id as "hotel" | "guarderia"].full 
-                : false;
-              
-              const isAvailable = s.id === "adiestramiento" && !statusConfig.poniente.adiestramiento.full;
-
-              return (
-                <Link
-                  key={s.id}
-                  href={`/servicios/${s.slug}`}
-                  className={`group relative overflow-hidden rounded-2xl bg-white p-6 shadow-sm transition-all hover:shadow-lg ${isFull ? "opacity-75" : ""}`}
-                >
-                  {isFull && (
-                    <div className="absolute right-0 top-0 rounded-bl-xl bg-amber-600 px-4 py-1.5 text-xs font-bold text-white shadow-md">
-                      🔜 PRÓXIMAMENTE
-                    </div>
-                  )}
-                  {isAvailable && (
-                    <div className="absolute right-0 top-0 rounded-bl-xl bg-green-600 px-4 py-1.5 text-xs font-bold text-white shadow-md">
-                      ✅ DISPONIBLE
-                    </div>
-                  )}
-                  <span className="text-3xl">{s.icon}</span>
-                  <h3 className="mt-4 text-lg font-bold text-gray-900 group-hover:text-brand">
-                    {s.name}
-                  </h3>
-                  <p className="mt-2 text-sm text-gray-500">{s.tagline}</p>
-                  <ul className="mt-4 space-y-2">
-                    {s.features.slice(0, 3).map((f) => (
-                      <li key={f} className="flex items-start gap-2 text-xs text-gray-600">
-                        <CheckCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-brand" />
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
-                  <span className={`mt-4 inline-flex items-center gap-1 text-sm font-semibold ${isFull ? "text-red-600 hover:text-red-700 hover:underline" : "text-brand"}`}>
-                    {isFull ? "Unirse a la lista de espera" : "Ver detalles y precios"}
-                    <ArrowRight className="h-4 w-4" />
-                  </span>
-                </Link>
-              );
-            })}
+                <p className="mt-2 text-sm text-gray-500">{s.tagline}</p>
+                <ul className="mt-4 space-y-2">
+                  {s.features.slice(0, 3).map((f) => (
+                    <li key={f} className="flex items-start gap-2 text-xs text-gray-600">
+                      <CheckCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-brand" />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand">
+                  Ver detalles y precios
+                  <ArrowRight className="h-4 w-4" />
+                </span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
@@ -290,55 +246,64 @@ export default function PonientePage() {
               <tbody className="divide-y divide-gray-50">
                 <tr>
                   <td className="px-6 py-4 text-sm text-gray-700">
-                    🏨 Hotel (L-S)
-                  </td>
-                  <td className="px-6 py-4 text-right text-sm font-bold text-gray-900">
-                    {formatPrice(PRICES.hotel.poniente.weekday)}
-                  </td>
-                  <td className="px-6 py-4 text-right text-xs text-gray-400">
-                    por noche
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-6 py-4 text-sm text-gray-700">
-                    🏨 Hotel (Domingo)
-                  </td>
-                  <td className="px-6 py-4 text-right text-sm font-bold text-gray-900">
-                    {formatPrice(PRICES.hotel.poniente.sunday)}
-                  </td>
-                  <td className="px-6 py-4 text-right text-xs text-gray-400">
-                    por noche
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-6 py-4 text-sm text-gray-700">
-                    ☀️ Guardería
-                  </td>
-                  <td className="px-6 py-4 text-right text-sm font-bold text-gray-900">
-                    {formatPrice(PRICES.guarderia.poniente)}
-                  </td>
-                  <td className="px-6 py-4 text-right text-xs text-gray-400">
-                    por día
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-6 py-4 text-sm text-gray-700">
-                    🎓 Adiestramiento
+                    🎓 Obediencia Básica
                   </td>
                   <td className="px-6 py-4 text-right text-sm font-bold text-gray-900">
                     {formatPrice(PRICES.adiestramiento.poniente)}
                   </td>
                   <td className="px-6 py-4 text-right text-xs text-gray-400">
-                    paquete 4 sesiones
+                    4 sesiones
+                  </td>
+                </tr>
+                <tr>
+                  <td className="px-6 py-4 text-sm text-gray-700">
+                    🎓 Cachorro Pro
+                  </td>
+                  <td className="px-6 py-4 text-right text-sm font-bold text-gray-900">
+                    {formatPrice(PRICES.adiestramiento.paquetes.cachorroPro.poniente)}
+                  </td>
+                  <td className="px-6 py-4 text-right text-xs text-gray-400">
+                    8 sesiones a domicilio
+                  </td>
+                </tr>
+                <tr>
+                  <td className="px-6 py-4 text-sm text-gray-700">
+                    🎓 Adiós Ansiedad
+                  </td>
+                  <td className="px-6 py-4 text-right text-sm font-bold text-gray-900">
+                    {formatPrice(PRICES.adiestramiento.paquetes.adiosAnsiedad.poniente)}
+                  </td>
+                  <td className="px-6 py-4 text-right text-xs text-gray-400">
+                    10 sesiones a domicilio
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
           <p className="mt-4 text-center text-xs text-gray-400">
-            Todos los servicios incluyen supervisión, reportes diarios y
-            limpieza premium.
+            Todas las sesiones son 1 a 1 e incluyen evaluación conductual, plan
+            personalizado y acompañamiento post-sesión.
           </p>
+
+          {/* Redirect Hotel/Guardería */}
+          <div className="mt-12 rounded-2xl border border-brand/20 bg-brand/5 p-8 text-center">
+            <h3 className="text-xl font-bold text-gray-900">
+              ¿Hotel o guardería en Polanco?
+            </h3>
+            <p className="mt-3 text-sm text-gray-600">
+              Nuestros servicios de hotel y guardería canina operan exclusivamente
+              en Zona Norte (Santa María la Ribera, Lindavista, San Rafael y
+              colonias cercanas), donde contamos con las instalaciones adecuadas
+              y cupo controlado.
+            </p>
+            <Link
+              href="/sucursales/zona-norte"
+              className="mt-6 inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-bold text-white transition-all hover:bg-brand-hover"
+            >
+              Ver Hotel y Guardería en Zona Norte
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -375,29 +340,29 @@ export default function PonientePage() {
       <section className="bg-brand py-20 text-center text-white">
         <div className="mx-auto max-w-3xl px-4">
           <h2 className="text-3xl font-extrabold md:text-4xl">
-            ¿Vives en zona Poniente?
+            ¿Vives en Polanco o Lomas?
           </h2>
           <p className="mt-4 text-lg text-white/90">
-            Agenda una visita para conocer nuestras instalaciones. La prueba de
-            socialización es gratuita.
+            Agenda la evaluación conductual sin costo. 45 minutos, sin
+            compromiso.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
               href={SITE.whatsappUrl(
-                "¡Hola! 📍 Deseo unirme a la lista de espera para la sucursal Poniente."
+                "¡Hola! Quiero agendar la evaluación conductual sin costo en la sucursal Poniente."
               )}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-bold text-brand shadow-xl transition-all hover:-translate-y-1 hover:shadow-2xl"
             >
-              Lista de Espera
+              Agendar evaluación sin costo
               <ArrowRight className="h-5 w-5" />
             </a>
             <Link
               href="/sucursales/zona-norte"
               className="inline-flex items-center gap-2 text-lg font-semibold text-white/90 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white"
             >
-              También estamos en Zona Norte →
+              Hotel y Guardería en Zona Norte →
             </Link>
           </div>
         </div>

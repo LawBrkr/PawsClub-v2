@@ -1,63 +1,109 @@
 import Image from "next/image";
 import Link from "next/link";
-import { SITE, PRICES, BRANCHES, SERVICES } from "@/lib/constants";
+import { SITE, PRICES } from "@/lib/constants";
 import { formatPrice } from "@/lib/utils";
 import {
   ArrowRight,
   CheckCircle,
-  Award,
+  ClipboardCheck,
   Brain,
   Heart,
   Home,
   Users,
   Target,
+  Shield,
+  Phone,
+  Star,
+  Stethoscope,
 } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Adiestramiento Canino con Refuerzo Positivo | Paws Club CDMX",
+  title:
+    "Adiestramiento Canino en Polanco y Lomas — Evaluación Sin Costo | Paws Club",
   description:
-    "Adiestramiento canino profesional en CDMX con refuerzo positivo. Obediencia básica, modificación de conducta y sesiones individuales. Paquetes desde $2,950 en Zona Norte.",
+    "Adiestramiento canino con refuerzo positivo en Polanco y Lomas de Chapultepec. Diagnóstico conductual de 16 puntos, resultados medibles, sesiones 1 a 1. Evaluación sin costo (valor $850).",
   openGraph: {
-    title: "Adiestramiento Canino con Refuerzo Positivo | Paws Club CDMX",
+    title:
+      "Adiestramiento Canino en Polanco y Lomas — Evaluación Sin Costo | Paws Club",
     description:
-      "Mejora la comunicación con tu perro. Clases individuales con métodos positivos.",
+      "Diagnóstico conductual de 16 puntos antes de cualquier plan. Resultados medibles desde la primera semana. Evaluación sin costo.",
     images: ["/img/training.webp"],
   },
 };
 
-const service = SERVICES.find((s) => s.id === "adiestramiento")!;
-
-const DETAILS = [
+/* ─── Casos anonimizados ─── */
+const CASES = [
   {
-    icon: <Heart aria-hidden="true" className="h-6 w-6 text-brand" />,
-    title: "Refuerzo Positivo",
-    desc: "Entrenamos con motivación, nunca con castigo. Tu perro aprende porque quiere, no porque teme.",
+    title: "Cachorro que mordía todo",
+    before: "Golden de 4 meses destruyendo muebles y mordiendo manos.",
+    after: "Resuelto en 4 sesiones con protocolo de redireccionamiento.",
+    sessions: 4,
+  },
+  {
+    title: "Perro que jalaba la correa",
+    before: "Labrador de 2 años que arrastraba a su dueña en cada paseo.",
+    after: "Camina con correa suelta en 3 sesiones.",
+    sessions: 3,
+  },
+  {
+    title: "Perro sin obediencia",
+    before: "Mestizo de 1 año que no respondía a ningún comando.",
+    after: "Ejecuta sit, down, stay y recall en 6 semanas.",
+    sessions: 8,
+  },
+];
+
+/* ─── Perfiles de cliente ─── */
+const PROFILES = [
+  {
+    icon: <Heart aria-hidden="true" className="h-6 w-6 text-accent-orange" />,
+    title: "Primerizo con cachorro",
+    desc: "Es tu primer perro y quieres empezar con las bases correctas desde el día uno.",
+  },
+  {
+    icon: <Brain aria-hidden="true" className="h-6 w-6 text-accent-orange" />,
+    title: "Perro que ignoró entrenamiento",
+    desc: "Ya intentaste clases grupales o tips de internet y nada funcionó. Necesitas un diagnóstico real.",
+  },
+  {
+    icon: <Users aria-hidden="true" className="h-6 w-6 text-accent-orange" />,
+    title: "Dueño sin tiempo que delega",
+    desc: "Tu agenda no te permite ir a clases. Hacemos las sesiones a domicilio, incluso sin que estés presente.",
+  },
+];
+
+/* ─── Enfoque clínico ─── */
+const CLINICAL = [
+  {
+    icon: <ClipboardCheck aria-hidden="true" className="h-6 w-6 text-brand" />,
+    title: "Diagnóstico de 16 Puntos",
+    desc: "Evaluamos reactividad, socialización, umbral de estrés, relación con el tutor y 12 variables más antes de diseñar cualquier plan.",
   },
   {
     icon: <Brain aria-hidden="true" className="h-6 w-6 text-brand" />,
-    title: "Modificación de Conducta",
-    desc: "Ladrido excesivo, ansiedad por separación, reactividad. Trabajamos las raíces del comportamiento mediante sesiones de desensibilización sistemática.",
+    title: "Escalas Dunbar y BCS",
+    desc: "Usamos escalas validadas internacionalmente para medir nivel de mordida, socialización y progreso objetivo sesión a sesión.",
   },
   {
-    icon: <Award aria-hidden="true" className="h-6 w-6 text-brand" />,
-    title: "Obediencia Básica y Avanzada",
-    desc: "Sentado, echado, ven, quieto, caminar con correa. De lo fundamental a la disciplina avanzada.",
+    icon: <Heart aria-hidden="true" className="h-6 w-6 text-brand" />,
+    title: "Refuerzo Positivo Exclusivo",
+    desc: "Entrenamos con motivación, nunca con castigo. Cero collares de castigo, cero e-collars. Tu perro aprende porque quiere.",
+  },
+  {
+    icon: <Stethoscope aria-hidden="true" className="h-6 w-6 text-brand" />,
+    title: "Red de Derivación Clínica",
+    desc: "Si detectamos un caso médico-conductual, derivamos a Hospital DELTA, PetBalance o UNAM HVE-FSEC. No improvisamos con la salud de tu perro.",
   },
   {
     icon: <Home aria-hidden="true" className="h-6 w-6 text-brand" />,
-    title: "En Casa o a Domicilio",
-    desc: "Las sesiones pueden ser en nuestras instalaciones o en tu hogar, donde tu perro tiene sus hábitos y rutinas.",
-  },
-  {
-    icon: <Users aria-hidden="true" className="h-6 w-6 text-brand" />,
-    title: "Perros Mentor",
-    desc: "Usamos perros equilibrados como modelos de conducta. Aprenden más rápido con el ejemplo de un par.",
+    title: "En Instalaciones o a Domicilio",
+    desc: "Las sesiones pueden ser en nuestro centro o en tu hogar, donde tu perro tiene sus hábitos reales.",
   },
   {
     icon: <Target aria-hidden="true" className="h-6 w-6 text-brand" />,
-    title: "Plan Integral",
-    desc: "Cada perro es único. Diseñamos un plan de desarrollo conductual según su temperamento y contexto.",
+    title: "Perros Mentor",
+    desc: "Usamos perros equilibrados como modelos de conducta. Aprenden más rápido con el ejemplo de un par.",
   },
 ];
 
@@ -65,45 +111,51 @@ const PROGRAMS = [
   {
     name: "Obediencia Básica",
     desc: "Comunicación efectiva y fundamentos. Ideal para perros sin instrucción previa.",
-    sessions: "4 sesiones introductorias",
-  },
-  {
-    name: "Modificación de Conducta",
-    desc: "Abordaje de reactividad o ladrido mediante protocolos de habituación.",
-    sessions: "4-8 sesiones según diagnóstico",
+    sessions: "4 sesiones",
+    pricePoniente: PRICES.adiestramiento.poniente,
+    priceZonaNorte: PRICES.adiestramiento.zonaNorte,
   },
   {
     name: "Cachorro Pro",
-    desc: "Socialización temprana, prevención de problemas a futuro y establecimiento de reglas en el hogar.",
+    desc: "Socialización temprana, prevención de problemas y reglas en el hogar. Nuestro programa estrella para cachorros de 2 a 8 meses.",
     sessions: "8 sesiones a domicilio",
+    pricePoniente: PRICES.adiestramiento.paquetes.cachorroPro.poniente,
+    priceZonaNorte: PRICES.adiestramiento.paquetes.cachorroPro.zonaNorte,
+    highlight: true,
   },
   {
     name: "Adiós Ansiedad",
-    desc: "Protocolo gradual con sesiones de desensibilización para episodios de pánico o fijación.",
+    desc: "Protocolo gradual de desensibilización para ansiedad por separación, reactividad y fobias.",
     sessions: "10 sesiones a domicilio",
+    pricePoniente: PRICES.adiestramiento.paquetes.adiosAnsiedad.poniente,
+    priceZonaNorte: PRICES.adiestramiento.paquetes.adiosAnsiedad.zonaNorte,
   },
 ];
 
 const FAQS = [
   {
-    q: "¿Cuántas sesiones necesita mi perro?",
-    a: "El paquete base es de 4 sesiones. Para modificación de conducta pueden necesitarse 4 a 8 sesiones dependiendo del caso. En la primera sesión evaluamos y te damos un estimado.",
+    q: "¿Cómo es la evaluación sin costo?",
+    a: "Es una sesión de 45 minutos donde aplicamos nuestro diagnóstico de 16 puntos. Evaluamos temperamento, reactividad, socialización, relación con el tutor y más. Al terminar te entregamos un plan con recomendaciones claras, sin compromiso.",
   },
   {
     q: "¿A partir de qué edad se puede adiestrar?",
-    a: "Desde los 3-4 meses ya se pueden empezar ejercicios básicos de obediencia. No hay límite de edad: perros adultos y senior también aprenden.",
+    a: "Desde los 2-3 meses ya se pueden empezar ejercicios de habituación y obediencia básica. No hay límite de edad: perros adultos y senior también aprenden.",
   },
   {
     q: "¿Puedo estar presente en las sesiones?",
-    a: "Sí, de hecho es recomendable. Parte del entrenamiento es enseñarte a ti cómo comunicarte mejor con tu perro.",
+    a: "Sí, de hecho es recomendable. Parte del entrenamiento es enseñarte a ti cómo comunicarte mejor con tu perro. Pero si tu agenda no lo permite, también trabajamos sin que estés presente.",
   },
   {
     q: "¿Funciona con perros agresivos?",
-    a: "Trabajamos con reactividad y agresividad bajo un protocolo seguro. En la evaluación inicial determinamos el mejor enfoque para cada caso.",
+    a: "Trabajamos con reactividad y agresividad bajo protocolo seguro con escalas Dunbar. Si detectamos un caso médico-conductual, derivamos a nuestra red clínica (Hospital DELTA, PetBalance, UNAM HVE-FSEC).",
   },
   {
     q: "¿Las sesiones son individuales?",
-    a: "Sí, todas las sesiones son 1 a 1 (un entrenador + un perro + su dueño). No son clases grupales.",
+    a: "Sí, todas las sesiones son 1 a 1 (un entrenador + un perro + su tutor). No son clases grupales.",
+  },
+  {
+    q: "¿Qué pasa si no veo resultados?",
+    a: "Si no ves cambios medibles en 2 sesiones, seguimos trabajando sin costo adicional hasta que los haya. Medimos progreso con escalas objetivas, no con promesas vagas.",
   },
 ];
 
@@ -111,61 +163,126 @@ export default function AdiestramientoPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative flex min-h-[60vh] items-end md:items-center overflow-hidden">
+      <section className="relative flex min-h-[65vh] items-end md:items-center overflow-hidden">
         <Image
           src="/img/training.webp"
-          alt="Adiestramiento canino con refuerzo positivo en Paws Club"
+          alt="Adiestramiento canino con refuerzo positivo en Polanco — Paws Club"
           fill
           className="object-cover object-bottom"
           priority
           quality={85}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/30" />
         <div className="relative z-10 mx-auto w-full max-w-7xl px-4 py-20 lg:px-8">
-          <span className="mb-4 inline-block rounded-full bg-brand/90 px-4 py-1.5 text-sm font-semibold text-white">
-            {service.icon} {service.name}
-          </span>
+          <div className="mb-4 flex items-center gap-2">
+            <div className="flex">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star
+                  key={i}
+                  className="h-5 w-5 fill-yellow-400 text-yellow-400"
+                />
+              ))}
+            </div>
+            <span className="text-sm font-semibold text-white">
+              {SITE.googleRating}/5 en Google ({SITE.googleReviewCount}+ reseñas)
+            </span>
+          </div>
           <h1 className="max-w-3xl text-4xl font-extrabold leading-tight text-white md:text-5xl lg:text-6xl">
-            {service.tagline}
+            Tu perro aprende bien
+            <br />
+            <span className="text-accent-orange">desde el inicio.</span>
           </h1>
-          <p className="mt-4 max-w-2xl text-lg text-white/90">
-            {service.description}
+          <p className="mt-4 max-w-2xl text-xl text-white/90">
+            Adiestramiento para hogares primerizos en Polanco y Lomas.
+            Diagnóstico de 16 puntos antes de cualquier plan. Evaluación sin
+            costo, resultados medibles.
           </p>
-          <div className="mt-8 flex flex-wrap gap-4">
+          <div className="mt-8 flex flex-col gap-4 sm:flex-row">
             <a
               href={SITE.whatsappUrl(
-                "¡Hola! 🎓 Necesito ayuda con el comportamiento de mi perro. ¿Me dan informes del adiestramiento?"
+                "¡Hola! Quiero agendar la evaluación conductual sin costo para mi perro."
               )}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-brand px-8 py-4 text-lg font-bold text-white shadow-xl transition-all hover:-translate-y-1 hover:bg-brand-hover hover:shadow-2xl"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-green-500 px-8 py-4 text-lg font-bold text-white shadow-2xl transition-all hover:-translate-y-1 hover:bg-green-600"
             >
-              Solicitar evaluación
-              <ArrowRight aria-hidden="true" className="h-5 w-5" />
+              <Phone className="h-5 w-5" />
+              Agendar evaluación sin costo
             </a>
             <Link
               href="#precios"
-              className="inline-flex items-center gap-2 rounded-full border-2 border-white/80 px-8 py-4 text-lg font-bold text-white backdrop-blur-sm transition-all hover:bg-white/10"
+              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/80 px-8 py-4 text-lg font-bold text-white backdrop-blur-sm transition-all hover:bg-white/10"
             >
-              Ver precios
+              Ver programas y precios
             </Link>
+          </div>
+          <p className="mt-3 text-sm text-white/60">
+            Valor de la evaluación: $850 — sin costo para nuevos clientes
+          </p>
+        </div>
+      </section>
+
+      {/* Trust Badges */}
+      <section className="border-b border-gray-100 py-8">
+        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-center gap-8 px-4">
+          {[
+            { icon: <ClipboardCheck className="h-6 w-6 text-brand" />, text: "Diagnóstico de 16 puntos" },
+            { icon: <Shield className="h-6 w-6 text-brand" />, text: "Refuerzo positivo exclusivo" },
+            { icon: <Users className="h-6 w-6 text-brand" />, text: "Sesiones 1 a 1" },
+            { icon: <Target className="h-6 w-6 text-brand" />, text: "Resultados medibles" },
+          ].map((badge) => (
+            <div key={badge.text} className="flex items-center gap-2">
+              {badge.icon}
+              <span className="text-sm font-semibold text-gray-700">
+                {badge.text}
+              </span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ¿Para quién es? */}
+      <section className="py-20">
+        <div className="mx-auto max-w-5xl px-4 lg:px-8">
+          <div className="mb-12 text-center">
+            <h2 className="text-3xl font-extrabold text-gray-900 md:text-4xl">
+              ¿Para quién es?
+            </h2>
+            <p className="mt-3 text-lg text-gray-500">
+              Diseñado para hogares que quieren empezar bien o corregir el rumbo.
+            </p>
+          </div>
+          <div className="grid gap-8 md:grid-cols-3">
+            {PROFILES.map((p) => (
+              <div
+                key={p.title}
+                className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition-all hover:shadow-md"
+              >
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-accent-orange/10">
+                  {p.icon}
+                </div>
+                <h3 className="text-lg font-bold text-gray-900">{p.title}</h3>
+                <p className="mt-2 text-sm text-gray-500">{p.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Features Grid */}
-      <section className="py-20">
+      {/* Autoridad Clínica */}
+      <section className="bg-gray-50 py-20">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           <div className="mb-12 text-center">
             <h2 className="text-3xl font-extrabold text-gray-900 md:text-4xl">
-              Nuestro Enfoque
+              Nuestro Enfoque Clínico
             </h2>
             <p className="mt-3 text-lg text-gray-500">
-              Entrenamiento basado en ciencia, motivación y respeto.
+              Protocolo de admisión riguroso. Escalas validadas. Red de
+              derivación profesional.
             </p>
           </div>
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {DETAILS.map((d) => (
+            {CLINICAL.map((d) => (
               <div
                 key={d.title}
                 className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition-all hover:shadow-md"
@@ -181,26 +298,59 @@ export default function AdiestramientoPage() {
         </div>
       </section>
 
-      {/* Programs */}
-      <section className="bg-gray-50 py-20">
+      {/* Casos Reales */}
+      <section className="py-20">
         <div className="mx-auto max-w-5xl px-4 lg:px-8">
-          <h2 className="mb-10 text-center text-3xl font-extrabold text-gray-900">
-            Programas de Entrenamiento
-          </h2>
-          <div className="grid gap-6 sm:grid-cols-2">
-            {PROGRAMS.map((p) => (
+          <div className="mb-12 text-center">
+            <h2 className="text-3xl font-extrabold text-gray-900 md:text-4xl">
+              Resultados Reales
+            </h2>
+            <p className="mt-3 text-lg text-gray-500">
+              Casos anonimizados de clientes reales. Resultados medidos con
+              escalas objetivas.
+            </p>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            {CASES.map((c) => (
               <div
-                key={p.name}
-                className="rounded-2xl bg-white p-6 shadow-sm"
+                key={c.title}
+                className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm"
               >
-                <h3 className="text-lg font-bold text-gray-900">{p.name}</h3>
-                <p className="mt-2 text-sm text-gray-500">{p.desc}</p>
-                <p className="mt-3 text-xs font-semibold text-brand">
-                  {p.sessions}
+                <h3 className="text-lg font-bold text-gray-900">{c.title}</h3>
+                <div className="mt-4 space-y-3">
+                  <div className="rounded-lg bg-red-50 p-3">
+                    <span className="text-xs font-bold uppercase text-red-600">
+                      Antes
+                    </span>
+                    <p className="mt-1 text-sm text-gray-600">{c.before}</p>
+                  </div>
+                  <div className="rounded-lg bg-green-50 p-3">
+                    <span className="text-xs font-bold uppercase text-green-600">
+                      Después
+                    </span>
+                    <p className="mt-1 text-sm text-gray-600">{c.after}</p>
+                  </div>
+                </div>
+                <p className="mt-4 text-center text-xs font-bold text-brand">
+                  {c.sessions} sesiones
                 </p>
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Garantía */}
+      <section className="bg-cream py-16">
+        <div className="mx-auto max-w-3xl px-4 text-center">
+          <Shield className="mx-auto h-12 w-12 text-brand" />
+          <h2 className="mt-4 text-3xl font-extrabold text-gray-900">
+            Nuestra Garantía
+          </h2>
+          <p className="mt-4 text-lg text-gray-600">
+            Si no ves cambios medibles en 2 sesiones, seguimos trabajando sin
+            costo adicional. Medimos con escalas objetivas, no con promesas.
+          </p>
         </div>
       </section>
 
@@ -209,194 +359,112 @@ export default function AdiestramientoPage() {
         <div className="mx-auto max-w-5xl px-4 lg:px-8">
           <div className="mb-12 text-center">
             <h2 className="text-3xl font-extrabold text-gray-900 md:text-4xl">
-              Planes y Precios
+              Programas y Precios
             </h2>
             <p className="mt-3 text-lg text-gray-500">
-              Mismo método, precio proporcional por zona de cobertura.
+              La evaluación sin costo es siempre el primer paso. Después,
+              elegimos juntos el programa correcto.
             </p>
           </div>
 
-          <div className="space-y-12">
-            {/* Base Package */}
-            <div>
-              <h3 className="mb-6 text-center text-2xl font-bold text-gray-900">
-                Obediencia Básica / Modificación (4 Sesiones)
-              </h3>
-              <div className="grid gap-8 md:grid-cols-2">
-                {/* Poniente */}
-                <div className="rounded-2xl border-2 border-gray-200 bg-white p-8 shadow-sm">
-                  <h3 className="text-xl font-bold text-gray-900">
-                    {BRANCHES.poniente.name}
-                  </h3>
-                  <p className="mt-1 text-sm text-gray-500">
-                    Polanco · Lomas · Tecamachalco
-                  </p>
-                  <div className="mt-6">
-                    <span className="text-3xl font-extrabold text-gray-900">
-                      {formatPrice(PRICES.adiestramiento.poniente)}
-                    </span>
-                    <span className="text-sm font-normal text-gray-400">
-                      {" "}
-                      / paquete
-                    </span>
-                  </div>
-                  <p className="mt-2 text-xs text-gray-400">
-                    Equivale a{" "}
-                    {formatPrice(Math.round(PRICES.adiestramiento.poniente / 4))}{" "}
-                    por sesión
-                  </p>
-                  <a
-                    href={SITE.whatsappUrl(
-                      "¡Hola! 🎓 Necesito ayuda con el comportamiento de mi perro. Me interesa la sucursal Poniente."
-                    )}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-6 block rounded-full bg-brand py-3 text-center text-sm font-semibold text-white transition-all hover:bg-brand-hover"
-                  >
-                    Agendar en Poniente
-                  </a>
-                </div>
-
-                {/* Zona Norte */}
-                <div className="relative rounded-2xl border-2 border-brand bg-white p-8 shadow-lg">
-                  <span className="absolute -top-3 right-6 rounded-full bg-accent-orange px-3 py-1 text-xs font-bold text-white">
-                    Mejor precio
+          <div className="space-y-6">
+            {PROGRAMS.map((p) => (
+              <div
+                key={p.name}
+                className={`flex flex-col gap-6 rounded-2xl border bg-white p-6 shadow-sm transition-all hover:shadow-md md:flex-row md:items-center ${
+                  p.highlight
+                    ? "border-brand ring-1 ring-brand/20"
+                    : "border-gray-200"
+                }`}
+              >
+                {p.highlight && (
+                  <span className="absolute -top-3 right-6 hidden rounded-full bg-accent-orange px-3 py-1 text-xs font-bold text-white md:block">
+                    Recomendado
                   </span>
-                  <h3 className="text-xl font-bold text-gray-900">
-                    {BRANCHES["zona-norte"].name}
-                  </h3>
-                  <p className="mt-1 text-sm text-gray-500">
-                    Lindavista · Sta. María la Ribera · Tlatelolco
+                )}
+                <div className="flex-1">
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-xl font-extrabold text-gray-900">
+                      {p.name}
+                    </h3>
+                    {p.highlight && (
+                      <span className="rounded-full bg-accent-orange/10 px-2 py-0.5 text-xs font-bold text-accent-orange md:hidden">
+                        Recomendado
+                      </span>
+                    )}
+                  </div>
+                  <p className="mt-2 text-sm text-gray-500">{p.desc}</p>
+                  <p className="mt-1 text-xs font-semibold text-brand">
+                    {p.sessions}
                   </p>
-                  <div className="mt-6">
-                    <span className="text-3xl font-extrabold text-brand">
-                      {formatPrice(PRICES.adiestramiento.zonaNorte)}
+                </div>
+                <div className="flex w-full shrink-0 flex-col gap-3 md:w-[320px]">
+                  <div className="flex items-center justify-between rounded-xl border border-brand/20 bg-brand/5 p-4">
+                    <span className="text-xs font-bold uppercase tracking-wider text-brand">
+                      Poniente
                     </span>
-                    <span className="text-sm font-normal text-gray-400">
-                      {" "}
-                      / paquete
+                    <span className="text-lg font-extrabold text-brand">
+                      {formatPrice(p.pricePoniente)}
                     </span>
                   </div>
-                  <p className="mt-2 text-xs text-gray-400">
-                    Equivale a{" "}
-                    {formatPrice(
-                      Math.round(PRICES.adiestramiento.zonaNorte / 4)
-                    )}{" "}
-                    por sesión
-                  </p>
+                  <div className="flex items-center justify-between rounded-xl border border-gray-100 bg-gray-50 p-4">
+                    <div>
+                      <span className="text-xs font-bold uppercase tracking-wider text-gray-500">
+                        Zona Norte
+                      </span>
+                      <span className="ml-2 text-[10px] text-gray-400">
+                        casos básicos
+                      </span>
+                    </div>
+                    <span className="text-lg font-bold text-gray-700">
+                      {formatPrice(p.priceZonaNorte)}
+                    </span>
+                  </div>
                   <a
                     href={SITE.whatsappUrl(
-                      "¡Hola! 🎓 Necesito ayuda con el comportamiento de mi perro. Me interesa la sucursal Zona Norte."
+                      `¡Hola! Me interesa el programa ${p.name} de adiestramiento. ¿Puedo agendar la evaluación sin costo?`
                     )}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-6 block rounded-full bg-brand py-3 text-center text-sm font-semibold text-white transition-all hover:bg-brand-hover"
+                    className="mt-1 block w-full rounded-full bg-brand py-3 text-center text-sm font-semibold text-white transition-all hover:bg-brand-hover"
                   >
-                    Agendar en Zona Norte
+                    Agendar evaluación
                   </a>
                 </div>
               </div>
-            </div>
-
-            {/* Specialized Packages (Stackable Cards) */}
-            <div>
-              <h3 className="mb-6 text-center text-2xl font-bold text-gray-900">
-                Programas Especializados (A Domicilio)
-              </h3>
-              <div className="flex flex-col gap-6">
-                {/* Cachorro Pro */}
-                <div className="flex flex-col gap-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-all hover:shadow-md md:flex-row md:items-center">
-                  <div className="flex-1">
-                    <h4 className="text-xl font-extrabold text-gray-900">Cachorro Pro (8 Sesiones)</h4>
-                    <p className="mt-2 text-sm text-gray-500">
-                      Prevención de problemas de conducta, habituación al entorno y obediencia temprana en el hogar.
-                    </p>
-                  </div>
-                  <div className="flex w-full shrink-0 flex-col gap-3 md:w-[320px]">
-                    <div className="flex items-center justify-between rounded-xl border border-brand/20 bg-brand/5 p-4">
-                      <span className="text-xs font-bold uppercase tracking-wider text-brand">Zona Norte</span>
-                      <span className="text-lg font-extrabold text-brand">{formatPrice(PRICES.adiestramiento.paquetes.cachorroPro.zonaNorte)}</span>
-                    </div>
-                    <div className="flex items-center justify-between rounded-xl border border-gray-100 bg-gray-50 p-4">
-                      <span className="text-xs font-bold uppercase tracking-wider text-gray-500">Poniente</span>
-                      <span className="text-lg font-bold text-gray-900">{formatPrice(PRICES.adiestramiento.paquetes.cachorroPro.poniente)}</span>
-                    </div>
-                    {/* TODO: Vincular flujo dinámico de Cal.com cuando se agreguen los IDs al .env */}
-                    <a
-                      href={SITE.whatsappUrl(
-                        "¡Hola! 🎓 Me interesa coordinar el programa Cachorro Pro a domicilio para mi perrito."
-                      )}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-2 block w-full rounded-full bg-brand py-3 text-center text-sm font-semibold text-white transition-all hover:bg-brand-hover"
-                    >
-                      Agendar Cachorro Pro
-                    </a>
-                  </div>
-                </div>
-
-                {/* Adiós Ansiedad */}
-                <div className="flex flex-col gap-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-all hover:shadow-md md:flex-row md:items-center">
-                  <div className="flex-1">
-                    <h4 className="text-xl font-extrabold text-gray-900">Adiós Ansiedad (10 Sesiones)</h4>
-                    <p className="mt-2 text-sm text-gray-500">
-                      Protocolo gradual mediante sesiones de desensibilización sistemática para ansiedad por separación y reactividad.
-                    </p>
-                  </div>
-                  <div className="flex w-full shrink-0 flex-col gap-3 md:w-[320px]">
-                    <div className="flex items-center justify-between rounded-xl border border-brand/20 bg-brand/5 p-4">
-                      <span className="text-xs font-bold uppercase tracking-wider text-brand">Zona Norte</span>
-                      <span className="text-lg font-extrabold text-brand">{formatPrice(PRICES.adiestramiento.paquetes.adiosAnsiedad.zonaNorte)}</span>
-                    </div>
-                    <div className="flex items-center justify-between rounded-xl border border-gray-100 bg-gray-50 p-4">
-                      <span className="text-xs font-bold uppercase tracking-wider text-gray-500">Poniente</span>
-                      <span className="text-lg font-bold text-gray-900">{formatPrice(PRICES.adiestramiento.paquetes.adiosAnsiedad.poniente)}</span>
-                    </div>
-                    {/* TODO: Vincular flujo dinámico de Cal.com cuando se agreguen los IDs al .env */}
-                    <a
-                      href={SITE.whatsappUrl(
-                        "¡Hola! 🎓 Me interesa coordinar el programa Adiós Ansiedad a domicilio para mi perrito."
-                      )}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-2 block w-full rounded-full bg-brand py-3 text-center text-sm font-semibold text-white transition-all hover:bg-brand-hover"
-                    >
-                      Agendar Adiós Ansiedad
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
 
           <p className="mt-10 text-center text-sm text-gray-400">
-            Cada sesión es 1 a 1 (1 especialista + 1 perro). Incluye programa de desarrollo conductual.
-          </p>
-          <p className="mt-2 text-center text-xs font-bold text-gray-400/80">
-            Paws Club es una marca registrada.
+            Cada sesión es 1 a 1 (1 especialista + 1 perro). Incluye diagnóstico
+            conductual, plan personalizado y acompañamiento post-sesión vía
+            WhatsApp.
           </p>
         </div>
       </section>
 
       {/* What's Included */}
-      <section className="bg-cream py-20">
+      <section className="bg-gray-50 py-20">
         <div className="mx-auto max-w-4xl px-4 lg:px-8">
           <h2 className="mb-8 text-center text-3xl font-extrabold text-gray-900">
-            ¿Qué incluye el paquete?
+            ¿Qué incluye cada programa?
           </h2>
           <div className="grid gap-3 sm:grid-cols-2">
             {[
-              "Sesiones 1 a 1 con especialista",
-              "Evaluación conductual inicial exhaustiva",
-              "Programa estructurado de deconstrucción de malos hábitos",
+              "Evaluación conductual de 16 puntos sin costo",
+              "Sesiones 1 a 1 con especialista certificado",
+              "Plan personalizado según temperamento y contexto",
               "Incorporación de perros mentor (sujeto a perfil)",
-              "Manual de mantenimiento para los tutores",
-              "Acompañamiento post-sesión vía conciergerie (WhatsApp)",
-              "Flexibilidad de sede (Instalaciones o Domicilio)",
-              "Reporte ejecutivo de avances",
+              "Manual de mantenimiento para tutores",
+              "Acompañamiento post-sesión vía WhatsApp",
+              "Flexibilidad de sede (instalaciones o domicilio)",
+              "Reporte ejecutivo de avances por sesión",
             ].map((item) => (
               <div key={item} className="flex items-center gap-3 py-2">
-                <CheckCircle aria-hidden="true" className="h-5 w-5 shrink-0 text-brand" />
+                <CheckCircle
+                  aria-hidden="true"
+                  className="h-5 w-5 shrink-0 text-brand"
+                />
                 <span className="text-sm text-gray-700">{item}</span>
               </div>
             ))}
@@ -433,31 +501,30 @@ export default function AdiestramientoPage() {
       <section className="bg-brand py-20 text-center text-white">
         <div className="mx-auto max-w-3xl px-4">
           <h2 className="text-3xl font-extrabold md:text-4xl">
-            ¿Tu perro necesita entrenamiento?
+            El primer paso es la evaluación.
+            <br />
+            Sin costo. Sin compromiso.
           </h2>
           <p className="mt-4 text-lg text-white/90">
-            Agenda una evaluación gratuita. Te decimos exactamente qué programa
-            le conviene.
+            45 minutos. Diagnóstico de 16 puntos. Te decimos exactamente qué
+            programa necesita tu perro, o si no necesita ninguno.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
               href={SITE.whatsappUrl(
-                "¡Hola! 🎓 Necesito ayuda con el comportamiento de mi perro. ¿Me dan informes del adiestramiento?"
+                "¡Hola! Quiero agendar la evaluación conductual sin costo para mi perro."
               )}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-bold text-brand shadow-xl transition-all hover:-translate-y-1 hover:shadow-2xl"
             >
-              Evaluar a mi perro
-              <ArrowRight aria-hidden="true" className="h-5 w-5" />
+              <Phone className="h-5 w-5" />
+              Agendar evaluación sin costo
             </a>
-            <Link
-              href="/servicios/guarderia"
-              className="inline-flex items-center gap-2 text-lg font-semibold text-white/90 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white"
-            >
-              Combinar con Guardería →
-            </Link>
           </div>
+          <p className="mt-4 text-sm text-white/60">
+            Valor de la evaluación: $850 — sin costo para nuevos clientes
+          </p>
         </div>
       </section>
     </>

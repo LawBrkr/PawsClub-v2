@@ -101,6 +101,12 @@ const FAQS = [
 export default function HotelPage() {
   return (
     <>
+      {/* Zona Norte Badge */}
+      <div className="bg-brand py-3 text-center text-sm font-semibold text-white">
+        <Shield className="mr-1 inline h-4 w-4" />
+        Servicio exclusivo Zona Norte — Santa María la Ribera, Lindavista, San Rafael y colonias cercanas
+      </div>
+
       {/* Hero */}
       <section className="relative flex min-h-[60vh] items-end md:items-center overflow-hidden">
         <Image
@@ -214,55 +220,27 @@ export default function HotelPage() {
           </div>
 
           <div className="grid gap-8 md:grid-cols-2">
-            <div className="rounded-2xl border-2 border-gray-200 bg-white p-8 shadow-sm">
-              <h3 className="text-xl font-bold text-gray-900">
+            <div className="rounded-2xl border-2 border-gray-200 bg-gray-50 p-8 shadow-sm">
+              <h3 className="text-xl font-bold text-gray-400">
                 {BRANCHES.poniente.name}
               </h3>
-              <p className="mt-1 text-sm text-gray-500">
+              <p className="mt-1 text-sm text-gray-400">
                 Polanco · Lomas · Tecamachalco
               </p>
-              <div className="mt-6 space-y-4">
-                <div className="flex items-end justify-between border-b border-gray-100 pb-3">
-                  <span className="text-sm text-gray-600">Lunes a Sábado</span>
-                  <span className="text-2xl font-extrabold text-gray-900">
-                    {formatPrice(PRICES.hotel.poniente.weekday)}
-                    <span className="text-sm font-normal text-gray-400">
-                      /noche
-                    </span>
-                  </span>
-                </div>
-                <div className="flex items-end justify-between">
-                  <span className="text-sm text-gray-600">
-                    Domingo (con reserva)
-                  </span>
-                  <span className="text-2xl font-extrabold text-gray-900">
-                    {formatPrice(PRICES.hotel.poniente.sunday)}
-                    <span className="text-sm font-normal text-gray-400">
-                      /noche
-                    </span>
-                  </span>
-                </div>
-              </div>
-              
-              <div className="mt-6 flex flex-col gap-2 rounded-xl bg-orange-50 p-4 border border-orange-100">
-                <span className="text-sm font-bold text-orange-800 flex items-center gap-1">
-                  ⚠️ Cupo Lleno
+              <div className="mt-6 flex flex-col items-center justify-center py-6">
+                <span className="text-lg font-bold text-gray-400">
+                  No disponible en esta zona
                 </span>
-                <p className="text-xs text-orange-700">
-                  Te invitamos a conocer nuestra Experiencia Insignia en la zona Norte, donde aún tenemos espacios disponibles.
+                <p className="mt-2 text-sm text-gray-400 text-center">
+                  El hotel canino opera exclusivamente en Zona Norte.
                 </p>
               </div>
-
-              <a
-                href={SITE.whatsappUrl(
-                  "¡Hola! 🏨 Deseo unirme a la lista de espera para el Hotel Canino en la sucursal Poniente."
-                )}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-6 block rounded-full bg-gray-200 py-3 text-center text-sm font-semibold text-gray-600 transition-all hover:bg-gray-300 pointer-events-auto"
+              <Link
+                href="/sucursales/zona-norte"
+                className="mt-6 block rounded-full bg-brand py-3 text-center text-sm font-semibold text-white transition-all hover:bg-brand-hover"
               >
-                Unirse a Lista de Espera
-              </a>
+                Ver Hotel en Zona Norte
+              </Link>
             </div>
 
             {/* Zona Norte */}
