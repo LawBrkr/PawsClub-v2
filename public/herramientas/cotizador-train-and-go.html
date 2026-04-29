@@ -321,16 +321,6 @@
         </label>
       </div>
 
-      <h3>Programa</h3>
-      <div class="program-toggle">
-        <button class="program-btn active" id="btn_estandar" onclick="setProgram('estandar')">
-          ESTÁNDAR<br><span class="price-hint">4 sem · $19,900</span>
-        </button>
-        <button class="program-btn" id="btn_premium" onclick="setProgram('premium')">
-          PREMIUM<br><span class="price-hint">12 sem · cotización</span>
-        </button>
-      </div>
-
       <button class="btn btn-secondary" onclick="resetForm()">↺ Limpiar</button>
     </div>
 
@@ -353,14 +343,6 @@
           <tbody id="provider_tbody"></tbody>
         </table>
         <div class="alert alert-info" id="suggestion_box"></div>
-      </div>
-
-      <div id="premium_section" style="display:none;">
-        <div class="price-display">
-          <div class="price-label">Precio sugerido para el cliente (Premium)</div>
-          <div class="price-amount" id="precio_premium">$58,500</div>
-          <div class="price-sub">12 semanas · IC Premium · margen 65%</div>
-        </div>
       </div>
 
       <details class="breakdown">
@@ -459,9 +441,7 @@
 const KM_BASE = 30;
 const COSTO_KM = 3.60;
 const SESIONES_ESTANDAR = 12;
-const SESIONES_PREMIUM = 36;
 const PRECIO_ESTANDAR = 19900;
-const MARGEN_PREMIUM = 1.65;
 const RECARGO_DOMICILIO_DIA = 350; // costo extra de logística por día cuando entrenador va a domicilio del cliente
 
 const RECARGO_ZONA = { cercana: 0, media: 1500, lejana: 3500 };
@@ -474,22 +454,10 @@ const PROVEEDORES_ESTANDAR = [
   { id: 'ic_regular', nombre: 'Inteligencia Canina (Regular)', ubicacion: 'Zona norte CDMX', costo: 15600, nota: 'Calidad garantizada' }
 ];
 
-let currentProgram = 'estandar';
 let selectedProvider = null;
 
 function fmt(n) { return '$' + Math.round(n).toLocaleString('es-MX'); }
-function setProgram(p) {
-  currentProgram = p;
-  document.getElementById('btn_estandar').classList.toggle('active', p === 'estandar');
-  document.getElementById('btn_premium').classList.toggle('active', p === 'premium');
-  document.getElementById('estandar_section').style.display = (p === 'estandar') ? 'block' : 'none';
-  document.getElementById('premium_section').style.display = (p === 'premium') ? 'block' : 'none';
-  document.getElementById('output_title').textContent =
-    (p === 'estandar') ? 'Selección de proveedor y cotización' : 'Cotización Premium personalizada';
-  if (p === 'premium') selectedProvider = 'ic_premium';
-  else selectedProvider = null;
-  calcular();
-}
+
 function setTab(t) {
   document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -531,7 +499,18 @@ function calcular() {
 
   let precioCliente, sesiones;
 
-  if (currentProgram === 'estandar') {
+  // Bloqueo automático de casos conductuales serios — derivar a etólogo
+  if (conducta === 'seria') {
+    alertBox.innerHTML = '<div class="alert alert-warn">⚠️ <strong>Caso conductual serio</strong> (reactividad / ansiedad seria / agresión). NO cotizar por flujo automático. Primero cotiza con un etólogo certificado y después da precio al cliente.</div>';
+    document.getElementById('out_cot').value = `Hola ${nombre}, gracias por escribirnos.\n\nPor lo que me describes, ${perro} requiere una evaluación con un etólogo certificado antes de definir el plan correcto. Estos casos (reactividad, ansiedad seria, agresividad) necesitan un protocolo personalizado que diseñamos en conjunto con un especialista de la red Paws Club.\n\n¿Te parece si agendamos una llamada de 15 minutos para conocer mejor el caso y darte una propuesta a la medida en 24-48 hrs?\n\nQuedo atento. — Armando · Paws Club`;
+    document.getElementById('out_doc').value = '— Caso conductual serio. Requiere evaluación con etólogo antes de cotizar. Cotiza primero con etólogo y luego al cliente. —';
+    document.getElementById('out_req').value = '— Caso conductual serio. Cotización personalizada después de evaluación etológica. —';
+    document.getElementById('out_faq').value = '— Caso conductual serio. Sin FAQ estándar — protocolo personalizado. —';
+    document.getElementById('breakdown_content').innerHTML = '<em style="color:#92400e">Cotización bloqueada — derivar a etólogo</em>';
+    return;
+  }
+
+  {
     sesiones = SESIONES_ESTANDAR;
     const logistica = KM_BASE * COSTO_KM * sesiones; // $1,296
     const recargoDom = domicilio ? RECARGO_DOMICILIO_DIA * sesiones : 0; // sesiones a domicilio: costo extra interno
@@ -594,33 +573,6 @@ function calcular() {
 
     generarTextos(nombre, perro, peso, edad, razaNombre, conducta, precioCliente, 'estandar', prov, sesiones);
 
-  } else {
-    sesiones = SESIONES_PREMIUM;
-    const costoEntrenador = 31200;
-    const logistica = KM_BASE * COSTO_KM * sesiones; // $3,888
-    const recargoDom = domicilio ? RECARGO_DOMICILIO_DIA * sesiones : 0;
-    const costoTotal = costoEntrenador + logistica + recargoTotal + recargoDom;
-    const precioRaw = costoTotal * MARGEN_PREMIUM;
-    precioCliente = Math.ceil(precioRaw / 100) * 100;
-    const margen = precioCliente - costoTotal;
-
-    document.getElementById('precio_premium').textContent = fmt(precioCliente);
-
-    document.getElementById('breakdown_content').innerHTML = renderBreakdown([
-      ['IC Premium 12 sem', costoEntrenador],
-      ['Logística (30 km × 36 sesiones)', logistica],
-      ...(recargoZ > 0 ? [['Recargo zona', recargoZ]] : []),
-      ...(recargoP > 0 ? [['Recargo peso >35 kg', recargoP]] : []),
-      ...(recargoE > 0 ? [['Recargo edad senior', recargoE]] : []),
-      ...(recargoC > 0 ? [['Recargo conducta ' + conducta, recargoC]] : []),
-      ...(recargoDom > 0 ? [['Recargo sesiones a domicilio (interno)', recargoDom]] : []),
-      ['Costo total interno', costoTotal],
-      ['Precio cliente (margen 65%)', precioCliente],
-      ['Tu margen', margen]
-    ]);
-
-    const provPremium = { nombre: 'Inteligencia Canina', ubicacion: 'Zona norte CDMX' };
-    generarTextos(nombre, perro, peso, edad, razaNombre, conducta, precioCliente, 'premium', provPremium, sesiones);
   }
 }
 
@@ -640,12 +592,12 @@ function generarTextos(nombre, perro, peso, edad, raza, conducta, precio, progra
     moderada: '\n• Trabajo específico de manejo de impulsos y conductas como jaloneo, saltos a visitas y ladrido excesivo',
     seria: '\n• Protocolo especializado de modificación conductual'
   }[conducta];
-  const semanas = (programa === 'estandar') ? 4 : 12;
+  const semanas = 4;
   const dias_sem = 3;
 
   // ---- COTIZACIÓN CORTA WHATSAPP ----
   const cot =
-`🐾 *Train & Go Paws Club ${programa === 'estandar' ? '— Estándar' : '— Premium'}*
+`🐾 *Train & Go Paws Club*
 
 ¡Hola ${nombre}! Aquí tu cotización para *${perro}* (${peso || '__'} kg, ${edadLabel}, ${raza}):
 
@@ -720,7 +672,7 @@ Tiempo total fuera de casa por sesión: aproximadamente 2 horas (incluyendo tray
 ¿QUÉ ESPERAR DEL PROCESO?
 ───────────────────────────────────────────────
 
-${programa === 'estandar' ? `
+
 SEMANA 1 — Evaluación y bases
   • Evaluación conductual de 16 puntos
   • Trabajo en obediencia básica (sit, down, stay)
@@ -742,27 +694,7 @@ SEMANA 4 — Integración y entrega
   • Repaso integral
   • Sesión final contigo (el tutor)
   • Entrega del manual de mantenimiento
-` : `
-SEMANAS 1-3 — Evaluación y bases
-  • Evaluación conductual exhaustiva
-  • Trabajo en bases obediencia + control de impulsos
-  • Familiarización con el especialista
 
-SEMANAS 4-6 — Consolidación intermedia
-  • Aumento de duración y dificultad
-  • Recall confiable
-  • Manejo de distractores
-
-SEMANAS 7-9 — Generalización avanzada
-  • Comandos en diversos ambientes
-  • Trabajo en distractores complejos
-  • Inicio de protocolos especializados (si aplica)
-
-SEMANAS 10-12 — Integración y entrega
-  • Repaso integral
-  • Sesiones finales contigo (el tutor)
-  • Entrega + manual de mantenimiento
-`}
 
 POST-PROGRAMA (30 días)
   • Soporte por WhatsApp para dudas
@@ -954,7 +886,7 @@ Antes de iniciar necesitamos lo siguiente:
 // ============ DOCUMENTO VISUAL HELPER ============
 function actualizarDocVisual(nombre, perro, peso, edad, raza, precio, programa, sesiones) {
   const edadLabel = { cachorro: 'cachorro', adulto: 'adulto', senior: 'senior' }[edad];
-  const semanas = (programa === 'estandar') ? 4 : 12;
+  const semanas = 4;
   const programaLabel = (programa === 'estandar') ? 'Train & Go Estándar' : 'Train & Go Premium';
   const fechaHoy = new Date().toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' });
 
@@ -999,12 +931,10 @@ function downloadPDF() {
   const edad = document.getElementById('edad').value;
   const edadLabel = { cachorro: 'Cachorro', adulto: 'Adulto', senior: 'Senior' }[edad];
   const raza = document.getElementById('raza_nombre').value.trim() || 'Raza';
-  const isPremium = currentProgram === 'premium';
-  const programaLabel = isPremium ? 'Train & Go Premium' : 'Train & Go Estándar';
-  const semanas = isPremium ? 12 : 4;
-  const sesiones = isPremium ? 36 : 12;
-  const precioStr = document.getElementById(isPremium ? 'precio_premium' : 'pdf_price').textContent;
-  const precio = parseInt(precioStr.replace(/[^0-9]/g, '')) || 19900;
+  const programaLabel = 'Train & Go Paws Club';
+  const semanas = 4;
+  const sesiones = 12;
+  const precio = 19900;
   const fechaHoy = new Date().toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' });
   const logoSrc = document.querySelector('#pdf_doc img').src;
 
@@ -1334,7 +1264,7 @@ function resetForm() {
   document.getElementById('zona').value = 'cercana';
   document.getElementById('domicilio').checked = false;
   selectedProvider = null;
-  setProgram('estandar');
+  calcular();
 }
 
 document.querySelectorAll('input, select').forEach(el => {
