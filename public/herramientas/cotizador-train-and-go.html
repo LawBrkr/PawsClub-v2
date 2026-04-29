@@ -987,20 +987,18 @@ function actualizarDocVisual(nombre, perro, peso, edad, raza, precio, programa, 
   ).join('');
 }
 
-// ============ DESCARGA PDF (jsPDF nativo, calidad premium) ============
+// ============ DESCARGA PDF (jsPDF nativo, voz de marca Paws Club) ============
 function downloadPDF() {
-  // Acceder a jsPDF (viene en el bundle html2pdf)
-  const jsPDFCtor = (window.jspdf && window.jspdf.jsPDF) || (window.html2pdf && window.html2pdf.jsPDF) || jspdf?.jsPDF;
-  if (!jsPDFCtor) { alert('No se cargó jsPDF. Recarga la página y vuelve a intentar.'); return; }
+  const jsPDFCtor = (window.jspdf && window.jspdf.jsPDF) || (window.html2pdf && window.html2pdf.jsPDF);
+  if (!jsPDFCtor) { alert('No se cargó jsPDF. Recarga la página.'); return; }
 
-  // ---- Datos del caso ----
+  // ---- Datos ----
   const nombre = document.getElementById('cliente_nombre').value.trim() || 'Cliente';
   const perro = document.getElementById('perro_nombre').value.trim() || 'Perro';
   const peso = document.getElementById('peso').value || '__';
   const edad = document.getElementById('edad').value;
-  const edadLabel = { cachorro: 'cachorro', adulto: 'adulto', senior: 'senior' }[edad];
+  const edadLabel = { cachorro: 'Cachorro', adulto: 'Adulto', senior: 'Senior' }[edad];
   const raza = document.getElementById('raza_nombre').value.trim() || 'Raza';
-  const conducta = document.getElementById('conducta').value;
   const isPremium = currentProgram === 'premium';
   const programaLabel = isPremium ? 'Train & Go Premium' : 'Train & Go Estándar';
   const semanas = isPremium ? 12 : 4;
@@ -1010,101 +1008,120 @@ function downloadPDF() {
   const fechaHoy = new Date().toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' });
   const logoSrc = document.querySelector('#pdf_doc img').src;
 
-  // ---- Setup PDF ----
+  // ---- PDF setup ----
   const doc = new jsPDFCtor({ unit: 'mm', format: 'letter', orientation: 'portrait' });
   const PW = 215.9, PH = 279.4;
-  const M = 14;            // margen
-  const CW = PW - M*2;     // content width
-  // Colores brand (RGB)
-  const BRAND = [37, 99, 235], BRAND_DARK = [29, 78, 216], ACCENT = [249, 115, 22];
-  const TEXT = [17, 24, 39], MUTED = [107, 114, 128], LIGHT = [249, 250, 251];
-  const BORDER = [229, 231, 235], YELLOW = [254, 243, 199], YELLOW_TXT = [146, 64, 14];
-  const SUCCESS = [16, 185, 129], WHITE = [255, 255, 255];
+  const M = 16;
+  const CW = PW - M*2;
 
-  // ============ HEADER (banda azul) ============
-  doc.setFillColor(...BRAND);
-  doc.rect(0, 0, PW, 38, 'F');
-  // Acento naranja delgado abajo
-  doc.setFillColor(...ACCENT);
-  doc.rect(0, 38, PW, 1.4, 'F');
+  // ---- Paleta REAL Paws Club ----
+  const BRAND       = [84, 112, 151];   // #547097
+  const BRAND_DARK  = [63, 84, 113];    // #3F5471
+  const CREAM       = [255, 248, 231];  // #FFF8E7
+  const ORANGE      = [244, 162, 97];   // #F4A261
+  const ORANGE_DARK = [217, 130, 66];
+  const TEXT        = [33, 41, 54];
+  const MUTED       = [120, 130, 145];
+  const BORDER      = [220, 215, 200];
+  const SUCCESS     = [16, 161, 105];
+  const WHITE       = [255, 255, 255];
+  const ROSE        = [225, 48, 108];   // #E1306C
 
-  // Logo dentro de un círculo blanco para que destaque
+  // ============ FONDO CREAM ENTERO ============
+  doc.setFillColor(...CREAM);
+  doc.rect(0, 0, PW, PH, 'F');
+
+  // ============ HEADER (Cream) con logo + título ============
+  let y = M;
+  // Logo (sin círculo blanco — directo sobre cream)
   try {
-    doc.setFillColor(...WHITE);
-    doc.circle(M + 11, 19, 12, 'F');
-    doc.addImage(logoSrc, 'PNG', M + 1, 9, 20, 20);
-  } catch(e) { /* logo opcional */ }
+    doc.addImage(logoSrc, 'PNG', M, y, 22, 22);
+  } catch(e) {}
 
-  // Texto del header
-  doc.setTextColor(...WHITE);
+  // Título a la derecha del logo
+  doc.setTextColor(...BRAND);
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(22);
-  doc.text('PAWS CLUB', M + 28, 17);
+  doc.setFontSize(24);
+  doc.text('Paws Club', M + 27, y + 9);
+
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(10);
-  doc.setTextColor(255, 237, 213); // accent claro
-  doc.text(programaLabel.toUpperCase(), M + 28, 23);
-  doc.setFontSize(9);
-  doc.setTextColor(219, 234, 254);
-  doc.text('Cotización personalizada · ' + fechaHoy, M + 28, 28);
+  doc.setTextColor(...ORANGE_DARK);
+  doc.text(programaLabel, M + 27, y + 15);
 
-  // Cotización válida (esquina derecha header)
-  doc.setFontSize(8);
-  doc.setTextColor(219, 234, 254);
-  doc.text('VÁLIDA 7 DÍAS', PW - M, 14, { align: 'right' });
+  doc.setFontSize(8.5);
+  doc.setTextColor(...MUTED);
+  doc.text('Cotización personalizada · ' + fechaHoy, M + 27, y + 19.5);
+
+  // Esquina superior derecha: validez
+  doc.setFontSize(7.5);
+  doc.setTextColor(...MUTED);
+  doc.text('VÁLIDA 7 DÍAS', PW - M, y + 6, { align: 'right' });
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(11);
-  doc.setTextColor(...WHITE);
-  doc.text(semanas + ' semanas', PW - M, 22, { align: 'right' });
+  doc.setTextColor(...BRAND);
+  doc.text(semanas + ' semanas', PW - M, y + 13, { align: 'right' });
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(9);
-  doc.text(sesiones + ' sesiones', PW - M, 27, { align: 'right' });
+  doc.setTextColor(...TEXT);
+  doc.text(sesiones + ' sesiones', PW - M, y + 18, { align: 'right' });
+
+  // Línea separadora elegante con detalle naranja
+  y += 26;
+  doc.setDrawColor(...BRAND);
+  doc.setLineWidth(0.6);
+  doc.line(M, y, PW - M, y);
+  doc.setFillColor(...ORANGE);
+  doc.rect(M, y - 0.3, 30, 0.6, 'F');
 
   // ============ SALUDO ============
-  let y = 50;
-  doc.setTextColor(...TEXT);
+  y += 8;
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(11);
-  const greetingPrefix = '¡Hola ';
-  const greetingSuffix = '! Aquí tu propuesta personalizada para ' + perro + '.';
-  doc.text(greetingPrefix, M, y);
-  const prefixW = doc.getTextWidth(greetingPrefix);
+  doc.setFontSize(11.5);
+  doc.setTextColor(...TEXT);
+  const saludo1 = '¡Hola ';
+  doc.text(saludo1, M, y);
+  const w1 = doc.getTextWidth(saludo1);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(...BRAND);
-  doc.text(nombre, M + prefixW, y);
-  const nameW = doc.getTextWidth(nombre);
+  doc.text(nombre, M + w1, y);
+  const w2 = doc.getTextWidth(nombre);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(...TEXT);
-  doc.text(greetingSuffix, M + prefixW + nameW, y);
-  y += 5;
+  doc.text('!  Aquí tu propuesta personalizada para ', M + w1 + w2, y);
+  const w3 = doc.getTextWidth('!  Aquí tu propuesta personalizada para ');
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...BRAND);
+  doc.text(perro, M + w1 + w2 + w3, y);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...TEXT);
+  doc.text('.', M + w1 + w2 + w3 + doc.getTextWidth(perro), y);
+  y += 6;
   doc.setFontSize(10);
   doc.setTextColor(...MUTED);
   const sub = doc.splitTextToSize('Diseñada para que tu perro aprenda con respeto, sin que tú tengas que mover un dedo en logística.', CW);
   doc.text(sub, M, y);
-  y += sub.length * 4.5 + 4;
+  y += sub.length * 4.6 + 4;
 
-  // ============ CAJA DATOS DEL PERRO ============
-  doc.setFillColor(...LIGHT);
-  doc.roundedRect(M, y, CW, 18, 2, 2, 'F');
-  // Borde izquierdo accent
-  doc.setFillColor(...ACCENT);
-  doc.rect(M, y, 1.6, 18, 'F');
+  // ============ DATOS DEL PERRO (caja blanca con accent) ============
+  doc.setFillColor(...WHITE);
+  doc.roundedRect(M, y, CW, 18, 3, 3, 'F');
+  doc.setFillColor(...ORANGE);
+  doc.rect(M, y, 1.8, 18, 'F');
+  doc.setDrawColor(...BORDER);
+  doc.setLineWidth(0.2);
+  doc.roundedRect(M, y, CW, 18, 3, 3, 'D');
+
+  const colX = [M + 6, M + 6 + CW * 0.30, M + 6 + CW * 0.55, M + 6 + CW * 0.78];
+  const labels = ['NOMBRE', 'RAZA', 'PESO', 'EDAD'];
+  const values = [perro, raza.length > 24 ? raza.substring(0,24) + '…' : raza, peso + ' kg', edadLabel];
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(7);
   doc.setTextColor(...MUTED);
-  doc.setFontSize(7.5);
-  doc.setFont('helvetica', 'bold');
-  doc.text('PERRO', M + 5, y + 5);
-  doc.text('RAZA', M + 5 + CW * 0.30, y + 5);
-  doc.text('PESO', M + 5 + CW * 0.62, y + 5);
-  doc.text('EDAD', M + 5 + CW * 0.78, y + 5);
-  doc.setFont('helvetica', 'bold');
+  for (let i = 0; i < 4; i++) doc.text(labels[i], colX[i], y + 6);
   doc.setFontSize(11);
   doc.setTextColor(...TEXT);
-  doc.text(perro, M + 5, y + 11);
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'normal');
-  doc.text(raza.length > 22 ? raza.substring(0,22) + '...' : raza, M + 5 + CW * 0.30, y + 11);
-  doc.text(peso + ' kg', M + 5 + CW * 0.62, y + 11);
-  doc.text(edadLabel, M + 5 + CW * 0.78, y + 11);
+  for (let i = 0; i < 4; i++) doc.text(values[i], colX[i], y + 13);
   y += 24;
 
   // ============ ¿QUÉ INCLUYE? ============
@@ -1112,26 +1129,31 @@ function downloadPDF() {
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(13);
   doc.text('Qué incluye tu programa', M, y);
-  // Línea decorativa bajo el título
-  doc.setDrawColor(...BRAND);
-  doc.setLineWidth(0.6);
-  doc.line(M, y + 1.5, M + 50, y + 1.5);
+  doc.setDrawColor(...ORANGE);
+  doc.setLineWidth(0.8);
+  doc.line(M, y + 1.8, M + 38, y + 1.8);
   y += 7;
 
-  // Item destacado: evaluación inicial sin costo
-  doc.setFillColor(...YELLOW);
-  doc.roundedRect(M, y, CW, 9, 1.5, 1.5, 'F');
-  doc.setTextColor(...YELLOW_TXT);
+  // Banner evaluación destacado (naranja suave)
+  doc.setFillColor(...ORANGE);
+  doc.roundedRect(M, y, CW, 9.5, 2, 2, 'F');
+  doc.setTextColor(...WHITE);
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(10);
-  doc.text('🎁  SESIÓN DE EVALUACIÓN INICIAL SIN COSTO  (incluida en el programa)', M + 4, y + 6);
-  y += 13;
+  doc.text('Sesión de evaluación inicial sin costo (incluida en el programa)', M + 5, y + 6.2);
+  // Pequeño label "REGALO" a la derecha
+  doc.setFillColor(...WHITE);
+  doc.roundedRect(PW - M - 22, y + 2.5, 18, 4.5, 1, 1, 'F');
+  doc.setTextColor(...ORANGE_DARK);
+  doc.setFontSize(7);
+  doc.text('INCLUIDO', PW - M - 13, y + 5.8, { align: 'center' });
+  y += 14;
 
-  // Lista de inclusiones con checkmarks
+  // Lista
   const includes = [
     sesiones + ' sesiones con especialista certificado de la red Paws Club',
     'Transporte ida y vuelta cada día de sesión — tú no mueves al perro',
-    'Tu perro vive contigo todo el programa (~2 hrs fuera de casa por sesión)',
+    'Tu perro vive contigo todo el programa (aprox. 2 horas fuera de casa por sesión)',
     'Curaduría del especialista correcto según el perfil de tu perro',
     'Paws Club como tu único punto de contacto durante todo el programa',
     'Evaluación conductual de 16 puntos al inicio',
@@ -1143,133 +1165,129 @@ function downloadPDF() {
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(...TEXT);
   for (let i = 0; i < includes.length; i++) {
-    // Checkmark verde dibujado vectorial
-    doc.setDrawColor(...SUCCESS);
-    doc.setLineWidth(0.9);
-    doc.line(M + 1, y - 1, M + 2.4, y + 0.4);
-    doc.line(M + 2.4, y + 0.4, M + 5, y - 2.5);
-    // Texto
-    const lines = doc.splitTextToSize(includes[i], CW - 8);
-    doc.text(lines, M + 7, y);
-    y += lines.length * 4.8 + 1.5;
+    // checkmark elegante en brand color
+    doc.setDrawColor(...BRAND);
+    doc.setLineWidth(0.7);
+    doc.line(M + 1.5, y - 1.2, M + 2.8, y + 0.2);
+    doc.line(M + 2.8, y + 0.2, M + 5, y - 2.6);
+    const lines = doc.splitTextToSize(includes[i], CW - 9);
+    doc.text(lines, M + 7.5, y);
+    y += lines.length * 4.6 + 1.5;
   }
   y += 4;
 
-  // ============ CAJA DE PRECIO ============
-  const priceBoxH = 28;
-  // Fondo con gradiente simulado por dos rectángulos
+  // ============ CAJA INVERSIÓN (brand) ============
+  const ph = 26;
   doc.setFillColor(...BRAND);
-  doc.roundedRect(M, y, CW, priceBoxH, 3, 3, 'F');
-  // Sombra brillante derecha (más oscuro)
-  doc.setFillColor(...BRAND_DARK);
-  doc.roundedRect(M + CW - 80, y, 80, priceBoxH, 3, 3, 'F');
-  // Re-aplicar redondeo lado izquierdo (estética)
-  doc.setFillColor(...BRAND);
-  doc.rect(M, y, CW - 80, priceBoxH, 'F');
-  doc.setFillColor(...BRAND);
-  doc.roundedRect(M, y, 6, priceBoxH, 3, 3, 'F');
+  doc.roundedRect(M, y, CW, ph, 4, 4, 'F');
+  // Sombra naranja delgada inferior para profundidad
+  doc.setFillColor(...ORANGE);
+  doc.rect(M + 4, y + ph - 0.6, CW - 8, 0.6, 'F');
 
-  doc.setTextColor(...WHITE);
+  doc.setTextColor(...CREAM);
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(8.5);
-  doc.text('INVERSIÓN TOTAL', M + 6, y + 8);
-  doc.setFontSize(28);
-  doc.text('$' + precio.toLocaleString('es-MX'), M + 6, y + 20);
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(8.5);
-  doc.text('MXN', M + 6 + doc.getTextWidth('$' + precio.toLocaleString('es-MX')) + 2, y + 20);
   doc.setFontSize(8);
-  doc.setTextColor(219, 234, 254);
-  doc.text('Todo incluido · sin costos ocultos', M + 6, y + 25);
+  doc.text('INVERSIÓN TOTAL', M + 8, y + 8);
+  doc.setFontSize(28);
+  doc.setTextColor(...WHITE);
+  doc.text('$' + precio.toLocaleString('es-MX'), M + 8, y + 19.5);
+  // "MXN" alineado abajo del número
+  const priceW = doc.getTextWidth('$' + precio.toLocaleString('es-MX'));
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...CREAM);
+  doc.text('MXN', M + 8 + priceW + 3, y + 19.5);
 
-  // Lado derecho: meta info
+  // Separador vertical
+  doc.setDrawColor(...BRAND_DARK);
+  doc.setLineWidth(0.4);
+  doc.line(M + CW - 70, y + 5, M + CW - 70, y + ph - 5);
+
+  // Lado derecho — meta info
   doc.setTextColor(...WHITE);
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(11);
-  doc.text(semanas + ' semanas', PW - M - 6, y + 9, { align: 'right' });
+  doc.setFontSize(10.5);
+  doc.text(semanas + ' semanas de programa', PW - M - 8, y + 9, { align: 'right' });
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(9);
-  doc.setTextColor(219, 234, 254);
-  doc.text(sesiones + ' sesiones de adiestramiento', PW - M - 6, y + 14, { align: 'right' });
-  doc.text('3 sesiones por semana', PW - M - 6, y + 19, { align: 'right' });
-  doc.setFontSize(7.5);
-  doc.text('CON EL ESPECIALISTA CORRECTO', PW - M - 6, y + 25, { align: 'right' });
-  y += priceBoxH + 6;
+  doc.setTextColor(...CREAM);
+  doc.text(sesiones + ' sesiones · 3 por semana', PW - M - 8, y + 14.5, { align: 'right' });
+  doc.text('Transporte y refuerzo incluidos', PW - M - 8, y + 19.5, { align: 'right' });
+
+  y += ph + 6;
 
   // ============ FORMAS DE PAGO ============
-  doc.setFillColor(...YELLOW);
-  doc.roundedRect(M, y, CW, 30, 2.5, 2.5, 'F');
-  doc.setFillColor(...ACCENT);
-  doc.rect(M, y, 1.6, 30, 'F');
-
-  doc.setTextColor(...ACCENT);
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(9);
-  doc.text('FORMAS DE PAGO ACEPTADAS', M + 5, y + 6);
-
-  // 3 cuadritos blancos
-  const cardW = (CW - 14) / 3;
-  const cardY = y + 9;
-  const payments = [
-    { label: 'Transferencia', icon: 'bancaria' },
-    { label: 'Efectivo', icon: 'pago' },
-    { label: 'Tarjeta', icon: 'crédito' }
-  ];
-  for (let i = 0; i < 3; i++) {
-    const cx = M + 5 + i * (cardW + 2);
-    doc.setFillColor(...WHITE);
-    doc.setDrawColor(253, 230, 138);
-    doc.setLineWidth(0.3);
-    doc.roundedRect(cx, cardY, cardW, 9, 1.5, 1.5, 'FD');
-    doc.setTextColor(...TEXT);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(9);
-    doc.text(payments[i].label, cx + cardW / 2, cardY + 4.2, { align: 'center' });
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(7.5);
-    doc.setTextColor(...MUTED);
-    doc.text(payments[i].icon, cx + cardW / 2, cardY + 7.2, { align: 'center' });
-  }
-
-  // Banner MSI
-  doc.setFillColor(...ACCENT);
-  doc.roundedRect(M + 5, y + 21, CW - 10, 6.5, 1.5, 1.5, 'F');
-  doc.setTextColor(...WHITE);
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(9);
-  doc.text('Hasta 6 meses sin intereses con tarjetas participantes', PW / 2, y + 25.3, { align: 'center' });
-  y += 36;
-
-  // ============ FOOTER ============
-  const footerY = PH - 26;
-  // Línea separadora
+  doc.setFillColor(...WHITE);
+  doc.roundedRect(M, y, CW, 28, 3, 3, 'F');
   doc.setDrawColor(...BORDER);
-  doc.setLineWidth(0.4);
-  doc.line(M, footerY, PW - M, footerY);
+  doc.setLineWidth(0.2);
+  doc.roundedRect(M, y, CW, 28, 3, 3, 'D');
+  doc.setFillColor(...ORANGE);
+  doc.rect(M, y, 1.8, 28, 'F');
 
   doc.setTextColor(...BRAND);
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(10);
-  doc.text('Armando Sánchez Martínez', M, footerY + 6);
+  doc.setFontSize(9.5);
+  doc.text('Formas de pago aceptadas', M + 6, y + 6.5);
+
+  // 3 cards
+  const cardW = (CW - 14) / 3;
+  const cardY = y + 9.5;
+  const payments = ['Transferencia', 'Efectivo', 'Tarjeta de crédito'];
+  for (let i = 0; i < 3; i++) {
+    const cx = M + 5 + i * (cardW + 2);
+    doc.setFillColor(...CREAM);
+    doc.roundedRect(cx, cardY, cardW, 8, 1.5, 1.5, 'F');
+    doc.setTextColor(...BRAND_DARK);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9);
+    doc.text(payments[i], cx + cardW / 2, cardY + 5.3, { align: 'center' });
+  }
+
+  // Banner MSI elegante
+  doc.setFillColor(...ORANGE);
+  doc.roundedRect(M + 5, y + 19.5, CW - 10, 6.5, 1.5, 1.5, 'F');
+  doc.setTextColor(...WHITE);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9);
+  doc.text('Hasta 6 meses sin intereses con tarjetas participantes', PW / 2, y + 23.7, { align: 'center' });
+
+  y += 32;
+
+  // ============ FOOTER ============
+  // Línea separadora
+  doc.setDrawColor(...BRAND);
+  doc.setLineWidth(0.4);
+  const footY = PH - 28;
+  doc.line(M, footY, PW - M, footY);
+  doc.setFillColor(...ORANGE);
+  doc.rect(M, footY - 0.3, 22, 0.6, 'F');
+
+  doc.setTextColor(...BRAND);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(10.5);
+  doc.text('Armando Sánchez Martínez', M, footY + 6);
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8.5);
   doc.setTextColor(...TEXT);
-  doc.text('Operando bajo la marca PAWS CLUB', M, footerY + 10.5);
+  doc.text('Operando bajo la marca Paws Club', M, footY + 10.5);
   doc.setTextColor(...MUTED);
-  doc.text('WhatsApp: +52 1 56 4408 5356  ·  asanchez.mar2025@gmail.com', M, footerY + 15);
-  doc.text('C. Violante 5, San Simón Tolnahuac, Cuauhtémoc, CDMX, 06920', M, footerY + 19);
+  doc.text('WhatsApp · +52 1 56 4408 5356', M, footY + 15);
+  doc.text('asanchez.mar2025@gmail.com', M, footY + 19);
+  doc.text('C. Violante 5, San Simón Tolnahuac, Cuauhtémoc, CDMX 06920', M, footY + 23);
 
-  // Sello en esquina derecha del footer
+  // Sello brand a la derecha
   doc.setFillColor(...BRAND);
-  doc.roundedRect(PW - M - 38, footerY + 5, 38, 14, 2, 2, 'F');
-  doc.setTextColor(...WHITE);
+  doc.roundedRect(PW - M - 44, footY + 5, 44, 17, 3, 3, 'F');
+  doc.setTextColor(...CREAM);
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(7);
-  doc.text('CON RESPETO', PW - M - 19, footerY + 10, { align: 'center' });
-  doc.text('Y RESULTADOS', PW - M - 19, footerY + 13.5, { align: 'center' });
+  doc.setFontSize(7.5);
+  doc.text('CON RESPETO', PW - M - 22, footY + 11, { align: 'center' });
+  doc.text('Y RESULTADOS', PW - M - 22, footY + 14.5, { align: 'center' });
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(6);
-  doc.text('REFUERZO POSITIVO', PW - M - 19, footerY + 17, { align: 'center' });
+  doc.setTextColor(...ORANGE);
+  doc.text('SOLO REFUERZO POSITIVO', PW - M - 22, footY + 18.5, { align: 'center' });
 
   // ============ GUARDAR ============
   const filename = 'Cotizacion_PawsClub_' + nombre.replace(/[^a-zA-Z0-9]/g, '') + '_' + perro.replace(/[^a-zA-Z0-9]/g, '') + '.pdf';
