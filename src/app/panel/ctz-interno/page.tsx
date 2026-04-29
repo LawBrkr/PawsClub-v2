@@ -131,7 +131,7 @@ export default function CotizadorPage() {
           `${sundayNights} noche${sundayNights > 1 ? "s" : ""} domingo × ${formatPrice(sundayPrice)} = ${formatPrice(sundayNights * sundayPrice)}`
         );
 
-      return { serviceLabel: "Hotel Boutique", qty: totalNights, qtyLabel: `${totalNights} noche${totalNights > 1 ? "s" : ""}`, total, lines };
+      return { serviceLabel: "Hotel Boutique en Casa 🏠", qty: totalNights, qtyLabel: `${totalNights} noche${totalNights > 1 ? "s" : ""}`, total, lines };
     }
 
     if (service === "guarderia") {
@@ -304,7 +304,7 @@ export default function CotizadorPage() {
 🐶 *Lomito:* ${dogName.trim()}${breedPart}
 
 🏷️ *Servicio:* ${result.serviceLabel}
-📍 *Sucursal:* Paws Club ${branchLabel}
+📍 *Sucursal:* Paws Club ${branchLabel}${service === "hotel" ? "\n🏠 *Modalidad:* Estancia en casa — ambiente familiar y hogareño" : ""}
 
 ${dateBlock}
 
