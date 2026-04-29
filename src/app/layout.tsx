@@ -41,7 +41,7 @@ export const metadata: Metadata = {
       "Guardería, Alojamiento Boutique y Adiestramiento para perros. Más de 45 noches de hotel, 28 lomitos felices y 10 graduados. Diversión y seguridad.",
     images: [
       {
-        url: "/img/hotel-guarderia-canina-miguel-hidalgo.png",
+        url: "/img/paws-club-og.png",
         width: 1200,
         height: 630,
         alt: "Paws Club - Hotel y Guardería Canina CDMX",
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     title: "Guardería, Hotel & Adiestramiento Premium en CDMX | Paws Club",
     description:
       "Guardería, Alojamiento Boutique y Adiestramiento para perros. Más de 45 noches de hotel, 28 lomitos felices y 10 graduados.",
-    images: ["/img/hotel-guarderia-canina-miguel-hidalgo.png"],
+    images: ["/img/paws-club-og.png"],
   },
   robots: { index: true, follow: true },
   alternates: { canonical: SITE.url },
