@@ -5,6 +5,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import CalProvider from "@/components/CalProvider";
 import SchemaMarkup from "@/components/SchemaMarkup";
 import { SITE } from "@/lib/constants";
 import { getOrganizationSchema } from "@/lib/schema";
@@ -94,6 +95,7 @@ export default function RootLayout({
         </noscript>
         {/* End Google Tag Manager (noscript) */}
         <SchemaMarkup data={getOrganizationSchema()} />
+        <CalProvider />
         <Header />
         <main>{children}</main>
         <Footer />

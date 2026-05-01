@@ -12,6 +12,198 @@ export interface BlogPost {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "guarderia-perros-polanco-que-revisar",
+    title: "Guardería para perros en Polanco: qué buscar antes de dejar a tu lomito",
+    excerpt:
+      "No todas las guarderías son iguales. Si vives en Polanco, Lomas o Tecamachalco, te decimos exactamente qué revisar antes de dejar a tu perro.",
+    date: "2026-04-30",
+    author: "Paws Club",
+    category: "Tips",
+    image: "/img/daycare.webp",
+    readTime: "6 min",
+    content: `Vivir en Polanco con un perro tiene una ventaja clara: hay opciones de guardería canina a la mano. La mala noticia es que el rango de calidad es enorme, y muchas guarderías "premium" no son más que un patio con muchos perros.
+
+## Lo primero: ¿el cupo es real?
+
+Una guardería responsable trabaja con cupo limitado, no con el numero que pueda meter en el espacio. La diferencia se nota en la cantidad de incidentes, en la limpieza al final del día, y sobre todo en cómo se siente tu lomito al llegar a casa.
+
+Pregunta directo: cuántos perros aceptan al mismo tiempo. Si la respuesta es "los que se necesiten" o si te dan una cifra superior a 8 por turno en un espacio chico, busca otra opción. En Paws Club el cupo máximo es de 5 perros por turno, y solo aceptamos perros que pasaron prueba de socialización.
+
+## Visita antes de reservar
+
+Una guardería que te niega la visita es una bandera roja inmediata. Si tu primera visita es el día que entregas a tu perro, ya perdiste. Pasos que valen la pena hacer en persona:
+
+- Caminar por todas las áreas donde estará el perro (no solo el lobby).
+- Preguntar dónde duermen los perros si se quedan a hotel.
+- Ver cómo huele el lugar (limpio no significa "huele a cloro" — significa que no huele a perro encerrado).
+- Observar cómo interactua el personal con los perros que están ahí en ese momento.
+
+## Vacunas, prueba de socialización y emergencias
+
+Tres preguntas que te dicen todo:
+
+1. ¿Piden cartilla de vacunación al día? — Si no la piden, alguien que sí la lleva está en un lugar donde otros no.
+2. ¿Hacen prueba de socialización antes de aceptar al perro? — Si no, no saben cómo se va a comportar tu perro con el grupo.
+3. ¿Cómo manejan una emergencia médica? — Deben tener veterinario de cabecera y protocolo claro de transporte.
+
+## Reportes durante el día
+
+Una guardería seria te manda al menos una foto o video durante el día. No es un capricho: es la prueba de que tu perro está bien y de que está activo, no encerrado en una jaula esperando que termine la jornada.
+
+## Cuándo Polanco no es la mejor opción
+
+Si tu lomito tiene reactividad fuerte con otros perros, no le va a servir de mucho una guardería con grupo. En esos casos lo correcto es un programa de adiestramiento 1 a 1 antes, y guardería después. Si esa es tu situación, mejor pregunta por evaluación conductual antes de inscribir.
+
+## Resumen para que no se te olvide
+
+Cupo limitado real, visita previa sin restricciones, cartilla de vacunación obligatoria, prueba de socialización, protocolo de emergencias, reportes con fotos. Si la guardería que estás considerando no cumple los 6, sigue buscando — tu lomito merece más que un día encerrado.
+
+Si quieres conocer cómo trabajamos en Paws Club, agenda una visita sin compromiso. Si vives en Polanco, Lomas o Tecamachalco, también puedes unirte a la lista de espera de la sucursal Poniente.`,
+  },
+  {
+    slug: "adiestramiento-canino-lindavista-cuando-empezar",
+    title: "Adiestramiento canino en Lindavista: cuándo empezar con un cachorro",
+    excerpt:
+      "Si acabas de adoptar un cachorro en zona norte, esta es la guía honesta de cuándo empezar el adiestramiento — y por qué esperar es el error más caro.",
+    date: "2026-04-29",
+    author: "Paws Club",
+    category: "Entrenamiento",
+    image: "/img/Pome_feliz_en_parque.webp",
+    readTime: "7 min",
+    content: `La pregunta que más nos hacen los tutores primerizos en Lindavista, Sta. María la Ribera, San Rafael y zonas vecinas: "¿cuándo empiezo a entrenar a mi cachorro?". La respuesta corta: el día que llega a casa. La larga, que es la útil, viene abajo.
+
+## La ventana crítica de socialización
+
+Entre las 3 y las 14 semanas de vida, el cerebro de tu cachorro está en su periodo de mayor plasticidad. Lo que experimente en esa ventana — personas distintas, sonidos, superficies, otros perros equilibrados — define cómo va a reaccionar al mundo el resto de su vida. Después de las 14 semanas la ventana se cierra y la curva de aprendizaje se vuelve mucho más empinada.
+
+Esperar "a que termine sus vacunas" para empezar a socializar es un mito que cuesta caro. El cachorro no necesita estar en contacto con perros desconocidos para socializarse: necesita exposición controlada a estímulos nuevos. Eso lo puedes hacer cargado en brazos en una calle transitada, en casa de un amigo con un perro vacunado, en una clase de cachorros con espacio limpio.
+
+## Qué entrena bien antes de los 4 meses
+
+- Manejo: tocar las patas, las orejas, la boca sin que se incomode.
+- Atención al nombre.
+- "Sit", "Down", caminar a tu lado sin tirar.
+- Aprender a quedarse solo en periodos cortos sin pánico.
+- Aceptar el transportador, el cepillo, el corte de uñas.
+
+Notar que ninguno de estos es "obediencia militar". Son habilidades de vida que evitan problemas grandes después.
+
+## Qué pasa si esperas
+
+El error más común en zona norte: traer al cachorro a casa, dejar que "sea cachorro" hasta los 6-8 meses, y empezar entrenamiento cuando ya hay problemas. Para entonces ya hay ladrido excesivo, jaloneo en la correa, agresión en el parque, ansiedad por separación, destrucción de cosas. Todo eso es 5 veces más caro de revertir que de prevenir.
+
+Un programa de cachorro pro te ahorra entre 6 y 18 meses de problemas. La inversión no es comparable.
+
+## Cómo lo hacemos en Paws Club Zona Norte
+
+Nuestro paquete "Cachorro Pro" trabaja a domicilio en Lindavista, San Simón Tolnáhuac, Industrial Vallejo, Magdalena de las Salinas y zonas cercanas. Son 8 sesiones donde:
+
+1. La primera es evaluación conductual del cachorro y diagnóstico del entorno (cómo vive, quién lo cuida, qué rutina tiene).
+2. Las siguientes 7 son sesiones de trabajo con el cachorro Y con el tutor — el tutor es quien va a ejecutar los protocolos día con día.
+3. Cada sesión deja tarea concreta, fotos del progreso y video del ejercicio para que lo replique cuando no estamos.
+
+Refuerzo positivo, sin collares de castigo, sin e-collar, sin "técnicas de dominancia" que solo generan miedo.
+
+## Cuándo NO es el momento
+
+Si tu cachorro tiene menos de 8 semanas y todavía está con la mamá, déjalo ahí — no debería estar en un hogar nuevo aún. Si está con diarrea, fiebre o cualquier signo de enfermedad, primero al veterinario. Si acaba de mudarse contigo en las últimas 48 horas, dale 3 a 5 días para que se asiente antes de empezar.
+
+## Lo que sí es el momento
+
+Cualquier cachorro entre 8 y 16 semanas, sano, ya en su casa, debería empezar adiestramiento esta semana — no el próximo mes. Si vives en zona norte y quieres una evaluación conductual sin costo para arrancar, agenda con nosotros.`,
+  },
+  {
+    slug: "hotel-canino-sin-jaulas-cdmx-comparativa-zonas",
+    title: "Hotel canino sin jaulas en CDMX: comparativa honesta de zonas",
+    excerpt:
+      "Ponemos sobre la mesa qué cambia entre un hotel canino en zona norte vs. zona poniente, qué buscar en cada caso, y dónde encaja Paws Club.",
+    date: "2026-04-28",
+    author: "Paws Club",
+    category: "Tips",
+    image: "/img/hotel.webp",
+    readTime: "8 min",
+    content: `"Hotel canino sin jaulas en CDMX" parece un término simple, pero el mercado tiene de todo: desde casas particulares con 2 perros hasta naves industriales con 30 perros amontonados. Esta es la guía honesta para decidir, organizada por zona.
+
+## Qué significa "sin jaulas" de verdad
+
+"Sin jaulas" no es un sello. Algunos hoteles lo usan en marketing pero los perros sí pasan tiempo encerrados — solo que en habitaciones individuales. Para validar:
+
+- ¿Dónde duermen exactamente los perros? (En cama propia, en sala común, en habitación cerrada).
+- ¿Cuánto tiempo del día pasan en zona común vs. encerrados?
+- ¿Hay supervisión nocturna o solo cámaras?
+
+En Paws Club los perros duermen en interior, en sala común con supervisión, en sus propias camas o en las nuestras. No hay jaulas físicas en el inmueble.
+
+## Zona Norte: Lindavista, Sta. María, San Rafael, Tlatelolco
+
+La zona norte de CDMX tiene tarifas más accesibles y suelen ser hoteles tipo "homestay" — casas adaptadas con familia presente 24/7. Pros y contras:
+
+**A favor:**
+- Tarifa más baja (hotel desde 340 MXN/noche vs. 450+ en Polanco).
+- Ambiente 100% hogareño, no comercial.
+- Cobertura amplia: Lindavista, Industrial Vallejo, Sta. María la Ribera, San Rafael, Tlatelolco, Buenavista, San Simón Tolnáhuac, Peralvillo, Magdalena de las Salinas.
+
+**Considerar:**
+- Tráfico al transportar al perro desde Polanco/Lomas puede ser el dealbreaker.
+- Algunos hoteles de la zona usan formato "se quedan en mi casa" sin protocolo formal de emergencias.
+
+## Zona Poniente: Polanco, Lomas, Tecamachalco, Miguel Hidalgo
+
+La zona poniente tiene tarifas más altas y la oferta es más comercial. Pros y contras:
+
+**A favor:**
+- Cercanía con muchos veterinarios 24/7 de calidad.
+- Servicios complementarios: paseos, adiestramiento, bañado en el mismo lugar.
+- Para tutores que viven en la zona, evita el tema del transporte.
+
+**Considerar:**
+- Tarifa más alta (450-550 MXN/noche).
+- Cupo Lleno frecuente — varios hoteles de Polanco están saturados.
+
+En Paws Club la sucursal Poniente está actualmente en lista de espera precisamente por esto. Si vives en la zona, lo más rápido para asegurar lugar es registrarte en la lista de espera para tener tarifa de fundador cuando abramos cupo.
+
+## Domingo: el detalle que casi nadie revisa
+
+La mayoría de los hoteles caninos en CDMX cierra los domingos o aplica recargo. Si tu perro va a estar de domingo, pregunta dos cosas:
+
+1. ¿El domingo cobra extra? (En zona norte tenemos un recargo de 20% por turno dominical, lo decimos por adelantado).
+2. ¿El domingo hay personal en sitio o solo "monitoreo remoto"?
+
+Un hotel sin personal en sitio el domingo no es hotel — es una guardería con cámaras.
+
+## Vacunas, antiparasitarios y prueba de socialización
+
+Los tres requisitos no negociables, sin importar la zona:
+
+- Cartilla de vacunación al día (mínimo: triple/quintuple, antirrábica, traqueobronquitis).
+- Antiparasitario externo y desparasitación interna recientes.
+- Prueba de socialización — saber cómo se comporta tu perro con otros antes de meterlo al grupo.
+
+Si un hotel canino te dice "tráelo y vemos cómo se comporta" sin antes confirmar lo anterior, ese es el hotel del que tu perro va a salir contagiado de algo.
+
+## Cómo elegir según tu caso
+
+- **Vives en zona norte y buscas ahorro + ambiente hogareño:** zona norte (incluyendo Paws Club Zona Norte).
+- **Vives en zona poniente y priorizas conveniencia + servicios extra:** zona poniente. Si buscas Paws Club Poniente, anótate en la lista de espera.
+- **Vives lejos de ambas:** considera transporte a domicilio. En Paws Club lo ofrecemos para zona norte y para los ya inscritos de la sucursal poniente cuando abra.
+
+## Lo que nunca debe pasar
+
+Independientemente de zona o precio, evita el hotel donde:
+
+- No te dejan ver las instalaciones antes de reservar.
+- No piden cartilla de vacunación.
+- No envían reportes con fotos durante la estancia.
+- No tienen veterinario de cabecera o protocolo de emergencias.
+- Manejan más perros de los que el espacio puede soportar (la regla simple: 2 metros cuadrados disponibles por perro, mínimo).
+
+## Cierre
+
+El precio no es el único filtro. Un hotel barato con 30 perros en una bodega te puede salir más caro si tu perro regresa con tos de las perreras o estresado. Un hotel caro tampoco garantiza nada por si solo. La pregunta correcta no es "cuánto cuesta" sino "cómo te tratan a ti y a tu perro antes de que te cobren".
+
+Si quieres conocer cómo trabajamos en Paws Club, agenda una visita sin compromiso a la sucursal de zona norte. Si vives en poniente, regístrate en la lista de espera para apartar lugar.`,
+  },
+  {
     slug: "ansiedad-por-separacion-perros",
     title: "Ansiedad por Separación en Perros: Cómo Identificarla y Tratarla",
     excerpt:
