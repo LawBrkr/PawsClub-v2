@@ -12,6 +12,8 @@ import {
   Star,
 } from "lucide-react";
 import type { Metadata } from "next";
+import SchemaMarkup from "@/components/SchemaMarkup";
+import { getLocalBusinessSchema } from "@/lib/schema";
 
 const branch = BRANCHES.poniente;
 
@@ -32,6 +34,7 @@ const branchServices = SERVICES.filter(
 export default function PonientePage() {
   return (
     <>
+      <SchemaMarkup data={getLocalBusinessSchema("poniente")} />
       {/* Hero */}
       <section className="relative flex min-h-[50vh] items-end md:items-center overflow-hidden">
         <Image
@@ -360,13 +363,4 @@ export default function PonientePage() {
             </a>
             <Link
               href="/sucursales/zona-norte"
-              className="inline-flex items-center gap-2 text-lg font-semibold text-white/90 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white"
-            >
-              Hotel y Guardería en Zona Norte →
-            </Link>
-          </div>
-        </div>
-      </section>
-    </>
-  );
-}
+              className="inline-flex items-center gap-2 text-lg font-semibold text-white/90 underline decoration-white/30 underline-offset-4 transition-colors 

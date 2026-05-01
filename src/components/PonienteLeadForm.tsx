@@ -42,27 +42,31 @@ export default function PonienteLeadForm() {
     setStatus("loading");
 
     try {
-      // Log payload for validation
-      console.log("[Lead Poniente]", JSON.stringify(form, null, 2));
-
       const res = await fetch("/api/waitlist/poniente", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
-      }).catch(() => null);
+      });
 
-      // If the endpoint doesn't exist yet, mock success
-      if (!res || !res.ok) {
-        console.log("[Lead Poniente] Endpoint no disponible — mock success");
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        console.error("[Lead Poniente] error", res.status, data);
+        setStatus("error");
+        return;
       }
 
-      // Log the generated WhatsApp URL for verification
-      const waUrl = buildWhatsAppUrl(form);
-      console.log("[Lead Poniente] WhatsApp URL:", waUrl);
+      // Disparar evento GTM para tracking de conversión
+      if (typeof window !== "undefined") {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const dl = (window as any).dataLayer;
+        if (Array.isArray(dl)) {
+          dl.push({ event: "lead_submit", form: "poniente_waitlist" });
+        }
+      }
 
       setStatus("success");
-    } catch {
-      console.error("[Lead Poniente] Error al enviar");
+    } catch (err) {
+      console.error("[Lead Poniente] network error", err);
       setStatus("error");
     }
   };
@@ -214,9 +218,4 @@ export default function PonienteLeadForm() {
         )}
       </button>
 
-      <p className="mt-3 text-center text-xs text-gray-400">
-        No compartimos tu información con terceros.
-      </p>
-    </form>
-  );
-}
+      <p className="mt-3 text-center text-xs text-gray-4

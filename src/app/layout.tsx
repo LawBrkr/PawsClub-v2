@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -66,13 +67,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className={inter.variable}>
-      <body className="bg-cream text-gray-900 antialiased">
-        <SchemaMarkup data={getOrganizationSchema()} />
-        <Header />
-        <main>{children}</main>
-        <Footer />
-        <WhatsAppButton />
-      </body>
-    </html>
-  );
-}
+      <head>
+        {/* Google Tag Manager */}
+        <Script
+          id="gtm-init"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `(function(w,d,s,l,i){w[l]=w[l]|
