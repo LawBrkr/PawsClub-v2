@@ -36,9 +36,11 @@ Orden por **impacto en captación de clientes**, no por dificultad técnica. Mar
     3. Probar end-to-end: enviar el form, verificar lead en Notion + recibir WhatsApp.
 
 - [ ] **Configura GA4 + eventos de conversión en GTM.**
-  Tags mínimos: GA4 Configuration, GA4 Event para `lead_submit`, `whatsapp_click`, `booking_open`. Disparadores: clic en `BookingButton`, clic en cualquier `wa.me`, submit de cualquier form.
+  Tags mínimos: GA4 Configuration (Measurement ID **G-8JJ7MTS5CC**), GA4 Event para `lead_submit`, `whatsapp_click`, `booking_open`. Disparadores: clic en `BookingButton`, clic en cualquier `wa.me`, submit de cualquier form.
+  - El form de Poniente ya empuja `lead_submit` al `dataLayer` automáticamente.
+  - IDs guardados en `src/lib/constants.ts` para referencia (`SITE.ga4MeasurementId`, `SITE.googleTagId`).
   *Hecho cuando:* en GA4 ves los 3 eventos cuando los disparas en producción.
-  *Esfuerzo:* 1 h.
+  *Esfuerzo:* 1 h. **(usuario: configurar tags en tagmanager.google.com)**
 
 - [ ] **Añade testimonios verificables a las 5 landings.**
   Mínimo 2-3 testimonios por landing con: nombre real, barrio, servicio usado, foto si tienes permiso. Si no tienes 10 reviews escritos, ofrece un descuento del 15% al próximo cliente que te deje uno.
@@ -156,4 +158,10 @@ Mes 2:            content SEO, rate limit, embed reviews real
 
 Considera la auditoría cerrada cuando:
 
-1. Todos los formularios de leads persisten en algú
+1. Todos los formularios de leads persisten en algún lugar (no solo WhatsApp).
+2. Cada CTA dispara un evento medible en GA4.
+3. `du -sh public/img` < 4 MB.
+4. https://securityheaders.com/?q=pawsclub.com.mx ≥ A.
+5. Las 5 landings tienen testimonios verificables y schema LocalBusiness completo.
+6. `git status -s` está limpio.
+7. No hay tokens vivos en disco.

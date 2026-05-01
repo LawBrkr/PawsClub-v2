@@ -14,6 +14,12 @@ export const SITE = {
   instagram: "https://www.instagram.com/pawsclubmx/",
   facebook: "https://www.facebook.com/profile.php?id=61586039731313",
   gtmId: "GTM-TQ4HDX82",
+  // Google Tag (gtag.js) y GA4 Measurement ID - referencia para configurar
+  // tags dentro del contenedor GTM. NO se inyectan directo desde el codigo:
+  // el flujo correcto es GTM -> tag "Google Analytics: GA4 Configuration"
+  // apuntando a ga4MeasurementId.
+  googleTagId: "GT-WKR86PRS",
+  ga4MeasurementId: "G-8JJ7MTS5CC",
   googleRating: 4.9,
   googleReviewCount: 25,
 } as const;
