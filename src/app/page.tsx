@@ -5,6 +5,32 @@ import { formatPrice } from "@/lib/utils";
 import { Star, Shield, Camera, Sparkles, Home, MapPin, ArrowRight, CheckCircle, ShieldCheck } from "lucide-react";
 
 import BookingButton from "@/components/BookingButton";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Guardería, Hotel & Adiestramiento Premium en CDMX | Paws Club",
+  description:
+    "Hotel canino sin jaulas, guardería supervisada y adiestramiento con refuerzo positivo en CDMX. +45 noches, +28 lomitos felices, +10 graduados. Agenda hoy.",
+  alternates: { canonical: "https://pawsclub.com.mx/" },
+  openGraph: {
+    type: "website",
+    locale: "es_MX",
+    url: "https://pawsclub.com.mx/",
+    siteName: "Paws Club",
+    title: "Paws Club — Hotel, Guardería y Adiestramiento Canino en CDMX",
+    description:
+      "Cuidado canino premium sin jaulas en CDMX y EdoMex. Hotel, guardería, paseos y adiestramiento con refuerzo positivo.",
+    images: [
+      {
+        url: "/img/paws-club-og.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Paws Club — Hotel y Guardería Canina CDMX",
+      },
+    ],
+  },
+};
+
 
 // ============================================
 // HERO

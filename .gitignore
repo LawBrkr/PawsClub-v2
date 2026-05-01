@@ -51,3 +51,5 @@ id_rsa*
 service-account*.json
 gcp-key*.json
 .trash-img/
+.archive/
+tsconfig.tsbuildinfo

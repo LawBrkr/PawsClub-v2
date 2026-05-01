@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import GoogleMap from "@/components/GoogleMap";
 import { SITE, BRANCHES } from "@/lib/constants";
 import {
@@ -16,6 +17,14 @@ import type { FormEvent } from "react";
 
 export default function ContactoPage() {
   const [submitted, setSubmitted] = useState(false);
+  const router = useRouter();
+
+  function handleSucursalChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    if (e.target.value === "Poniente") {
+      router.push("/sucursales/poniente#lista-espera");
+    }
+  }
+
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -126,10 +135,11 @@ export default function ContactoPage() {
                       id="sucursal"
                       name="sucursal"
                       required
+                      onChange={handleSucursalChange}
                       className="mt-1 w-full rounded-xl border border-gray-300 px-4 py-3 text-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
                     >
                       <option value="">Selecciona...</option>
-                      <option value="Poniente" disabled>📍 Poniente (Cupo Lleno)</option>
+                      <option value="Poniente">📍 Poniente (Cupo Lleno — únete a la lista de espera)</option>
                       <option value="Zona Norte">📍 Zona Norte (Lindavista, Sta. María)</option>
                       <option value="No estoy seguro">No estoy seguro</option>
                     </select>

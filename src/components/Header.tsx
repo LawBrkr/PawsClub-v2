@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X, ChevronDown } from "lucide-react";
@@ -9,6 +9,18 @@ import { NAV_ITEMS, SITE } from "@/lib/constants";
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+
+  // Esc cierra dropdowns abiertos (a11y)
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setOpenDropdown(null);
+        setMobileOpen(false);
+      }
+    }
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 bg-cream shadow-sm">
@@ -35,18 +47,37 @@ export default function Header() {
                 onMouseEnter={() => setOpenDropdown(item.label)}
                 onMouseLeave={() => setOpenDropdown(null)}
               >
-                <button className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-brand transition-colors hover:text-brand-hover">
+                <button
+                  type="button"
+                  aria-haspopup="menu"
+                  aria-expanded={openDropdown === item.label}
+                  aria-controls={`menu-${item.label}`}
+                  onClick={() =>
+                    setOpenDropdown(openDropdown === item.label ? null : item.label)
+                  }
+                  onFocus={() => setOpenDropdown(item.label)}
+                  className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-brand transition-colors hover:text-brand-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 rounded-md"
+                >
                   {item.label}
-                  <ChevronDown className="h-3.5 w-3.5 transition-transform group-hover:rotate-180" />
+                  <ChevronDown
+                    className={`h-3.5 w-3.5 transition-transform ${openDropdown === item.label ? "rotate-180" : ""}`}
+                  />
                 </button>
                 {openDropdown === item.label && (
-                  <div className="absolute left-1/2 top-full z-50 min-w-[220px] -translate-x-1/2 rounded-b-xl bg-white py-2 shadow-lg">
+                  <div
+                    id={`menu-${item.label}`}
+                    role="menu"
+                    aria-label={item.label}
+                    className="absolute left-1/2 top-full z-50 min-w-[220px] -translate-x-1/2 rounded-b-xl bg-white py-2 shadow-lg"
+                  >
                     <div className="absolute -top-4 left-0 h-4 w-full" />
                     {item.children.map((child) => (
                       <Link
                         key={child.href}
                         href={child.href}
-                        className="flex items-center gap-3 px-5 py-3 text-sm text-gray-700 transition-colors hover:bg-gray-50 hover:text-brand"
+                        role="menuitem"
+                        onClick={() => setOpenDropdown(null)}
+                        className="flex items-center gap-3 px-5 py-3 text-sm text-gray-700 transition-colors hover:bg-gray-50 hover:text-brand focus:outline-none focus-visible:bg-gray-50 focus-visible:text-brand"
                       >
                         <span className="text-lg">{child.icon}</span>
                         {child.label}

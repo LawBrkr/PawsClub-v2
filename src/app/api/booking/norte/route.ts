@@ -15,18 +15,19 @@ import { createBooking, getFilteredSlots } from "@/lib/calcom-client";
  */
 export async function POST(request: NextRequest) {
   const timestamp = new Date().toISOString();
+  const requestId = crypto.randomUUID();
 
   try {
     // ── 1. Parse request body ───────────────────────────────────
     const body: Partial<QualificationPayload> = await request.json();
 
-    console.log(`[${timestamp}] 📥 POST /api/booking/norte — Payload recibido:`, JSON.stringify(body, null, 2));
+    console.log(`[${timestamp}] [${requestId}] POST /api/booking/norte received`);
 
     // ── 2. Qualification check ──────────────────────────────────
     const qualification = validate({ ...body, branch: "norte" });
 
     if (!qualification.qualified) {
-      console.log(`[${timestamp}] ❌ Cualificación fallida:`, qualification.errors);
+      console.warn(`[${timestamp}] [${requestId}] qualification failed`);
       return NextResponse.json(
         {
           success: false,
@@ -40,7 +41,7 @@ export async function POST(request: NextRequest) {
     }
 
     const validated = qualification.validatedPayload!;
-    console.log(`[${timestamp}] ✅ Cualificación exitosa para: ${validated.ownerName} — Mascota: ${validated.petName}`);
+    console.log(`[${timestamp}] [${requestId}] qualification ok pet=${validated.petName}`);
 
     // ── 3. Verificar disponibilidad con buffer ──────────────────
     const availableSlots = await getFilteredSlots(validated.date);
@@ -50,7 +51,7 @@ export async function POST(request: NextRequest) {
     );
 
     if (!slotExists) {
-      console.log(`[${timestamp}] ⚠️ Slot no disponible: ${validated.timeSlot}`);
+      console.warn(`[${timestamp}] [${requestId}] slot unavailable`);
       return NextResponse.json(
         {
           success: false,
@@ -65,7 +66,7 @@ export async function POST(request: NextRequest) {
     }
 
     // ── 4. Crear booking en Cal.com ─────────────────────────────
-    console.log(`[${timestamp}] 📤 Creando booking en Cal.com...`);
+    console.log(`[${timestamp}] [${requestId}] creating Cal.com booking`);
 
     const bookingResult = await createBooking(validated.timeSlot, {
       ownerName: validated.ownerName,
@@ -78,7 +79,7 @@ export async function POST(request: NextRequest) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const bookingData = (bookingResult.booking || bookingResult) as Record<string, any>;
 
-    console.log(`[${timestamp}] 🎉 Booking creado exitosamente:`, JSON.stringify(bookingResult, null, 2));
+    console.log(`[${timestamp}] [${requestId}] booking created id=${bookingData.id} pet=${validated.petName}`);
 
     const endTimeStr = String(bookingData.endTime || bookingData.end || "");
     const startTimeStr = String(bookingData.startTime || bookingData.start || "");
@@ -111,14 +112,14 @@ export async function POST(request: NextRequest) {
     );
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : "Error desconocido";
-    console.error(`[${timestamp}] 💥 Error en /api/booking/norte:`, errorMessage);
+    console.error(`[${timestamp}] [${requestId}] booking error:`, errorMessage);
 
     return NextResponse.json(
       {
         success: false,
         step: "internal",
-        message: "Error interno del servidor al procesar la reserva.",
-        error: errorMessage,
+        requestId,
+        message: "Error interno al procesar la reserva. Intente de nuevo en unos minutos.",
       },
       { status: 500 }
     );
