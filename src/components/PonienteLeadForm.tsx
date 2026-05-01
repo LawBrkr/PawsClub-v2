@@ -218,4 +218,9 @@ export default function PonienteLeadForm() {
         )}
       </button>
 
-      <p className="mt-3 text-center text-xs text-gray-4
+      <p className="mt-3 text-center text-xs text-gray-400">
+        No compartimos tu información con terceros.
+      </p>
+    </form>
+  );
+}
