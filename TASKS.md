@@ -8,19 +8,11 @@ Orden por **impacto en captación de clientes**, no por dificultad técnica. Mar
 
 ## Hoy mismo (≤30 min cada una)
 
-- [x] **Revoca el GitHub PAT** (`token git.txt` en raíz). _(Armando, 2026-04-30)_
-
-- [x] **Restaura el cotizador Train & Go** — restaurado vía `git read-tree HEAD`; el archivo ya no aparece como deleted.
-
-- [x] **Inyecta GTM en `src/app/layout.tsx`** — `next/script` `afterInteractive` + `<noscript>` iframe en `<body>`. ID `GTM-TQ4HDX82` desde `SITE.gtmId`. _(commit 10c24f2)_
-  *Pendiente del usuario:* validar en producción que `gtm.js` carga y GA4 Realtime ve la sesión.
-
-- [x] **Schema LocalBusiness en sucursal Poniente** — `<SchemaMarkup data={getLocalBusinessSchema("poniente")} />` agregado a `sucursales/poniente/page.tsx`. _(commit 10c24f2)_
-  *Pendiente del usuario:* tras el deploy, validar en https://search.google.com/test/rich-results.
-
-- [x] **Comitea el WIP gigante** — 9 commits agrupados por tema (captura, landings, servicios+sucursales, páginas, components, lib+config, docs internos, asset borrado, AUDITORIA+TASKS). Working tree limpio salvo untracked que se moverán fuera del repo en P1.
-
----
+- [x] **Revoca el GitHub PAT** _(Armando, 2026-04-30)_
+- [x] **Restaura el cotizador Train & Go** — restaurado vía `git read-tree HEAD`.
+- [x] **GTM-TQ4HDX82 inyectado en `src/app/layout.tsx`** — `next/script afterInteractive` + `<noscript>` iframe.
+- [x] **Schema LocalBusiness en sucursal Poniente** — validado en Rich Results Test (4 elementos válidos).
+- [x] **WIP gigante comiteado** — 9 commits agrupados por tema. Working tree limpio.
 
 ## Esta semana (P0 — mayor impacto en clientes)
 
@@ -47,21 +39,16 @@ Orden por **impacto en captación de clientes**, no por dificultad técnica. Mar
   *Hecho cuando:* las 5 landings tienen al menos 2 testimonios cada una.
   *Esfuerzo:* 1-2 h por landing + acumular reviews reales.
 
-- [ ] **Agrega favicon, `not-found.tsx` y `error.tsx`.**
-  - `src/app/favicon.ico` (genera uno desde el logo, 32x32).
-  - `src/app/not-found.tsx` con CTA a WhatsApp y home.
-  - `src/app/error.tsx` que muestre mensaje claro y botón "Volver al inicio".
-  *Hecho cuando:* visitas una URL inválida y ves la página 404 customizada.
-  *Esfuerzo:* 1 h.
+- [x] **Favicon, `not-found.tsx` y `error.tsx`** — listos.
+  - `src/app/favicon.ico` multi-size 16/32/48 generado desde `logo.webp`
+  - `not-found.tsx`: CTA a Home + WhatsApp con mensaje prefijado
+  - `error.tsx`: Reintentar + Home + WhatsApp + muestra el `digest` del error
 
-- [ ] **Optimiza imágenes de `/public/img`.**
-  Pasos:
-  1. `grep -rln "Gemini_Generated\|El ecosistema Paws Club\|Más que obediencia\|Exploración y Libertad" src public` — si nadie las referencia, borra los 4 PNGs gigantes (~30 MB liberados).
-  2. Borra `paseos.jpeg` (2 MB) — ya tienes `paseos.webp`.
-  3. Borra `paws-club-og.png` (1.3 MB) — el layout usa `.jpg`.
-  4. Recomprime `hotel.webp` a calidad 80 con `cwebp` — debería bajar de 536 KB a ~150 KB.
-  *Hecho cuando:* `du -sh public/img` reporta < 4 MB.
-  *Esfuerzo:* 1 h.
+- [x] **Optimización de `/public/img`** — **36 MB → 2.6 MB** (target < 4 MB ✓).
+  - Movidos a `.trash-img/` (ignorado por git): 4 PNGs huérfanos (~29.7 MB), `paseos.jpeg`, `paws-club-og.png`
+  - `hotel.webp` recomprimido: 2816×1536 → 1920×1047, calidad 82 (548 KB → 318 KB)
+  - **Pendiente del usuario:** desde Windows borra `.trash-img/` cuando confirmes:
+    `Remove-Item -Recurse -Force .\\.trash-img`
 
 ---
 

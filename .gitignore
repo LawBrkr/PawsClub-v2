@@ -49,4 +49,5 @@ id_rsa*
 *.p12
 *.pfx
 service-account*.json
-gcp-key*.json
+gcp-key*.json
+.trash-img/

@@ -14,6 +14,7 @@ import {
 import type { Metadata } from "next";
 import SchemaMarkup from "@/components/SchemaMarkup";
 import { getLocalBusinessSchema } from "@/lib/schema";
+import PonienteLeadForm from "@/components/PonienteLeadForm";
 
 const branch = BRANCHES.poniente;
 
@@ -335,6 +336,41 @@ export default function PonientePage() {
                 />
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Lista de espera Poniente */}
+      <section id="lista-espera" className="bg-cream py-16 md:py-20">
+        <div className="mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-2 lg:items-center lg:gap-16 lg:px-8">
+          <div>
+            <span className="inline-block rounded-full bg-accent-orange/15 px-4 py-1.5 text-sm font-semibold text-accent-orange">
+              Cupo limitado
+            </span>
+            <h2 className="mt-4 text-3xl font-extrabold leading-tight text-gray-900 md:text-4xl">
+              Paws Club Poniente esta en lista de espera
+            </h2>
+            <p className="mt-4 text-lg text-gray-600">
+              Estamos ampliando capacidad para Polanco, Lomas y Tecamachalco.
+              Registrate y eres el primero en saber cuando abramos cupo para tu servicio.
+            </p>
+            <ul className="mt-6 space-y-3 text-gray-700">
+              <li className="flex items-start gap-2">
+                <CheckCircle className="mt-1 h-5 w-5 flex-shrink-0 text-brand" />
+                <span>Aviso prioritario antes de la apertura publica</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle className="mt-1 h-5 w-5 flex-shrink-0 text-brand" />
+                <span>Tarifa de fundador para los primeros inscritos</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle className="mt-1 h-5 w-5 flex-shrink-0 text-brand" />
+                <span>Evaluacion conductual sin costo al iniciar</span>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <PonienteLeadForm />
           </div>
         </div>
       </section>
