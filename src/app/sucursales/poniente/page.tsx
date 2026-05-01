@@ -363,4 +363,13 @@ export default function PonientePage() {
             </a>
             <Link
               href="/sucursales/zona-norte"
-              className="inline-flex items-center gap-2 text-lg font-semibold text-white/90 underline decoration-white/30 underline-offset-4 transition-colors 
+              className="inline-flex items-center gap-2 text-lg font-semibold text-white/90 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white"
+            >
+              Hotel y Guardería en Zona Norte →
+            </Link>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
