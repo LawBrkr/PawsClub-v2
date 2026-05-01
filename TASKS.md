@@ -8,35 +8,32 @@ Orden por **impacto en captación de clientes**, no por dificultad técnica. Mar
 
 ## Hoy mismo (≤30 min cada una)
 
-- [ ] **Revoca el GitHub PAT** (`token git.txt` en raíz).
-  Ve a https://github.com/settings/tokens, revoca `ghp_REVOKED`. Después borra el archivo (`rm "token git.txt"`).
-  *Hecho cuando:* el token ya no aparece en GitHub y el archivo no está en disco.
+- [x] **Revoca el GitHub PAT** (`token git.txt` en raíz). _(Armando, 2026-04-30)_
 
-- [ ] **Restaura el cotizador Train & Go** que está marcado para borrarse.
-  `git restore public/herramientas/cotizador-train-and-go.html` y vuelve a comitearlo.
-  *Hecho cuando:* `git status` no lo lista como deleted.
+- [x] **Restaura el cotizador Train & Go** — restaurado vía `git read-tree HEAD`; el archivo ya no aparece como deleted.
 
-- [ ] **Inyecta GTM en `src/app/layout.tsx`.**
-  Usa `next/script` con `strategy="afterInteractive"` y el ID `GTM-TQ4HDX82` que ya está en `constants.ts:16`.
-  *Hecho cuando:* abres pawsclub.com.mx, ves la red disparar `gtm.js` y en GA4 Realtime ves tu sesión.
+- [x] **Inyecta GTM en `src/app/layout.tsx`** — `next/script` `afterInteractive` + `<noscript>` iframe en `<body>`. ID `GTM-TQ4HDX82` desde `SITE.gtmId`. _(commit 10c24f2)_
+  *Pendiente del usuario:* validar en producción que `gtm.js` carga y GA4 Realtime ve la sesión.
 
-- [ ] **Llama al schema en sucursal Poniente.**
-  Copia el patrón de `src/app/sucursales/zona-norte/page.tsx:35` a `sucursales/poniente/page.tsx`. La función ya existe (`getLocalBusinessSchema("poniente")`).
-  *Hecho cuando:* validador de Google (https://search.google.com/test/rich-results) reconoce LocalBusiness en `/sucursales/poniente`.
+- [x] **Schema LocalBusiness en sucursal Poniente** — `<SchemaMarkup data={getLocalBusinessSchema("poniente")} />` agregado a `sucursales/poniente/page.tsx`. _(commit 10c24f2)_
+  *Pendiente del usuario:* tras el deploy, validar en https://search.google.com/test/rich-results.
 
-- [ ] **Comitea el WIP gigante.**
-  Hay 33+ archivos modificados sin commit. Revisa `git diff --stat`, agrupa por tema, comitea. Recordatorio: en este repo necesitas el workaround `GIT_INDEX_FILE=/tmp` por virtiofs.
-  *Hecho cuando:* `git status -s` está limpio.
+- [x] **Comitea el WIP gigante** — 9 commits agrupados por tema (captura, landings, servicios+sucursales, páginas, components, lib+config, docs internos, asset borrado, AUDITORIA+TASKS). Working tree limpio salvo untracked que se moverán fuera del repo en P1.
 
 ---
 
 ## Esta semana (P0 — mayor impacto en clientes)
 
-- [ ] **Crea `/api/waitlist/poniente/route.ts` para que dejen de perderse leads.**
-  El form `PonienteLeadForm.tsx:48-57` postea a un endpoint inexistente.
-  Mínimo viable: validar payload con zod, persistir a Notion (NOTION_API_KEY ya existe en `.env`), enviar WhatsApp a tu número con el lead.
-  *Hecho cuando:* envías el form en local, el lead aparece en tu Notion y te llega el WhatsApp.
-  *Esfuerzo:* 1-2 h.
+- [x] **Crea `/api/waitlist/poniente/route.ts`** — listo. _(commit 10c24f2)_
+  - `src/app/api/waitlist/poniente/route.ts` con validación zod (nombre, email, colonia, servicio enum)
+  - `src/lib/notion-waitlist.ts` persiste vía REST a la DB de Notion (`NOTION_API_KEY` + `NOTION_DATABASE_ID`)
+  - `src/lib/whatsapp-notify.ts` notifica al admin: WhatsApp Cloud API si hay `WHATSAPP_BUSINESS_TOKEN/PHONE_ID/ADMIN_NUMBER`, fallback a `LEAD_WEBHOOK_URL` (n8n/Make/Zapier), o skip silencioso
+  - `PonienteLeadForm.tsx`: ya no mockea éxito, maneja error real y empuja `lead_submit` al dataLayer
+  - `zod` agregado a `package.json` (ya `npm install`-eado en sandbox)
+  *Pendiente del usuario:*
+    1. Confirmar que la DB de Notion tiene las propiedades esperadas (Nombre/Title, Email, Colonia, Servicio, Origen). Si difieren, ajusta `notion-waitlist.ts`.
+    2. Decidir canal de notificación: configurar variables de WhatsApp Cloud API o un webhook (más fácil: Make/Zapier que mande WhatsApp).
+    3. Probar end-to-end: enviar el form, verificar lead en Notion + recibir WhatsApp.
 
 - [ ] **Configura GA4 + eventos de conversión en GTM.**
   Tags mínimos: GA4 Configuration, GA4 Event para `lead_submit`, `whatsapp_click`, `booking_open`. Disparadores: clic en `BookingButton`, clic en cualquier `wa.me`, submit de cualquier form.
@@ -159,10 +156,4 @@ Mes 2:            content SEO, rate limit, embed reviews real
 
 Considera la auditoría cerrada cuando:
 
-1. Todos los formularios de leads persisten en algún lugar (no solo WhatsApp).
-2. Cada CTA dispara un evento medible en GA4.
-3. `du -sh public/img` < 4 MB.
-4. https://securityheaders.com/?q=pawsclub.com.mx ≥ A.
-5. Las 5 landings tienen testimonios verificables y schema LocalBusiness completo.
-6. `git status -s` está limpio.
-7. No hay tokens vivos en disco.
+1. Todos los formularios de leads persisten en algú
