@@ -1,20 +1,28 @@
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { BLOG_POSTS } from "@/lib/blog-data";
 import { Clock, ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Blog — Tips y Consejos de Cuidado Canino | Paws Club",
-  description:
-    "Artículos sobre cuidado canino, entrenamiento, socialización, nutrición y más. Consejos prácticos del equipo Paws Club para papás perrunos.",
-  openGraph: {
-    title: "Blog | Paws Club CDMX",
-    description: "Tips y consejos de cuidado canino de los expertos de Paws Club.",
-  },
-};
+// Blog oculto temporalmente — pendiente generar imágenes hero con Gemini.
+// Para reactivar: poner BLOG_HIDDEN = false.
+const BLOG_HIDDEN = true;
+
+export const metadata: Metadata = BLOG_HIDDEN
+  ? { robots: { index: false, follow: false } }
+  : {
+      title: "Blog — Tips y Consejos de Cuidado Canino | Paws Club",
+      description:
+        "Artículos sobre cuidado canino, entrenamiento, socialización, nutrición y más. Consejos prácticos del equipo Paws Club para papás perrunos.",
+      openGraph: {
+        title: "Blog | Paws Club CDMX",
+        description: "Tips y consejos de cuidado canino de los expertos de Paws Club.",
+      },
+    };
 
 export default function BlogPage() {
+  if (BLOG_HIDDEN) notFound();
   return (
     <>
       {/* Hero */}

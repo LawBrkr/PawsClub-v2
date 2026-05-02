@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Cotizador Paws Club">
-<title>Cotizador Train & Go Paws Club v3</title>
+<title>Cotizador Paws Club (interno)</title>
 <style>
   :root {
     color-scheme: light;
@@ -149,13 +149,42 @@
   .program-btn.active { border-color: var(--brand); background: #eff6ff; color: var(--brand); }
   .program-btn .price-hint { display: block; font-size: 11px; font-weight: 600; margin-top: 3px; opacity: 0.7; }
 
-  .domicilio-toggle {
-    background: #fef3c7; border: 1.5px dashed var(--warn);
-    padding: 8px 12px; border-radius: 8px; margin-bottom: 12px;
-    font-size: 12px; color: #92400e;
+  /* ===== SERVICE TABS (Adiestramiento / Hotel / Guardería / Paseos) ===== */
+  .service-tabs {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+    background: white; border: 1px solid var(--border); border-radius: 14px;
+    padding: 6px; margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
   }
-  .domicilio-toggle label { display: flex; align-items: center; gap: 8px; margin: 0; cursor: pointer; }
-  .domicilio-toggle input { width: auto; margin: 0; }
+  .svc-tab {
+    padding: 10px 6px; border: 1.5px solid transparent; border-radius: 10px;
+    background: transparent; cursor: pointer; text-align: center;
+    font-weight: 700; font-size: 12px; transition: all 0.15s;
+    font-family: inherit; color: var(--muted);
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    line-height: 1.2;
+  }
+  .svc-tab .svc-icon { font-size: 18px; }
+  .svc-tab.active { background: var(--brand); color: white; box-shadow: 0 2px 6px rgba(37,99,235,0.3); }
+  .svc-tab:hover:not(.active) { background: #f3f4f6; color: var(--text); }
+  @media (max-width: 600px) {
+    .svc-tab { font-size: 11px; padding: 8px 4px; }
+    .svc-tab .svc-icon { font-size: 16px; }
+  }
+
+  /* Service-specific sections — show/hide */
+  [data-svc-panel] { display: none; }
+  [data-svc-panel].active { display: block; }
+
+  .simple-result {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border: 2px solid var(--accent);
+    border-radius: 12px; padding: 18px; margin-bottom: 14px; text-align: center;
+  }
+  .simple-result .result-label { font-size: 11px; color: #92400e; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .simple-result .result-amount { font-size: 36px; font-weight: 800; color: var(--accent); margin: 4px 0; line-height: 1.1; }
+  .simple-result .result-sub { font-size: 12px; color: #78350f; }
+
 
   /* ===== DOCUMENTO VISUAL PAWS CLUB ===== */
   .pdf-doc {
@@ -253,9 +282,25 @@
 <body>
 <div class="container">
   <header>
-    <h1>🐾 Train & Go Paws Club</h1>
-    <p>Cotizador v3 · Adiestramiento con transporte diario · Tu perro siempre regresa a casa</p>
+    <h1>🐾 Cotizador Paws Club</h1>
+    <p id="header_subtitle">Una sola herramienta · Hotel · Guardería · Adiestramiento · Paseos</p>
   </header>
+
+  <!-- Service tabs -->
+  <div class="service-tabs" role="tablist">
+    <button class="svc-tab active" data-svc="adiestramiento" onclick="setService('adiestramiento')">
+      <span class="svc-icon">🎓</span>Adiestramiento
+    </button>
+    <button class="svc-tab" data-svc="hotel" onclick="setService('hotel')">
+      <span class="svc-icon">🏨</span>Hotel
+    </button>
+    <button class="svc-tab" data-svc="guarderia" onclick="setService('guarderia')">
+      <span class="svc-icon">☀️</span>Guardería
+    </button>
+    <button class="svc-tab" data-svc="paseos" onclick="setService('paseos')">
+      <span class="svc-icon">🐾</span>Paseos
+    </button>
+  </div>
 
   <div class="grid">
     <div class="card">
@@ -270,82 +315,197 @@
         <label>Nombre del perro</label>
         <input type="text" id="perro_nombre" placeholder="Ej. Toby">
       </div>
-      <div class="row-2">
-        <div class="field">
-          <label>Peso (kg)</label>
-          <input type="number" id="peso" placeholder="25" min="1" max="100">
-          <div class="help">Sin recargo hasta 35 kg</div>
+
+      <!-- ============ ADIESTRAMIENTO panel ============ -->
+      <div data-svc-panel="adiestramiento" class="active">
+        <div class="row-2">
+          <div class="field">
+            <label>Peso (kg)</label>
+            <input type="number" id="peso" placeholder="25" min="1" max="100">
+            <div class="help">Sin recargo hasta 35 kg</div>
+          </div>
+          <div class="field">
+            <label>Edad</label>
+            <select id="edad">
+              <option value="cachorro">Cachorro 4-12 meses</option>
+              <option value="adulto" selected>Adulto 1-7 años</option>
+              <option value="senior">Senior +8 años</option>
+            </select>
+          </div>
         </div>
         <div class="field">
-          <label>Edad</label>
-          <select id="edad">
-            <option value="cachorro">Cachorro 4-12 meses</option>
-            <option value="adulto" selected>Adulto 1-7 años</option>
-            <option value="senior">Senior +8 años</option>
+          <label>Raza</label>
+          <input type="text" id="raza_nombre" placeholder="Ej. Golden, Pastor alemán, Mestizo...">
+        </div>
+        <div class="field">
+          <label>Categoría de raza</label>
+          <select id="raza_cat">
+            <option value="estandar" selected>Estándar (cualquiera no-PPP)</option>
+            <option value="ppp">⛔ PPP — pit bull, rottweiler, bulldog americano, etc.</option>
+          </select>
+          <div class="help">Razas PPP se cotizan aparte a tu discreción</div>
+        </div>
+        <div class="field">
+          <label>Conducta</label>
+          <select id="conducta">
+            <option value="normal" selected>Sin problemas conductuales</option>
+            <option value="moderada">Moderada (jala correa, salta, ladra a visitas)</option>
+            <option value="seria">Seria (reactividad, ansiedad, agresión)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Zona del cliente</label>
+          <select id="zona">
+            <option value="cercana" selected>Cercana — Polanco, Lomas, Roma, Condesa, Cuauhtémoc</option>
+            <option value="media">Media — Coyoacán, Mixcoac, Naucalpan, Lomas Verdes</option>
+            <option value="lejana">Lejana — Santa Fe, Cuajimalpa, Interlomas</option>
           </select>
         </div>
       </div>
-      <div class="field">
-        <label>Raza</label>
-        <input type="text" id="raza_nombre" placeholder="Ej. Golden, Pastor alemán, Mestizo...">
-      </div>
-      <div class="field">
-        <label>Categoría de raza</label>
-        <select id="raza_cat">
-          <option value="estandar" selected>Estándar (cualquiera no-PPP)</option>
-          <option value="ppp">⛔ PPP — pit bull, rottweiler, bulldog americano, etc.</option>
-        </select>
-        <div class="help">Razas PPP se cotizan aparte a tu discreción</div>
-      </div>
-      <div class="field">
-        <label>Conducta</label>
-        <select id="conducta">
-          <option value="normal" selected>Sin problemas conductuales</option>
-          <option value="moderada">Moderada (jala correa, salta, ladra a visitas)</option>
-          <option value="seria">Seria (reactividad, ansiedad, agresión)</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Zona del cliente</label>
-        <select id="zona">
-          <option value="cercana" selected>Cercana — Polanco, Lomas, Roma, Condesa, Cuauhtémoc</option>
-          <option value="media">Media — Coyoacán, Mixcoac, Naucalpan, Lomas Verdes</option>
-          <option value="lejana">Lejana — Santa Fe, Cuajimalpa, Interlomas</option>
-        </select>
+
+      <!-- ============ HOTEL panel ============ -->
+      <div data-svc-panel="hotel">
+        <div class="field">
+          <label>Sucursal</label>
+          <select id="hotel_sucursal">
+            <option value="zona-norte" selected>Zona Norte ($340 L-S · $410 dom)</option>
+            <option value="poniente">Poniente ($450 L-S · $550 dom)</option>
+          </select>
+        </div>
+        <div class="row-2">
+          <div class="field">
+            <label>Check-in</label>
+            <input type="date" id="hotel_in">
+          </div>
+          <div class="field">
+            <label>Check-out</label>
+            <input type="date" id="hotel_out">
+            <div class="help">Cobro por noche, no por día</div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Número de perros</label>
+          <input type="number" id="hotel_perros" min="1" max="10" value="1">
+        </div>
       </div>
 
-      <div class="domicilio-toggle">
-        <label>
-          <input type="checkbox" id="domicilio">
-          Sesiones a DOMICILIO del cliente (uso interno, no se muestra al cliente — costo extra)
-        </label>
+      <!-- ============ GUARDERÍA panel ============ -->
+      <div data-svc-panel="guarderia">
+        <div class="field">
+          <label>Sucursal</label>
+          <select id="guarderia_sucursal">
+            <option value="zona-norte" selected>Zona Norte ($260/día)</option>
+            <option value="poniente">Poniente ($350/día)</option>
+          </select>
+        </div>
+        <div class="row-2">
+          <div class="field">
+            <label>Inicio</label>
+            <input type="date" id="guarderia_in">
+          </div>
+          <div class="field">
+            <label>Fin</label>
+            <input type="date" id="guarderia_out">
+            <div class="help">Cobro por día hábil (L-S, no domingos)</div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Número de perros</label>
+          <input type="number" id="guarderia_perros" min="1" max="10" value="1">
+        </div>
       </div>
 
-      <button class="btn btn-secondary" onclick="resetForm()">↺ Limpiar</button>
+      <!-- ============ PASEOS panel ============ -->
+      <div data-svc-panel="paseos">
+        <div class="alert alert-info" style="margin-bottom: 12px;">
+          ℹ️ Paseos son <strong>exclusivos de Zona Norte</strong>.
+        </div>
+        <div class="field">
+          <label>Plan</label>
+          <select id="paseos_plan">
+            <option value="individual" selected>Individual — $90/paseo</option>
+            <option value="paquete5">Paquete 5 paseos — $400</option>
+            <option value="paquete10">Paquete 10 paseos — $750</option>
+            <option value="mensual">Plan mensual (20 paseos) — $1,400</option>
+          </select>
+        </div>
+        <div class="field">
+          <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+            <input type="checkbox" id="paseos_2do" style="width:auto; margin:0;">
+            Segundo perro (+$60/paseo)
+          </label>
+        </div>
+        <div class="field">
+          <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+            <input type="checkbox" id="paseos_sabado" style="width:auto; margin:0;">
+            Incluir aventura sábado
+          </label>
+        </div>
+        <div class="field" id="paseos_sabado_field" style="display:none;">
+          <label>Plan sábado</label>
+          <select id="paseos_sabado_plan">
+            <option value="individual" selected>1 fecha — $650</option>
+            <option value="paquete4">Paquete 4 sábados — $2,200</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="btn btn-secondary" onclick="resetForm()" style="margin-top:8px;">↺ Limpiar</button>
     </div>
 
     <div class="card">
-      <h2 id="output_title">Selección de proveedor y cotización</h2>
+      <h2 id="output_title">Cotización</h2>
 
       <div id="alert_box"></div>
 
-      <div id="estandar_section">
-        <h3>Comparativo de proveedores · selecciona uno</h3>
-        <table class="provider-table" id="provider_table">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Proveedor</th>
-              <th>Costo</th>
-              <th>Tu margen</th>
-            </tr>
-          </thead>
-          <tbody id="provider_tbody"></tbody>
-        </table>
-        <div class="alert alert-info" id="suggestion_box"></div>
+      <!-- ============ ADIESTRAMIENTO output ============ -->
+      <div data-svc-panel="adiestramiento" class="active">
+        <div id="estandar_section">
+          <h3>Comparativo de proveedores · selecciona uno</h3>
+          <table class="provider-table" id="provider_table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Proveedor</th>
+                <th>Costo</th>
+                <th>Tu margen</th>
+              </tr>
+            </thead>
+            <tbody id="provider_tbody"></tbody>
+          </table>
+          <div class="alert alert-info" id="suggestion_box"></div>
+        </div>
       </div>
 
-      <details class="breakdown">
+      <!-- ============ HOTEL / GUARDERÍA / PASEOS output ============ -->
+      <div data-svc-panel="hotel">
+        <div class="simple-result">
+          <div class="result-label">Total a cobrar</div>
+          <div class="result-amount" id="hotel_total">$0</div>
+          <div class="result-sub" id="hotel_meta">—</div>
+        </div>
+        <div id="hotel_breakdown" style="margin-bottom:14px; font-size:13px;"></div>
+      </div>
+
+      <div data-svc-panel="guarderia">
+        <div class="simple-result">
+          <div class="result-label">Total a cobrar</div>
+          <div class="result-amount" id="guarderia_total">$0</div>
+          <div class="result-sub" id="guarderia_meta">—</div>
+        </div>
+        <div id="guarderia_breakdown" style="margin-bottom:14px; font-size:13px;"></div>
+      </div>
+
+      <div data-svc-panel="paseos">
+        <div class="simple-result">
+          <div class="result-label">Total a cobrar</div>
+          <div class="result-amount" id="paseos_total">$0</div>
+          <div class="result-sub" id="paseos_meta">—</div>
+        </div>
+        <div id="paseos_breakdown" style="margin-bottom:14px; font-size:13px;"></div>
+      </div>
+
+      <details class="breakdown" data-svc-only="adiestramiento">
         <summary>Desglose interno (no se muestra al cliente)</summary>
         <div id="breakdown_content" style="margin-top:8px;"></div>
       </details>
@@ -355,7 +515,7 @@
         <button class="tab" onclick="setTab('doc')">📄 Documento completo</button>
         <button class="tab" onclick="setTab('req')">✅ Requisitos</button>
         <button class="tab" onclick="setTab('faq')">💬 Qué esperar</button>
-        <button class="tab" onclick="setTab('pdf')">📥 PDF / Imagen</button>
+        <button class="tab" onclick="setTab('pdf')" data-svc-only="adiestramiento">📥 PDF / Imagen</button>
       </div>
 
       <div class="tab-content active" id="tab_cot">
@@ -381,7 +541,7 @@
               <img src="data:image/png;base64,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" alt="Paws Club Logo">
               <div class="pdf-doc-header-text">
                 <div class="brand">PAWS CLUB</div>
-                <div class="program" id="pdf_program">Train & Go Estándar</div>
+                <div class="program" id="pdf_program">Train & Go</div>
                 <div class="date" id="pdf_date">Cotización · 29 de abril, 2026</div>
               </div>
             </div>
@@ -392,7 +552,7 @@
             <div class="pdf-price-box">
               <div>
                 <div class="pdf-price-label">Inversión total</div>
-                <div class="pdf-price-amount" id="pdf_price">$19,900 MXN</div>
+                <div class="pdf-price-amount" id="pdf_price">$8,500 MXN</div>
                 <div class="pdf-price-sub">Todo incluido — sin costos ocultos</div>
               </div>
               <div class="pdf-price-meta">
@@ -432,17 +592,122 @@
   </div>
 
   <footer>
-    Train & Go Paws Club · Cotizador v3 · Salida desde C. Violante 5, Cuauhtémoc<br>
-    El perro vive en casa del cliente · Transporte ida y vuelta cada día de sesión
+    Paws Club · Cotizador interno · Uso exclusivo del equipo<br>
+    Adiestramiento · Hotel · Guardería · Paseos
   </footer>
 </div>
 
 <script>
-const KM_BASE = 30;
-const COSTO_KM = 3.60;
+// ===== ADIESTRAMIENTO =====
 const SESIONES_ESTANDAR = 12;
-const PRECIO_ESTANDAR = 19900;
-const RECARGO_DOMICILIO_DIA = 350; // costo extra de logística por día cuando entrenador va a domicilio del cliente
+const PRECIO_ESTANDAR = 8500; // precio público fijo Train & Go (Plan A — lanzamiento)
+// El costo de cada proveedor en PROVEEDORES_ESTANDAR es END-TO-END:
+// incluye sesiones + traslado a domicilio del cliente. No se suma logística
+// adicional. Si en el futuro algún proveedor cobra transporte aparte, se
+// agrega como recargo manual o se suma a su `costo`.
+
+// ===== HOTEL / GUARDERÍA / PASEOS =====
+// Precios espejo de src/lib/constants.ts — cambiar aquí también si se editan
+// allá. Las funciones de cálculo replican la lógica del cotizador legacy.
+const PRECIOS_HOTEL = {
+  poniente: { weekday: 450, sunday: 550 },
+  zonaNorte: { weekday: 340, sunday: 410 }
+};
+const PRECIOS_GUARDERIA = {
+  poniente: 350,
+  zonaNorte: 260
+};
+const PRECIOS_PASEOS = {
+  individual: 90,
+  paquete5: 400,
+  paquete10: 750,
+  mensual: 1400,
+  segundoPerro: 60,
+  aventuraSabado: 650,
+  paquete4Sabados: 2200,
+  segundoPerroSabado: 350
+};
+
+// Servicio activo
+let currentService = 'adiestramiento';
+
+// ===== Service tab switching =====
+function setService(svc) {
+  currentService = svc;
+  // Tabs visual
+  document.querySelectorAll('.svc-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.svc === svc);
+  });
+  // Panels (form + output)
+  document.querySelectorAll('[data-svc-panel]').forEach(p => {
+    p.classList.toggle('active', p.dataset.svcPanel === svc);
+  });
+  // Elements that only show for specific services (PDF tab, breakdown, etc.)
+  document.querySelectorAll('[data-svc-only]').forEach(el => {
+    el.style.display = (el.dataset.svcOnly === svc) ? '' : 'none';
+  });
+  // Subtitle
+  const subtitles = {
+    adiestramiento: 'Adiestramiento Train & Go · A domicilio · 12 sesiones',
+    hotel: 'Hotel boutique sin jaulas · Por noche',
+    guarderia: 'Guardería canina · Por día hábil',
+    paseos: 'Paseos diarios · Exclusivo Zona Norte'
+  };
+  document.getElementById('header_subtitle').textContent = subtitles[svc];
+  // Output title
+  const titles = {
+    adiestramiento: 'Selección de proveedor y cotización',
+    hotel: 'Cotización Hotel',
+    guarderia: 'Cotización Guardería',
+    paseos: 'Cotización Paseos'
+  };
+  document.getElementById('output_title').textContent = titles[svc];
+  // Si la pestaña activa es PDF y cambiamos a un servicio que no la tiene,
+  // volver a WhatsApp corto.
+  if (svc !== 'adiestramiento') {
+    const pdfTab = document.getElementById('tab_pdf');
+    if (pdfTab && pdfTab.classList.contains('active')) {
+      // Forzar a la pestaña WhatsApp
+      document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      const cotTabBtn = document.querySelector('.tab[onclick*="cot"]');
+      if (cotTabBtn) cotTabBtn.classList.add('active');
+      document.getElementById('tab_cot').classList.add('active');
+    }
+  }
+  // Recalc
+  calcular();
+}
+
+// ===== Date helpers =====
+function parseDate(str) {
+  if (!str) return null;
+  const [y, m, d] = str.split('-').map(Number);
+  return new Date(y, m - 1, d);
+}
+function fmtDate(d) {
+  if (!d) return '—';
+  return d.toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+function countHotelNights(start, end) {
+  let weekday = 0, sunday = 0;
+  const cur = new Date(start);
+  while (cur < end) {
+    if (cur.getDay() === 6) sunday++; // sábado→domingo se cobra domingo
+    else weekday++;
+    cur.setDate(cur.getDate() + 1);
+  }
+  return { weekday, sunday, total: weekday + sunday };
+}
+function countGuarderiaDays(start, end) {
+  let days = 0;
+  const cur = new Date(start);
+  while (cur <= end) {
+    if (cur.getDay() !== 0) days++; // excluir domingos
+    cur.setDate(cur.getDate() + 1);
+  }
+  return days;
+}
 
 const RECARGO_ZONA = { cercana: 0, media: 1500, lejana: 3500 };
 const RECARGO_EDAD = { cachorro: 0, adulto: 0, senior: 2000 };
@@ -466,6 +731,15 @@ function setTab(t) {
 }
 
 function calcular() {
+  // Branch by service
+  if (currentService === 'hotel') return calcularHotel();
+  if (currentService === 'guarderia') return calcularGuarderia();
+  if (currentService === 'paseos') return calcularPaseos();
+  // Default: adiestramiento (la lógica original sigue abajo)
+  return calcularAdiestramiento();
+}
+
+function calcularAdiestramiento() {
   const nombre = document.getElementById('cliente_nombre').value.trim() || '[Nombre]';
   const perro = document.getElementById('perro_nombre').value.trim() || '[Perro]';
   const peso = parseFloat(document.getElementById('peso').value) || 0;
@@ -474,7 +748,6 @@ function calcular() {
   const razaCat = document.getElementById('raza_cat').value;
   const conducta = document.getElementById('conducta').value;
   const zona = document.getElementById('zona').value;
-  const domicilio = document.getElementById('domicilio').checked;
 
   const alertBox = document.getElementById('alert_box');
   alertBox.innerHTML = '';
@@ -512,8 +785,6 @@ function calcular() {
 
   {
     sesiones = SESIONES_ESTANDAR;
-    const logistica = KM_BASE * COSTO_KM * sesiones; // $1,296
-    const recargoDom = domicilio ? RECARGO_DOMICILIO_DIA * sesiones : 0; // sesiones a domicilio: costo extra interno
     precioCliente = PRECIO_ESTANDAR;
 
     const tbody = document.getElementById('provider_tbody');
@@ -522,7 +793,7 @@ function calcular() {
     let rows = '';
 
     PROVEEDORES_ESTANDAR.forEach(prov => {
-      const costoTotal = prov.costo + logistica + recargoTotal + recargoDom;
+      const costoTotal = prov.costo + recargoTotal;
       const margen = precioCliente - costoTotal;
       const margenPct = (margen / costoTotal * 100);
       if (margen > bestMargin) { bestMargin = margen; bestProvider = prov; }
@@ -545,8 +816,7 @@ function calcular() {
 
     document.getElementById('suggestion_box').innerHTML =
       `💡 <strong>Sugerencia:</strong> ${bestProvider.nombre} te deja el mejor margen (${fmt(bestMargin)}). ` +
-      `<em>Pero tú decides — selecciona arriba según el caso.</em>` +
-      (domicilio ? '<br>📍 <em>Recargo por sesión a domicilio aplicado en costo interno.</em>' : '');
+      `<em>Pero tú decides — selecciona arriba según el caso.</em>`;
 
     if (!selectedProvider) {
       document.getElementById('breakdown_content').innerHTML = '<em>Selecciona un proveedor arriba para ver el desglose</em>';
@@ -555,17 +825,15 @@ function calcular() {
     }
 
     const prov = PROVEEDORES_ESTANDAR.find(p => p.id === selectedProvider);
-    const costoTotalSel = prov.costo + logistica + recargoTotal + recargoDom;
+    const costoTotalSel = prov.costo + recargoTotal;
     const margenSel = precioCliente - costoTotalSel;
 
     document.getElementById('breakdown_content').innerHTML = renderBreakdown([
-      ['Proveedor: ' + prov.nombre, prov.costo],
-      ['Logística (30 km × ' + sesiones + ' sesiones × $3.60)', logistica],
+      ['Proveedor: ' + prov.nombre + ' (incluye traslado)', prov.costo],
       ...(recargoZ > 0 ? [['Recargo zona (' + zona + ')', recargoZ]] : []),
       ...(recargoP > 0 ? [['Recargo peso (>35 kg)', recargoP]] : []),
       ...(recargoE > 0 ? [['Recargo edad senior', recargoE]] : []),
       ...(recargoC > 0 ? [['Recargo conducta ' + conducta, recargoC]] : []),
-      ...(recargoDom > 0 ? [['Recargo sesiones a domicilio (interno)', recargoDom]] : []),
       ['Costo total interno', costoTotalSel],
       ['Precio cliente (fijo)', precioCliente],
       ['Tu margen', margenSel]
@@ -577,6 +845,517 @@ function calcular() {
 }
 
 function selectProvider(id) { selectedProvider = id; calcular(); }
+
+// ============ HOTEL ============
+function calcularHotel() {
+  const nombre = document.getElementById('cliente_nombre').value.trim() || '[Nombre]';
+  const perro = document.getElementById('perro_nombre').value.trim() || '[Perro]';
+  const sucursal = document.getElementById('hotel_sucursal').value;
+  const inStr = document.getElementById('hotel_in').value;
+  const outStr = document.getElementById('hotel_out').value;
+  const numPerros = Math.max(1, parseInt(document.getElementById('hotel_perros').value, 10) || 1);
+  const start = parseDate(inStr);
+  const end = parseDate(outStr);
+
+  document.getElementById('alert_box').innerHTML = '';
+
+  if (!start || !end || end <= start) {
+    document.getElementById('hotel_total').textContent = '—';
+    document.getElementById('hotel_meta').textContent = 'Selecciona check-in y check-out';
+    document.getElementById('hotel_breakdown').innerHTML = '';
+    document.getElementById('out_cot').value = '— Faltan fechas para cotizar.';
+    document.getElementById('out_doc').value = '';
+    document.getElementById('out_req').value = '';
+    document.getElementById('out_faq').value = '';
+    return;
+  }
+
+  const tarifas = sucursal === 'poniente' ? PRECIOS_HOTEL.poniente : PRECIOS_HOTEL.zonaNorte;
+  const { weekday, sunday, total: noches } = countHotelNights(start, end);
+  const subtotal1 = weekday * tarifas.weekday + sunday * tarifas.sunday;
+  const total = subtotal1 * numPerros;
+
+  document.getElementById('hotel_total').textContent = fmt(total);
+  document.getElementById('hotel_meta').textContent =
+    noches + ' noche' + (noches > 1 ? 's' : '') +
+    (numPerros > 1 ? ' · ' + numPerros + ' perros' : '');
+
+  const lines = [];
+  if (weekday > 0) lines.push(`${weekday} noche${weekday > 1 ? 's' : ''} L–S × ${fmt(tarifas.weekday)} = ${fmt(weekday * tarifas.weekday)}`);
+  if (sunday > 0) lines.push(`${sunday} noche${sunday > 1 ? 's' : ''} domingo × ${fmt(tarifas.sunday)} = ${fmt(sunday * tarifas.sunday)}`);
+  if (numPerros > 1) lines.push(`× ${numPerros} perros = ${fmt(total)}`);
+
+  document.getElementById('hotel_breakdown').innerHTML =
+    '<strong>Desglose:</strong><br>' + lines.map(l => '• ' + l).join('<br>');
+
+  generarTextosHotel(nombre, perro, sucursal, start, end, noches, numPerros, total, lines);
+}
+
+function generarTextosHotel(nombre, perro, sucursal, start, end, noches, numPerros, total, lines) {
+  const sucursalLabel = sucursal === 'poniente' ? 'Paws Club Poniente (Polanco/Lomas)' : 'Paws Club Zona Norte (Lindavista/Sta. María)';
+
+  const cot =
+`🏨 *Hotel Boutique Paws Club*
+
+¡Hola ${nombre}! Aquí tu cotización del hotel para *${perro}*${numPerros > 1 ? ` (y compañía — ${numPerros} perros)` : ''}:
+
+📅 *Estancia:*
+• Check-in: ${fmtDate(start)}
+• Check-out: ${fmtDate(end)}
+• ${noches} noche${noches > 1 ? 's' : ''} en total
+• Sucursal: ${sucursalLabel}
+
+✨ *Qué incluye:*
+• Hospedaje *sin jaulas* en interior
+• Cama propia o de la casa
+• Reportes diarios con fotos y video por WhatsApp
+• Supervisión 24/7
+• Transporte a domicilio disponible (consultar costo)
+
+💰 *Inversión total: ${fmt(total)} MXN*
+
+✅ *Formas de pago:*
+• Transferencia o efectivo
+• Tarjeta hasta 6 MSI
+
+📅 Cotización válida 7 días. ¿Apartamos esas fechas? 🐾`;
+
+  document.getElementById('out_cot').value = cot;
+
+  const doc =
+`═══════════════════════════════════════════════
+   HOTEL BOUTIQUE PAWS CLUB
+   Confirmación de cotización
+═══════════════════════════════════════════════
+
+Cliente: ${nombre}
+Perro: ${perro}${numPerros > 1 ? ' (×' + numPerros + ')' : ''}
+Sucursal: ${sucursalLabel}
+Check-in: ${fmtDate(start)}
+Check-out: ${fmtDate(end)}
+Noches: ${noches}
+
+───────────────────────────────────────────────
+DESGLOSE
+───────────────────────────────────────────────
+${lines.map(l => '  • ' + l).join('\n')}
+
+  TOTAL: ${fmt(total)} MXN
+
+───────────────────────────────────────────────
+QUÉ INCLUYE
+───────────────────────────────────────────────
+✓ Hospedaje sin jaulas en interior
+✓ Cama propia o cama Paws Club
+✓ Supervisión 24/7
+✓ Reportes diarios con fotos y video
+✓ Higiene y limpieza profunda diaria
+✓ Atención personalizada (cupo limitado)
+
+───────────────────────────────────────────────
+FORMAS DE PAGO
+───────────────────────────────────────────────
+• Transferencia bancaria
+• Efectivo
+• Tarjeta de crédito hasta 6 MSI
+Anticipo: 50% al confirmar reserva.
+
+Vigencia de la cotización: 7 días.`;
+
+  document.getElementById('out_doc').value = doc;
+
+  document.getElementById('out_req').value =
+`✅ REQUISITOS PARA HOTEL PAWS CLUB
+
+🩺 SALUD:
+  ☐ Cartilla de vacunación vigente:
+      • Triple/quíntuple
+      • Antirrábica
+      • Bordetella (tos de las perreras)
+  ☐ Desparasitación interna y externa al día
+  ☐ Si toma medicamentos: nombre, dosis y horario por escrito
+
+🐾 SOCIALIZACIÓN:
+  ☐ Prueba de socialización previa (1 día gratis)
+  ☐ Información veraz sobre temperamento y reactividad
+
+📅 LOGÍSTICA:
+  ☐ Reserva confirmada con anticipo del 50%
+  ☐ Comida traída de casa (su propia marca, evitar cambios)
+  ☐ Cama o juguete favorito (opcional, ayuda a la transición)
+  ☐ Contacto de emergencia disponible
+
+⛔ NO SE ACEPTA:
+  • Perros con tos, diarrea o cualquier signo de enfermedad
+  • Perritas en celo
+  • Perros sin prueba de socialización previa`;
+
+  document.getElementById('out_faq').value =
+`💬 PREGUNTAS FRECUENTES — HOTEL PAWS CLUB
+
+¿Realmente no usan jaulas?
+   Correcto. Los perros duermen en interior, en sala
+   común con supervisión, en sus propias camas o las
+   nuestras. No hay jaulas físicas en el inmueble.
+
+¿Cuántos perros hay al mismo tiempo?
+   Cupo máximo de 5 lomitos por turno. Trabajamos
+   con cupo limitado real, no abrimos más espacio.
+
+¿Hay supervisión nocturna?
+   Sí. Hay personal en sitio 24/7, no solo cámaras.
+
+¿Recibo reportes?
+   Sí, reportes diarios con fotos y video por WhatsApp.
+
+¿Cobran extra los domingos?
+   Sí, ${sucursal === 'poniente' ? '$550 vs $450' : '$410 vs $340'} por noche dominical.
+   La tarifa se calcula automáticamente en tu cotización.
+
+¿Qué pasa si mi perro se enferma?
+   Tenemos veterinario de cabecera y protocolo claro
+   de emergencias. Te avisamos de inmediato.
+
+¿Aceptan razas PPP?
+   Caso por caso, después de prueba de socialización.
+
+¿Pueden recoger a mi perro en casa?
+   Sí, transporte a domicilio disponible con costo extra.
+   Consulta en WhatsApp.
+
+¿Política de cancelación?
+   • +7 días antes: 100% reembolso del anticipo
+   • 3-7 días: 50% reembolso
+   • <72 horas: sin reembolso`;
+}
+
+// ============ GUARDERÍA ============
+function calcularGuarderia() {
+  const nombre = document.getElementById('cliente_nombre').value.trim() || '[Nombre]';
+  const perro = document.getElementById('perro_nombre').value.trim() || '[Perro]';
+  const sucursal = document.getElementById('guarderia_sucursal').value;
+  const inStr = document.getElementById('guarderia_in').value;
+  const outStr = document.getElementById('guarderia_out').value;
+  const numPerros = Math.max(1, parseInt(document.getElementById('guarderia_perros').value, 10) || 1);
+  const start = parseDate(inStr);
+  const end = parseDate(outStr);
+
+  document.getElementById('alert_box').innerHTML = '';
+
+  if (!start || !end || end < start) {
+    document.getElementById('guarderia_total').textContent = '—';
+    document.getElementById('guarderia_meta').textContent = 'Selecciona fechas';
+    document.getElementById('guarderia_breakdown').innerHTML = '';
+    document.getElementById('out_cot').value = '— Faltan fechas para cotizar.';
+    document.getElementById('out_doc').value = '';
+    document.getElementById('out_req').value = '';
+    document.getElementById('out_faq').value = '';
+    return;
+  }
+
+  const tarifa = sucursal === 'poniente' ? PRECIOS_GUARDERIA.poniente : PRECIOS_GUARDERIA.zonaNorte;
+  const dias = countGuarderiaDays(start, end);
+  const total = dias * tarifa * numPerros;
+
+  document.getElementById('guarderia_total').textContent = fmt(total);
+  document.getElementById('guarderia_meta').textContent =
+    dias + ' día' + (dias > 1 ? 's' : '') + ' hábil' + (dias > 1 ? 'es' : '') +
+    (numPerros > 1 ? ' · ' + numPerros + ' perros' : '');
+
+  const lines = [`${dias} día${dias > 1 ? 's' : ''} × ${fmt(tarifa)} = ${fmt(dias * tarifa)}`];
+  if (numPerros > 1) lines.push(`× ${numPerros} perros = ${fmt(total)}`);
+
+  document.getElementById('guarderia_breakdown').innerHTML =
+    '<strong>Desglose:</strong><br>' + lines.map(l => '• ' + l).join('<br>');
+
+  generarTextosGuarderia(nombre, perro, sucursal, start, end, dias, numPerros, total, lines);
+}
+
+function generarTextosGuarderia(nombre, perro, sucursal, start, end, dias, numPerros, total, lines) {
+  const sucursalLabel = sucursal === 'poniente' ? 'Paws Club Poniente (Polanco/Lomas)' : 'Paws Club Zona Norte (Lindavista/Sta. María)';
+
+  document.getElementById('out_cot').value =
+`☀️ *Guardería Canina Paws Club*
+
+¡Hola ${nombre}! Cotización para *${perro}*${numPerros > 1 ? ` (×${numPerros})` : ''}:
+
+📅 *Periodo:*
+• Del ${fmtDate(start)} al ${fmtDate(end)}
+• ${dias} día${dias > 1 ? 's' : ''} hábil${dias > 1 ? 'es' : ''} (no domingos)
+• Sucursal: ${sucursalLabel}
+
+✨ *Qué incluye:*
+• Juego supervisado todo el día
+• Cupo limitado a máx 5 lomitos por turno
+• Fotos y videos durante el día
+• Higiene premium con limpieza profunda
+• Socialización con perros equilibrados
+
+💰 *Inversión total: ${fmt(total)} MXN*
+
+¿Confirmamos? 🐾`;
+
+  document.getElementById('out_doc').value =
+`═══════════════════════════════════════════════
+   GUARDERÍA CANINA PAWS CLUB
+   Confirmación de cotización
+═══════════════════════════════════════════════
+
+Cliente: ${nombre}
+Perro: ${perro}${numPerros > 1 ? ' (×' + numPerros + ')' : ''}
+Sucursal: ${sucursalLabel}
+Periodo: ${fmtDate(start)} al ${fmtDate(end)}
+Días hábiles: ${dias}
+
+───────────────────────────────────────────────
+DESGLOSE
+───────────────────────────────────────────────
+${lines.map(l => '  • ' + l).join('\n')}
+
+  TOTAL: ${fmt(total)} MXN
+
+───────────────────────────────────────────────
+QUÉ INCLUYE
+───────────────────────────────────────────────
+✓ Juego supervisado todo el día
+✓ Cupo máximo 5 lomitos por turno
+✓ Fotos y videos por WhatsApp
+✓ Higiene premium con limpieza profunda diaria
+✓ Socialización con perros mentor equilibrados
+✓ Atención personalizada
+
+───────────────────────────────────────────────
+FORMAS DE PAGO
+───────────────────────────────────────────────
+• Transferencia · Efectivo · Tarjeta a MSI
+• Pago por adelantado del paquete
+
+Vigencia de la cotización: 7 días.`;
+
+  document.getElementById('out_req').value =
+`✅ REQUISITOS PARA GUARDERÍA PAWS CLUB
+
+🩺 SALUD:
+  ☐ Cartilla de vacunación vigente
+  ☐ Desparasitación al día
+  ☐ Sin signos de enfermedad
+
+🐾 SOCIALIZACIÓN:
+  ☐ Prueba de socialización gratuita (1 día)
+  ☐ Apto con grupo
+
+📅 LOGÍSTICA:
+  ☐ Comida traída de casa
+  ☐ Horario de entrega/recogida coordinado
+  ☐ Contacto de emergencia
+
+⛔ NO SE ACEPTA:
+  • Perros con tos, diarrea, fiebre
+  • Perritas en celo
+  • Perros sin prueba previa
+  • Perros agresivos con grupo`;
+
+  document.getElementById('out_faq').value =
+`💬 PREGUNTAS FRECUENTES — GUARDERÍA PAWS CLUB
+
+¿Cuántos perros hay al mismo tiempo?
+   Máximo 5 lomitos por turno. Cupo limitado real.
+
+¿Necesito comprar paquete?
+   No, también ofrecemos servicio por día sin paquete.
+
+¿Recibo reportes?
+   Sí, fotos y videos por WhatsApp durante el día.
+
+¿Trabajan domingos?
+   Cerrado para guardería. Hotel sí opera con
+   recargo dominical.
+
+¿Hacen prueba de socialización?
+   Sí, 1 día gratis para validar que tu perro
+   se lleva con el grupo antes de inscribir.
+
+¿Aceptan cachorros?
+   Desde los 4 meses con esquema de vacunación
+   completo o avanzado.
+
+¿Política de cancelación?
+   El pago del paquete no es reembolsable, pero
+   los días no usados se reagendan dentro de 60
+   días sin costo extra.`;
+}
+
+// ============ PASEOS ============
+function calcularPaseos() {
+  const nombre = document.getElementById('cliente_nombre').value.trim() || '[Nombre]';
+  const perro = document.getElementById('perro_nombre').value.trim() || '[Perro]';
+  const plan = document.getElementById('paseos_plan').value;
+  const segundo = document.getElementById('paseos_2do').checked;
+  const sabado = document.getElementById('paseos_sabado').checked;
+  const sabadoPlan = document.getElementById('paseos_sabado_plan').value;
+
+  document.getElementById('paseos_sabado_field').style.display = sabado ? 'block' : 'none';
+  document.getElementById('alert_box').innerHTML = '';
+
+  const planMap = {
+    individual: { price: PRECIOS_PASEOS.individual, label: 'Paseo individual', count: 1 },
+    paquete5:   { price: PRECIOS_PASEOS.paquete5,   label: 'Paquete 5 paseos', count: 5 },
+    paquete10:  { price: PRECIOS_PASEOS.paquete10,  label: 'Paquete 10 paseos', count: 10 },
+    mensual:    { price: PRECIOS_PASEOS.mensual,    label: 'Plan mensual (20 paseos)', count: 20 }
+  };
+  const p = planMap[plan];
+
+  let total = p.price;
+  const lines = [`${p.label}: ${fmt(p.price)}`];
+  let descripcion = p.label;
+
+  if (segundo) {
+    const extra = PRECIOS_PASEOS.segundoPerro * p.count;
+    total += extra;
+    lines.push(`2do perro (×${p.count} paseos): ${fmt(extra)}`);
+  }
+
+  if (sabado) {
+    if (sabadoPlan === 'individual') {
+      total += PRECIOS_PASEOS.aventuraSabado;
+      lines.push(`Aventura sábado (1 fecha): ${fmt(PRECIOS_PASEOS.aventuraSabado)}`);
+      if (segundo) {
+        total += PRECIOS_PASEOS.segundoPerroSabado;
+        lines.push(`2do perro sábado: ${fmt(PRECIOS_PASEOS.segundoPerroSabado)}`);
+      }
+      descripcion += ' + 1 aventura sábado';
+    } else {
+      total += PRECIOS_PASEOS.paquete4Sabados;
+      lines.push(`Paquete 4 sábados: ${fmt(PRECIOS_PASEOS.paquete4Sabados)}`);
+      if (segundo) {
+        const extraSab = PRECIOS_PASEOS.segundoPerroSabado * 4;
+        total += extraSab;
+        lines.push(`2do perro × 4 sábados: ${fmt(extraSab)}`);
+      }
+      descripcion += ' + 4 sábados';
+    }
+  }
+
+  document.getElementById('paseos_total').textContent = fmt(total);
+  document.getElementById('paseos_meta').textContent = descripcion + (segundo ? ' · 2 perros' : '');
+  document.getElementById('paseos_breakdown').innerHTML =
+    '<strong>Desglose:</strong><br>' + lines.map(l => '• ' + l).join('<br>');
+
+  generarTextosPaseos(nombre, perro, p, segundo, sabado, sabadoPlan, total, lines);
+}
+
+function generarTextosPaseos(nombre, perro, plan, segundo, sabado, sabadoPlan, total, lines) {
+  document.getElementById('out_cot').value =
+`🐾 *Paseos Caninos Paws Club*
+
+¡Hola ${nombre}! Cotización para *${perro}*${segundo ? ' y compañía' : ''}:
+
+✨ *Tu plan:*
+• ${plan.label}${sabado ? (sabadoPlan === 'individual' ? ' + 1 aventura sábado' : ' + paquete 4 sábados') : ''}
+${segundo ? '• Segundo perro incluido\n' : ''}• Cobertura: Zona Norte (Lindavista, Sta. María, San Rafael, Tlatelolco, etc.)
+
+✨ *Qué incluye:*
+• Paseos diarios de mínimo 1 hora
+• Reportes con fotos y ruta GPS
+• Grupos reducidos (máx 3 perros por paseador)
+• Cubrimos Bosque de San Juan de Aragón, Parque Bicentenario y más
+
+💰 *Inversión total: ${fmt(total)} MXN*
+
+¿Arrancamos? 🐾`;
+
+  document.getElementById('out_doc').value =
+`═══════════════════════════════════════════════
+   PASEOS CANINOS PAWS CLUB
+   Confirmación de cotización
+═══════════════════════════════════════════════
+
+Cliente: ${nombre}
+Perro: ${perro}${segundo ? ' + 2do perro' : ''}
+Sucursal: Paws Club Zona Norte (exclusivo)
+
+───────────────────────────────────────────────
+DESGLOSE
+───────────────────────────────────────────────
+${lines.map(l => '  • ' + l).join('\n')}
+
+  TOTAL: ${fmt(total)} MXN
+
+───────────────────────────────────────────────
+QUÉ INCLUYE
+───────────────────────────────────────────────
+✓ Paseos diarios de mínimo 1 hora
+✓ Grupos reducidos (máx 3 perros por paseador)
+✓ Reportes con fotos y ruta GPS por WhatsApp
+✓ Destinos: Chapultepec, Bosque San Juan de Aragón,
+  Parque Bicentenario, Los Dinamos, La Marquesa
+${sabado ? '✓ Aventura sabatina con recolección a domicilio' : ''}
+
+───────────────────────────────────────────────
+COBERTURA — ZONA NORTE
+───────────────────────────────────────────────
+Lindavista, Industrial Vallejo, Sta. María la Ribera,
+San Rafael, Tlatelolco, Buenavista, San Simón Tolnáhuac,
+Peralvillo, Magdalena de las Salinas, Estrella, Industrial.
+
+Vigencia de la cotización: 7 días.`;
+
+  document.getElementById('out_req').value =
+`✅ REQUISITOS PARA PASEOS PAWS CLUB
+
+🩺 SALUD:
+  ☐ Cartilla de vacunación vigente
+  ☐ Antirrábica al día
+  ☐ Desparasitación al día
+
+🐾 PASEO:
+  ☐ Collar/pretal cómodo y correa de mínimo 1.20 m
+  ☐ Bolsas para residuos (las llevamos pero acepta tener tuyas)
+  ☐ Identificación con teléfono en placa o microchip
+
+📅 LOGÍSTICA:
+  ☐ Disponibilidad para entrega/recogida en horario coordinado
+  ☐ Llave o portero confiable si no estás en casa
+  ☐ Indicaciones especiales por escrito (medicamentos, miedos)
+
+⛔ NO ACEPTAMOS:
+  • Perros agresivos con humanos o que jalan extremo
+  • Perritas en celo
+  • Perros sin entrenamiento básico de correa (ofrecemos
+    Train & Go primero si es el caso)`;
+
+  document.getElementById('out_faq').value =
+`💬 PREGUNTAS FRECUENTES — PASEOS PAWS CLUB
+
+¿Cuántos perros van por paseo?
+   Máximo 3 perros por paseador. Supervisión dedicada.
+
+¿En qué zonas pasean?
+   Exclusivo Zona Norte CDMX: Lindavista, Sta. María,
+   San Rafael, Tlatelolco, Buenavista y colonias cercanas.
+
+¿Cuánto dura cada paseo?
+   Mínimo 1 hora de paseo activo, no incluye traslados.
+
+¿Recibo reportes?
+   Sí, fotos y ruta GPS después de cada paseo.
+
+¿A qué destinos van?
+   Bosque de Chapultepec, San Juan de Aragón, Parque
+   Bicentenario, Centenario, Los Dinamos. Las aventuras
+   sabatinas van a La Marquesa o Los Dinamos.
+
+¿Aventura sábado incluye comida?
+   Snacks de recompensa sí. Comida principal cada perro
+   trae la suya.
+
+¿Política de cancelación de paquete?
+   Los paseos del paquete son válidos por 60 días.
+   Si cancelas un paseo con +24h de aviso, se reagenda
+   sin costo. Si cancelas con menos, ese paseo se
+   descuenta del paquete.`;
+}
+
 function renderBreakdown(rows) {
   return rows.map(([label, val], i) => {
     const isLast = i === rows.length - 1;
@@ -605,8 +1384,8 @@ function generarTextos(nombre, perro, peso, edad, raza, conducta, precio, progra
 • 🎁 *Sesión de evaluación inicial SIN COSTO* (incluida)
 • ${semanas} semanas de programa con ${sesiones} sesiones (${dias_sem} por semana)
 • Sesiones con especialista certificado de la red Paws Club
-• *Transporte ida y vuelta cada día de sesión* — nosotros recogemos a tu perro y lo regresamos a casa el mismo día
-• Tu perro siempre vive contigo — solo se ausenta el tiempo de la sesión (~2 hrs incluyendo trayectos)
+• *Sesiones a domicilio* — el especialista certificado va a tu casa cada día de sesión
+• Tu perro nunca sale de casa — entrena en su entorno real, donde tiene sus hábitos cotidianos
 • Curaduría del especialista correcto según el perfil de tu perro
 • Paws Club como tu único punto de contacto
 • Evaluación conductual de 16 puntos
@@ -630,7 +1409,7 @@ function generarTextos(nombre, perro, peso, edad, raza, conducta, precio, progra
   // ---- DOCUMENTO COMPLETO ----
   const doc =
 `═══════════════════════════════════════════════
-   TRAIN & GO PAWS CLUB ${programa === 'estandar' ? '— ESTÁNDAR' : '— PREMIUM'}
+   TRAIN & GO PAWS CLUB
    Carta de bienvenida al programa
 ═══════════════════════════════════════════════
 
@@ -644,14 +1423,14 @@ Inversión: $${precio.toLocaleString('es-MX')} MXN
 ¿QUÉ ES TRAIN & GO?
 ───────────────────────────────────────────────
 
-Train & Go es nuestro programa de adiestramiento profesional con transporte premium incluido. Tu perro vive contigo, en su casa, durante todo el programa. Nosotros nos encargamos de todo lo demás:
+Train & Go es nuestro programa de adiestramiento profesional a domicilio. Tu perro vive contigo, en su casa, durante todo el programa, y entrena exactamente donde tiene sus hábitos cotidianos. Nosotros nos encargamos de todo lo demás:
 
-  1. Te recogemos a tu perro en tu domicilio el día de cada sesión.
-  2. Lo llevamos al lugar de entrenamiento con el especialista certificado que mejor se adapta a su perfil.
-  3. Acompañamos la sesión.
-  4. Lo regresamos a tu casa el mismo día.
+  1. Curamos al especialista certificado que mejor se adapta a tu perro.
+  2. El especialista va a tu casa el día de cada sesión.
+  3. Trabajamos en el entorno real de tu perro (sala, jardín, calle de tu colonia).
+  4. Te dejamos un reporte por WhatsApp después de cada sesión.
 
-Tiempo total fuera de casa por sesión: aproximadamente 2 horas (incluyendo trayectos). Tu perro duerme contigo, come contigo, vive contigo — solo se ausenta para entrenar y vuelve.
+Ventaja real: tu perro aprende donde de verdad necesita comportarse. Lo que se enseña en una sala de entrenamiento ajena muchas veces no se generaliza al hogar — con Train & Go, eso no pasa.
 
 ───────────────────────────────────────────────
 ¿QUÉ INCLUYE TU INVERSIÓN?
@@ -659,7 +1438,7 @@ Tiempo total fuera de casa por sesión: aproximadamente 2 horas (incluyendo tray
 
 ✓ 🎁 SESIÓN DE EVALUACIÓN INICIAL SIN COSTO (incluida en el programa)
 ✓ ${sesiones} sesiones de adiestramiento profesional con especialista certificado
-✓ Transporte ida y vuelta cada día de sesión, sin costo extra
+✓ Sesiones a domicilio — el especialista va a tu casa, sin costo extra
 ✓ Curaduría del especialista correcto según el perfil de tu perro
 ✓ Paws Club como tu único contacto durante todo el programa
 ✓ Evaluación conductual inicial de 16 puntos
@@ -705,13 +1484,12 @@ POST-PROGRAMA (30 días)
 LA LOGÍSTICA TÍPICA DE UN DÍA DE SESIÓN
 ───────────────────────────────────────────────
 
-  📍 Llegamos a tu casa a la hora acordada (mañana o tarde, según agenda)
-  🚗 Recogemos a tu perro y lo llevamos al lugar de entrenamiento
-  🐾 Sesión con el especialista (~30-40 min de trabajo activo)
-  🚗 Lo regresamos a tu casa el mismo día
+  📍 El especialista llega a tu casa a la hora acordada (mañana o tarde, según agenda)
+  🐾 Sesión a domicilio con el especialista (~45-60 min de trabajo activo)
+  📋 Notas y observaciones del avance del día
   📱 Te llega por WhatsApp el reporte de la sesión con fotos/video
 
-Tiempo total fuera de casa: ~2 hrs incluyendo trayectos.
+Tu perro nunca sale de casa. Entrena en su entorno real.
 
 ───────────────────────────────────────────────
 ¿QUÉ NECESITAMOS DE TI ANTES DE EMPEZAR?
@@ -729,8 +1507,8 @@ Tiempo total fuera de casa: ~2 hrs incluyendo trayectos.
 
 4. Firma del contrato Paws Club + anticipo del 50%.
 
-5. Disponibilidad para entrega/recogida de tu perro
-   en horario coordinado los días de sesión.
+5. Disponibilidad en casa los días de sesión
+   (45-60 min por sesión, en horario coordinado).
 
 ───────────────────────────────────────────────
 FORMAS DE PAGO
@@ -796,9 +1574,9 @@ Antes de iniciar necesitamos lo siguiente:
   ☐ Contrato Paws Club firmado
   ☐ Anticipo del 50% liquidado
   ☐ Teléfono de contacto disponible los días de sesión
-  ☐ Disponibilidad para entrega y recogida de tu perro
-      en horario acordado (recogida ~2 hrs antes de la sesión,
-      entrega después de la sesión el mismo día)
+  ☐ Disponibilidad en casa el día de cada sesión
+      (45-60 min de sesión + 10 min antes/después)
+  ☐ Espacio mínimo en casa para trabajar (sala, jardín o área despejada)
   ☐ Contacto de emergencia (nombre y teléfono)
 
 ⛔ NO ACEPTAMOS EN EL PROGRAMA ESTÁNDAR:
@@ -817,14 +1595,13 @@ Antes de iniciar necesitamos lo siguiente:
 
 ¿Mi perro vive con ustedes durante el programa?
    No. Tu perro vive contigo, en su casa, durante todo
-   el programa. Solo se ausenta los días de sesión
-   (~2 hrs entre traslados y entrenamiento) y regresa
-   a casa el mismo día.
+   el programa. El especialista certificado va a tu casa
+   los días de sesión — tu perro nunca sale de su entorno.
 
-¿Cuánto tiempo se va mi perro cada día de sesión?
-   Aproximadamente 2 horas, incluyendo el viaje de ida,
-   la sesión con el especialista (~30-40 min) y el viaje
-   de regreso a tu casa.
+¿Cuánto dura cada sesión?
+   Aproximadamente 45-60 minutos de trabajo activo.
+   El especialista llega, hace la sesión a domicilio,
+   te deja notas y observaciones, y se va.
 
 ¿Cuántas sesiones por semana?
    3 sesiones por semana (lunes-miércoles-viernes,
@@ -867,10 +1644,17 @@ Antes de iniciar necesitamos lo siguiente:
    máximo aprovechamiento. Si quieres asistir a alguna
    intermedia, lo coordinamos.
 
-¿Qué pasa si mi perro se enferma durante un día de sesión?
+¿Qué pasa si mi perro se enferma un día de sesión?
    Suspendemos esa sesión y la reagendamos. Si la
    enfermedad es seria, ajustamos el calendario. No
    pierdes sesiones por causas de salud documentadas.
+
+¿Tienen instalaciones?
+   Por ahora trabajamos exclusivamente a domicilio.
+   La ventaja real: tu perro aprende donde de verdad
+   tiene los hábitos a modificar. Lo que se enseña en
+   un centro de entrenamiento muchas veces no se
+   generaliza al hogar — con Train & Go, eso no pasa.
 
 ¿Puedo cancelar?
    Sí, con políticas claras:
@@ -887,7 +1671,10 @@ Antes de iniciar necesitamos lo siguiente:
 function actualizarDocVisual(nombre, perro, peso, edad, raza, precio, programa, sesiones) {
   const edadLabel = { cachorro: 'cachorro', adulto: 'adulto', senior: 'senior' }[edad];
   const semanas = 4;
-  const programaLabel = (programa === 'estandar') ? 'Train & Go Estándar' : 'Train & Go Premium';
+  // Solo existe un programa hoy ("estandar" = Train & Go). El parámetro
+  // `programa` se conserva para no romper la firma del callsite, pero el
+  // label es único.
+  const programaLabel = 'Train & Go';
   const fechaHoy = new Date().toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' });
 
   document.getElementById('pdf_program').textContent = programaLabel;
@@ -895,7 +1682,7 @@ function actualizarDocVisual(nombre, perro, peso, edad, raza, precio, programa, 
   document.getElementById('pdf_program_meta').textContent = semanas + ' semanas · ' + sesiones + ' sesiones';
   document.getElementById('pdf_price').textContent = '$' + precio.toLocaleString('es-MX') + ' MXN';
 
-  const greeting = '¡Hola <strong>' + nombre + '</strong>! Aquí tienes la propuesta personalizada para <strong>' + perro + '</strong>. Diseñada para que tu perro aprenda con respeto, sin que tú tengas que mover un dedo en logística.';
+  const greeting = '¡Hola <strong>' + nombre + '</strong>! Aquí tienes la propuesta personalizada para <strong>' + perro + '</strong>. Diseñada para que tu perro aprenda con respeto, en su propia casa, sin que tú tengas que mover un dedo en logística.';
   document.getElementById('pdf_greeting').innerHTML = greeting;
 
   const petInfo = '<div class="pdf-pet-info-row"><div><span>Cliente:</span> ' + nombre + '</div><div><span>Perro:</span> ' + perro + '</div></div>' +
@@ -905,8 +1692,8 @@ function actualizarDocVisual(nombre, perro, peso, edad, raza, precio, programa, 
   const includes = [
     { txt: '🎁 Sesión de evaluación inicial SIN COSTO (incluida en el programa)', highlight: true },
     { txt: sesiones + ' sesiones con especialista certificado de la red Paws Club' },
-    { txt: 'Transporte ida y vuelta cada día de sesión — tú no mueves al perro' },
-    { txt: 'Tu perro vive contigo todo el programa (~2 hrs fuera de casa por sesión)' },
+    { txt: 'Sesiones a domicilio — el especialista va a tu casa, tú no mueves al perro' },
+    { txt: 'Tu perro entrena en su entorno real, donde tiene los hábitos a modificar' },
     { txt: 'Curaduría del especialista correcto según el perfil de tu perro' },
     { txt: 'Paws Club como tu único punto de contacto durante todo el programa' },
     { txt: 'Evaluación conductual de 16 puntos al inicio' },
@@ -934,7 +1721,7 @@ function downloadPDF() {
   const programaLabel = 'Train & Go Paws Club';
   const semanas = 4;
   const sesiones = 12;
-  const precio = 19900;
+  const precio = 8500;
   const fechaHoy = new Date().toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' });
   const logoSrc = document.querySelector('#pdf_doc img').src;
 
@@ -1082,8 +1869,8 @@ function downloadPDF() {
   // Lista
   const includes = [
     sesiones + ' sesiones con especialista certificado de la red Paws Club',
-    'Transporte ida y vuelta cada día de sesión — tú no mueves al perro',
-    'Tu perro vive contigo todo el programa (aprox. 2 horas fuera de casa por sesión)',
+    'Sesiones a domicilio — el especialista va a tu casa, tú no mueves al perro',
+    'Tu perro entrena en su entorno real, donde tiene los hábitos a modificar',
     'Curaduría del especialista correcto según el perfil de tu perro',
     'Paws Club como tu único punto de contacto durante todo el programa',
     'Evaluación conductual de 16 puntos al inicio',
@@ -1142,7 +1929,7 @@ function downloadPDF() {
   doc.setFontSize(9);
   doc.setTextColor(...CREAM);
   doc.text(sesiones + ' sesiones · 3 por semana', PW - M - 8, y + 14.5, { align: 'right' });
-  doc.text('Transporte y refuerzo incluidos', PW - M - 8, y + 19.5, { align: 'right' });
+  doc.text('A domicilio · Refuerzo positivo', PW - M - 8, y + 19.5, { align: 'right' });
 
   y += ph + 6;
 
@@ -1257,12 +2044,23 @@ function showFeedback() {
 }
 
 function resetForm() {
-  ['cliente_nombre','perro_nombre','peso','raza_nombre'].forEach(id => document.getElementById(id).value = '');
+  // Limpia todos los servicios (no solo el activo) para evitar datos viejos
+  // si el usuario cambia de pestaña sin volver a llenar.
+  ['cliente_nombre','perro_nombre','peso','raza_nombre',
+   'hotel_in','hotel_out','guarderia_in','guarderia_out']
+    .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  ['hotel_perros','guarderia_perros']
+    .forEach(id => { const el = document.getElementById(id); if (el) el.value = '1'; });
   document.getElementById('edad').value = 'adulto';
   document.getElementById('raza_cat').value = 'estandar';
   document.getElementById('conducta').value = 'normal';
   document.getElementById('zona').value = 'cercana';
-  document.getElementById('domicilio').checked = false;
+  document.getElementById('hotel_sucursal').value = 'zona-norte';
+  document.getElementById('guarderia_sucursal').value = 'zona-norte';
+  document.getElementById('paseos_plan').value = 'individual';
+  document.getElementById('paseos_2do').checked = false;
+  document.getElementById('paseos_sabado').checked = false;
+  document.getElementById('paseos_sabado_plan').value = 'individual';
   selectedProvider = null;
   calcular();
 }
@@ -1271,7 +2069,9 @@ document.querySelectorAll('input, select').forEach(el => {
   el.addEventListener('input', calcular);
   el.addEventListener('change', calcular);
 });
-calcular();
+
+// Inicializar visibilidad correcta de elementos data-svc-only
+setService('adiestramiento');
 </script>
 </body>
 </html>

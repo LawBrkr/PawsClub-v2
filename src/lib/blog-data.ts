@@ -92,14 +92,14 @@ Notar que ninguno de estos es "obediencia militar". Son habilidades de vida que 
 
 El error más común en zona norte: traer al cachorro a casa, dejar que "sea cachorro" hasta los 6-8 meses, y empezar entrenamiento cuando ya hay problemas. Para entonces ya hay ladrido excesivo, jaloneo en la correa, agresión en el parque, ansiedad por separación, destrucción de cosas. Todo eso es 5 veces más caro de revertir que de prevenir.
 
-Un programa de cachorro pro te ahorra entre 6 y 18 meses de problemas. La inversión no es comparable.
+Un programa estructurado de adiestramiento desde cachorro te ahorra entre 6 y 18 meses de problemas. La inversión no es comparable.
 
 ## Cómo lo hacemos en Paws Club Zona Norte
 
-Nuestro paquete "Cachorro Pro" trabaja a domicilio en Lindavista, San Simón Tolnáhuac, Industrial Vallejo, Magdalena de las Salinas y zonas cercanas. Son 8 sesiones donde:
+Nuestro programa **Train & Go** trabaja a domicilio en Lindavista, San Simón Tolnáhuac, Industrial Vallejo, Magdalena de las Salinas y zonas cercanas. Son 12 sesiones distribuidas en 4 semanas, donde:
 
-1. La primera es evaluación conductual del cachorro y diagnóstico del entorno (cómo vive, quién lo cuida, qué rutina tiene).
-2. Las siguientes 7 son sesiones de trabajo con el cachorro Y con el tutor — el tutor es quien va a ejecutar los protocolos día con día.
+1. La primera es evaluación conductual del cachorro y diagnóstico del entorno (cómo vive, quién lo cuida, qué rutina tiene). Sin costo.
+2. Las siguientes 11 son sesiones de trabajo con el cachorro Y con el tutor — el tutor es quien va a ejecutar los protocolos día con día.
 3. Cada sesión deja tarea concreta, fotos del progreso y video del ejercicio para que lo replique cuando no estamos.
 
 Refuerzo positivo, sin collares de castigo, sin e-collar, sin "técnicas de dominancia" que solo generan miedo.
@@ -317,7 +317,7 @@ Nuestras aventuras sabatinas comienzan con la recolección a domicilio desde las
     slug: "impacto-emocional-adiestramiento-pro",
     title: "Más que obediencia: El impacto emocional del Adiestramiento Pro",
     excerpt:
-      "El adiestramiento moderno no busca el control, sino la comunicación. Analizamos cómo los paquetes 'Cachorro Pro' y 'Adiós Ansiedad' transforman vidas.",
+      "El adiestramiento moderno no busca el control, sino la comunicación. Analizamos cómo el programa Train & Go y nuestra red de etólogos transforman la relación entre tutores y perros.",
     date: "2026-03-25",
     author: "Paws Club",
     category: "Bienestar",
@@ -325,13 +325,13 @@ Nuestras aventuras sabatinas comienzan con la recolección a domicilio desde las
     readTime: "8 min",
     content: `El adiestramiento canino ha evolucionado de la dominancia hacia la cooperación. En Paws Club, entendemos que un lomito que "obedece" por miedo no es un animal equilibrado. Nuestra metodología Pro se enfoca en el vínculo emocional entre el tutor y su compañero.
 
-## Cachorro Pro: Cimentando el Futuro
+## Train & Go: Cimentando el Futuro
 
-El programa "Cachorro Pro" está diseñado para intervenir en la ventana crítica de socialización. No solo enseñamos comandos básicos; establecemos un lenguaje común en el hogar. Prevenir problemas como el ladrido excesivo o la destrucción de muebles es mucho más efectivo que corregirlos años después. Un cachorro que entiende sus límites es un lomito feliz y seguro.
+Nuestro programa **Train & Go** está diseñado para intervenir en la ventana crítica de socialización del cachorro y para perros adultos sin reactividad seria. Son 12 sesiones a domicilio en 4 semanas. No solo enseñamos comandos básicos; establecemos un lenguaje común en el hogar. Prevenir problemas como el ladrido excesivo o la destrucción de muebles es mucho más efectivo que corregirlos años después. Un cachorro que entiende sus límites es un lomito feliz y seguro.
 
-## Adiós Ansiedad: Desensibilización Sistemática
+## Casos serios: derivación a etólogo certificado
 
-Para aquellos que sufren de ansiedad por separación o reactividad severa, el paquete "Adiós Ansiedad" utiliza protocolos de desensibilización sistemática. Trabajamos de forma gradual, exponiendo al lomito a sus detonantes en niveles manejables, recompensando la calma. Este enfoque técnico permite que el sistema nervioso del animal aprenda a autorregularse, eliminando el pánico por soledad.
+Para perros con ansiedad por separación severa, reactividad fuerte o agresividad, **no improvisamos**. Esos casos los derivamos a un etólogo certificado de nuestra red, porque requieren un protocolo de modificación conductual que va más allá del adiestramiento. La evaluación inicial sin costo nos permite saber exactamente en qué categoría está tu perro y a quién debe atenderlo. Cuando el caso es médico-conductual, derivamos a Hospital DELTA, PetBalance o UNAM HVE-FSEC.
 
 ## El Rol del Tutor
 

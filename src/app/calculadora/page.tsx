@@ -72,14 +72,13 @@ export default function CalculadoraPage() {
     }
 
     if (service === "adiestramiento") {
-      const price =
-        branch === "poniente"
-          ? PRICES.adiestramiento.poniente
-          : PRICES.adiestramiento.zonaNorte;
+      // Programa Train & Go: precio único, sin distinción por sucursal
+      // (siempre a domicilio del cliente).
+      const price = PRICES.adiestramiento.precio;
       return {
         label: "Adiestramiento",
         total: price,
-        breakdown: `Paquete de 4 sesiones individuales`,
+        breakdown: `Programa Train & Go: ${PRICES.adiestramiento.unit}`,
       };
     }
 

@@ -23,7 +23,7 @@ import BookingButton from "@/components/BookingButton";
 export const metadata: Metadata = {
   title: "Paseos Caninos Diarios y Aventuras de Sábado | Paws Club Zona Norte CDMX",
   description:
-    "Paseos caninos diarios de +1 hora y aventuras de sábado a los mejores parques de CDMX. Desde $150/paseo. Servicio exclusivo Zona Norte: Lindavista, Sta. María la Ribera, Tlatelolco.",
+    "Paseos caninos diarios de +1 hora y aventuras de sábado a los mejores parques de CDMX. Desde $90/paseo. Servicio exclusivo Zona Norte: Lindavista, Sta. María la Ribera, Tlatelolco.",
   openGraph: {
     title: "Paseos Caninos — Paws Club Zona Norte CDMX",
     description:

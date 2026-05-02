@@ -250,35 +250,13 @@ export default function PonientePage() {
               <tbody className="divide-y divide-gray-50">
                 <tr>
                   <td className="px-6 py-4 text-sm text-gray-700">
-                    🎓 Obediencia Básica
+                    🎓 Train & Go
                   </td>
                   <td className="px-6 py-4 text-right text-sm font-bold text-gray-900">
-                    {formatPrice(PRICES.adiestramiento.poniente)}
+                    {formatPrice(PRICES.adiestramiento.precio)}
                   </td>
                   <td className="px-6 py-4 text-right text-xs text-gray-400">
-                    4 sesiones
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-6 py-4 text-sm text-gray-700">
-                    🎓 Cachorro Pro
-                  </td>
-                  <td className="px-6 py-4 text-right text-sm font-bold text-gray-900">
-                    {formatPrice(PRICES.adiestramiento.paquetes.cachorroPro.poniente)}
-                  </td>
-                  <td className="px-6 py-4 text-right text-xs text-gray-400">
-                    8 sesiones a domicilio
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-6 py-4 text-sm text-gray-700">
-                    🎓 Adiós Ansiedad
-                  </td>
-                  <td className="px-6 py-4 text-right text-sm font-bold text-gray-900">
-                    {formatPrice(PRICES.adiestramiento.paquetes.adiosAnsiedad.poniente)}
-                  </td>
-                  <td className="px-6 py-4 text-right text-xs text-gray-400">
-                    10 sesiones a domicilio
+                    {PRICES.adiestramiento.unit}
                   </td>
                 </tr>
               </tbody>

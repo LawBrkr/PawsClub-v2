@@ -19,17 +19,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/contacto`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE_URL}/faq`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
     { url: `${BASE_URL}/galeria`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
-    { url: `${BASE_URL}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
+    // Blog oculto temporalmente — pendiente imágenes hero. Para reactivar:
+    // descomentar las dos líneas siguientes Y el spread `...blogPages` abajo.
+    // { url: `${BASE_URL}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
     { url: `${BASE_URL}/pre-registro`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
     { url: `${BASE_URL}/calculadora`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
   ];
 
-  const blogPages: MetadataRoute.Sitemap = BLOG_POSTS.map((post) => ({
-    url: `${BASE_URL}/blog/${post.slug}`,
-    lastModified: post.date,
-    changeFrequency: "monthly" as const,
-    priority: 0.6,
-  }));
+  // Blog oculto temporalmente — descomentar este bloque y agregar
+  // ...blogPages al return cuando estén listas las imágenes.
+  // const blogPages: MetadataRoute.Sitemap = BLOG_POSTS.map((post) => ({
+  //   url: `${BASE_URL}/blog/${post.slug}`,
+  //   lastModified: post.date,
+  //   changeFrequency: "monthly" as const,
+  //   priority: 0.6,
+  // }));
 
   const neighborhoodPages: MetadataRoute.Sitemap = ZONA_NORTE_NEIGHBORHOODS.map((n) => ({
     url: `${BASE_URL}/sucursales/zona-norte/${n.slug}`,
@@ -38,6 +42,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticPages, ...blogPages, ...neighborhoodPages];
+  return [...staticPages, ...neighborhoodPages];
 }
 

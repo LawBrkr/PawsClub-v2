@@ -62,8 +62,8 @@ export function getLocalBusinessSchema(branchId: "poniente" | "zona-norte") {
       bestRating: 5,
     },
     priceRange: isZN
-      ? `$${PRICES.paseos.individual} - $${PRICES.adiestramiento.zonaNorte} MXN`
-      : `$${PRICES.guarderia.poniente} - $${PRICES.adiestramiento.poniente} MXN`,
+      ? `$${PRICES.paseos.individual} - $${PRICES.adiestramiento.precio} MXN`
+      : `$${PRICES.guarderia.poniente} - $${PRICES.adiestramiento.precio} MXN`,
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: "Servicios Caninos",

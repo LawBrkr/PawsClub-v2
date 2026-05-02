@@ -88,7 +88,7 @@ const FAQ_SECTIONS = [
     faqs: [
       {
         q: "¿Cuánto cuesta el adiestramiento?",
-        a: `Poniente: ${formatPrice(PRICES.adiestramiento.poniente)} (paquete 4 sesiones). Zona Norte: ${formatPrice(PRICES.adiestramiento.zonaNorte)} (paquete 4 sesiones). Todas las sesiones son individuales.`,
+        a: `Programa Train & Go: ${formatPrice(PRICES.adiestramiento.precio)} (${PRICES.adiestramiento.unit}, ${PRICES.adiestramiento.semanas} semanas). Precio único, mismo en toda la cobertura. Evaluación inicial sin costo (valor $850). Todas las sesiones son 1 a 1.`,
       },
       {
         q: "¿Qué método de entrenamiento usan?",

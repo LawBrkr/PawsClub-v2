@@ -103,11 +103,13 @@ export default function Footer() {
                 WhatsApp
               </a>
             </div>
-            <div className="mt-6">
+            {/* Blog oculto temporalmente — pendiente imágenes hero. Para
+                reactivar: descomentar este bloque. */}
+            {/* <div className="mt-6">
               <Link href="/blog" className="text-sm text-gray-400 transition-colors hover:text-white">
                 📰 Ir a PawsBlog
               </Link>
-            </div>
+            </div> */}
           </div>
         </div>
 

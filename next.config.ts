@@ -17,19 +17,26 @@ const ContentSecurityPolicy = [
   "font-src 'self' data: https://fonts.gstatic.com",
   "img-src 'self' data: blob: https: https://www.google-analytics.com https://www.googletagmanager.com https://lh3.googleusercontent.com",
   "connect-src 'self' https://www.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://api.notion.com https://graph.facebook.com https://*.cal.com https://app.cal.com",
-  "frame-src https://*.cal.com https://app.cal.com https://www.googletagmanager.com",
+  // 'self' añadido a frame-src para que /panel/cotizador pueda embeber el HTML
+  // autocontenido de /herramientas/cotizador.html (same-origin iframe).
+  "frame-src 'self' https://*.cal.com https://app.cal.com https://www.googletagmanager.com",
   "media-src 'self' blob:",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self' https://wa.me",
-  "frame-ancestors 'none'",
+  // 'self' permite embedding same-origin sin abrir la puerta a clickjacking
+  // de terceros. Lo mismo se refuerza con X-Frame-Options: SAMEORIGIN.
+  "frame-ancestors 'self'",
   "upgrade-insecure-requests",
 ].join("; ");
 
 const securityHeaders = [
   { key: "Content-Security-Policy", value: ContentSecurityPolicy },
   { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
-  { key: "X-Frame-Options", value: "DENY" },
+  // SAMEORIGIN en lugar de DENY para que el cotizador interno pueda cargar
+  // el HTML autocontenido de /herramientas/cotizador.html en un iframe.
+  // Sigue bloqueando que terceros nos enmarquen (anti-clickjacking).
+  { key: "X-Frame-Options", value: "SAMEORIGIN" },
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   { key: "X-DNS-Prefetch-Control", value: "on" },

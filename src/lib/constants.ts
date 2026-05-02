@@ -126,29 +126,26 @@ export const PRICES = {
     zonaNorte: 260,
     unit: "día",
   },
+  // Adiestramiento — un solo plan unificado, precio plano (sin distinción
+  // Poniente vs Zona Norte). El servicio se entrega a domicilio, así que la
+  // sucursal del cliente no afecta el precio. Lanzamiento con margen reducido
+  // para conseguir reseñas iniciales.
   adiestramiento: {
-    poniente: 3950,
-    zonaNorte: 2950,
-    unit: "paquete 4 sesiones",
-    paquetes: {
-      cachorroPro: {
-        poniente: 7900,
-        zonaNorte: 5900,
-        unit: "8 sesiones a domicilio",
-      },
-      adiosAnsiedad: {
-        poniente: 11900,
-        zonaNorte: 8900,
-        unit: "10 sesiones a domicilio (protocolo gradual)",
-      },
-    },
+    precio: 8500,
+    sesiones: 12,
+    semanas: 4,
+    unit: "12 sesiones a domicilio",
   },
+  // Paseos — precios de lanzamiento competitivos en zona norte CDMX.
+  // Margen reducido a propósito para conseguir base de clientes y reseñas
+  // (misma estrategia que adiestramiento). Sábados se mantienen en precio
+  // anterior por ser producto premium con costo operacional mayor.
   paseos: {
-    individual: 150,
-    paquete5: 650,
-    paquete10: 1200,
-    mensual: 2200,
-    segundoPerro: 110,
+    individual: 90,
+    paquete5: 400,
+    paquete10: 750,
+    mensual: 1400,
+    segundoPerro: 60,
     aventuraSabado: 650,
     paquete4Sabados: 2200,
     segundoPerroSabado: 350,
@@ -235,14 +232,14 @@ export const SERVICES = [
     shortName: "Adiestramiento",
     slug: "adiestramiento",
     icon: "🎓",
-    tagline: "Evaluación conductual. Resultados medibles.",
+    tagline: "12 sesiones a domicilio. Resultados medibles.",
     description:
-      "Diagnóstico conductual de 16 puntos antes de cualquier plan. Ideal para primerizos, cachorros nuevos y hogares que quieren empezar bien desde el inicio. Refuerzo positivo, sesiones 1 a 1, a domicilio o en instalaciones.",
+      "Diagnóstico conductual de 16 puntos antes de cualquier plan. Programa de 12 sesiones a domicilio con especialista certificado, refuerzo positivo exclusivo y evaluación inicial sin costo. Ideal para cachorros y adultos sin reactividad seria.",
     features: [
       "Evaluación conductual inicial sin costo (valor $850)",
+      "12 sesiones 1 a 1 a domicilio con especialista certificado",
       "Plan personalizado según temperamento y contexto",
-      "Obediencia básica, cachorro pro y modificación de conducta",
-      "Sesiones 1 a 1 con perros mentor",
+      "Refuerzo positivo exclusivo · Reportes por WhatsApp",
     ],
     image: "/img/training.webp",
     primaryBranch: "poniente" as BranchId,
@@ -291,6 +288,8 @@ export const NAV_ITEMS = [
     ],
   },
   { label: "Nosotros", href: "/nosotros" },
-  { label: "Blog", href: "/blog" },
+  // Blog oculto temporalmente — pendiente generar imágenes hero con Gemini.
+  // Para reactivar: descomentar la línea siguiente.
+  // { label: "Blog", href: "/blog" },
   { label: "Contacto", href: "/contacto" },
 ] as const;

@@ -115,7 +115,7 @@ function ServicesSection() {
       case "guarderia":
         return `Desde ${formatPrice(PRICES.guarderia.zonaNorte)} / día`;
       case "adiestramiento":
-        return `Desde ${formatPrice(PRICES.adiestramiento.zonaNorte)}`;
+        return `${formatPrice(PRICES.adiestramiento.precio)} / programa`;
       case "paseos":
         return `Desde ${formatPrice(PRICES.paseos.individual)} / paseo`;
       default:

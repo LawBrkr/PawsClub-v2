@@ -10,10 +10,10 @@ export const metadata: Metadata = {
       follow: false,
     },
   },
-  title: "Cotizador Train & Go (interno) | Paws Club",
+  title: "Cotizador Paws Club (interno)",
 };
 
-export default function CotizadorTrainAndGoLayout({
+export default function CotizadorLayout({
   children,
 }: {
   children: React.ReactNode;

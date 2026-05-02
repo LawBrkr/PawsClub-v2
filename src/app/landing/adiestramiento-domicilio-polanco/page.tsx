@@ -130,48 +130,36 @@ export default function LandingDomicilioPolanco() {
         </div>
       </section>
 
-      {/* Programas */}
+      {/* Programa único Train & Go */}
       <section className="bg-gray-50 py-16">
-        <div className="mx-auto max-w-4xl px-4">
+        <div className="mx-auto max-w-3xl px-4">
           <h2 className="text-center text-3xl font-extrabold text-gray-900">
-            Dos opciones, ambas a domicilio
+            Programa Train & Go
           </h2>
-          <div className="mt-10 grid gap-6 md:grid-cols-2">
-            <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
-              <h3 className="text-xl font-bold text-gray-900">
-                Obediencia Básica
-              </h3>
-              <p className="mt-2 text-sm text-gray-500">
-                Comandos fundamentales, estructura de rutina y comunicación
-                efectiva con tu perro.
-              </p>
-              <p className="mt-1 text-xs font-semibold text-brand">
-                4 sesiones
-              </p>
-              <div className="mt-6 text-center">
-                <span className="text-3xl font-extrabold text-gray-900">
-                  {formatPrice(PRICES.adiestramiento.poniente)}
-                </span>
-              </div>
-            </div>
+          <p className="mt-3 text-center text-lg text-gray-500">
+            Un solo programa, todo incluido. Siempre a domicilio.
+          </p>
+          <div className="mt-10">
             <div className="relative rounded-2xl border-2 border-brand bg-white p-8 shadow-lg">
               <span className="absolute -top-3 right-6 rounded-full bg-accent-orange px-3 py-1 text-xs font-bold text-white">
-                Recomendado
+                Programa completo
               </span>
-              <h3 className="text-xl font-bold text-gray-900">Cachorro Pro</h3>
+              <h3 className="text-xl font-bold text-gray-900">Train & Go</h3>
               <p className="mt-2 text-sm text-gray-500">
-                Programa completo: socialización, obediencia, prevención de
-                problemas y reglas del hogar.
+                Programa de 4 semanas con especialista certificado. Cubre
+                socialización, obediencia, manejo de impulsos y reglas del
+                hogar. Incluye evaluación inicial sin costo.
               </p>
               <p className="mt-1 text-xs font-semibold text-brand">
-                8 sesiones a domicilio
+                {PRICES.adiestramiento.unit} · {PRICES.adiestramiento.semanas} semanas
               </p>
               <div className="mt-6 text-center">
-                <span className="text-3xl font-extrabold text-brand">
-                  {formatPrice(
-                    PRICES.adiestramiento.paquetes.cachorroPro.poniente
-                  )}
+                <span className="text-4xl font-extrabold text-brand">
+                  {formatPrice(PRICES.adiestramiento.precio)}
                 </span>
+                <p className="mt-1 text-xs text-gray-400">
+                  Precio único · Sin costos ocultos
+                </p>
               </div>
             </div>
           </div>

@@ -6,15 +6,21 @@ import { SITE } from "@/lib/constants";
 import { ArrowLeft, ArrowRight, Clock, User } from "lucide-react";
 import type { Metadata } from "next";
 
+// Blog oculto temporalmente — pendiente generar imágenes hero con Gemini.
+// Para reactivar: poner BLOG_HIDDEN = false.
+const BLOG_HIDDEN = true;
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
+  if (BLOG_HIDDEN) return [];
   return BLOG_POSTS.map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  if (BLOG_HIDDEN) return { robots: { index: false, follow: false } };
   const { slug } = await params;
   const post = BLOG_POSTS.find((p) => p.slug === slug);
   if (!post) return {};
@@ -33,6 +39,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function BlogPostPage({ params }: Props) {
+  if (BLOG_HIDDEN) notFound();
   const { slug } = await params;
   const post = BLOG_POSTS.find((p) => p.slug === slug);
 

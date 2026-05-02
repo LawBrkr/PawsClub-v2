@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title:
     "Cachorro Nuevo en Casa — Evaluación Sin Costo en Polanco | Paws Club",
   description:
-    "Programa Cachorro Pro: 8 sesiones a domicilio en Polanco y Lomas. Evaluación conductual sin costo (valor $850). Socialización temprana, obediencia y prevención de problemas.",
+    "Programa Train & Go: 12 sesiones a domicilio en Polanco y Lomas. Evaluación conductual sin costo (valor $850). Socialización temprana, obediencia y prevención de problemas.",
   robots: { index: false, follow: false },
 };
 
@@ -62,13 +62,13 @@ export default function LandingCachorroPrimerizo() {
             </h1>
             <p className="mt-4 text-xl text-white/90">
               Los primeros 6 meses definen el comportamiento de toda su vida.
-              Programa Cachorro Pro: 8 sesiones a domicilio en Polanco y Lomas.
+              Programa Train & Go: 12 sesiones a domicilio en Polanco y Lomas.
             </p>
             <div className="mt-4 flex items-center gap-4">
               <span className="text-3xl font-extrabold text-white">
-                {formatPrice(PRICES.adiestramiento.paquetes.cachorroPro.poniente)}
+                {formatPrice(PRICES.adiestramiento.precio)}
               </span>
-              <span className="text-lg text-white/70">/ 8 sesiones</span>
+              <span className="text-lg text-white/70">/ 12 sesiones a domicilio</span>
             </div>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <a
@@ -138,10 +138,10 @@ export default function LandingCachorroPrimerizo() {
       <section className="bg-gray-50 py-16">
         <div className="mx-auto max-w-4xl px-4">
           <h2 className="text-center text-3xl font-extrabold text-gray-900">
-            Programa Cachorro Pro
+            Programa Train & Go para Cachorros
           </h2>
           <p className="mt-3 text-center text-lg text-gray-500">
-            8 sesiones a domicilio. En tu casa, con su entorno real.
+            12 sesiones a domicilio en 4 semanas. En tu casa, con su entorno real.
           </p>
           <div className="mt-10 grid gap-3 sm:grid-cols-2">
             {[
@@ -162,10 +162,10 @@ export default function LandingCachorroPrimerizo() {
           </div>
           <div className="mt-10 text-center">
             <span className="text-4xl font-extrabold text-brand">
-              {formatPrice(PRICES.adiestramiento.paquetes.cachorroPro.poniente)}
+              {formatPrice(PRICES.adiestramiento.precio)}
             </span>
             <span className="ml-2 text-lg text-gray-400">
-              / 8 sesiones a domicilio
+              / 12 sesiones a domicilio
             </span>
           </div>
         </div>

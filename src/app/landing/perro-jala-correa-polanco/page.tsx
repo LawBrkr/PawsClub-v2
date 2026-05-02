@@ -66,9 +66,9 @@ export default function LandingJalaCorrea() {
             </p>
             <div className="mt-4 flex items-center gap-4">
               <span className="text-3xl font-extrabold text-white">
-                {formatPrice(PRICES.adiestramiento.poniente)}
+                {formatPrice(PRICES.adiestramiento.precio)}
               </span>
-              <span className="text-lg text-white/70">/ 4 sesiones</span>
+              <span className="text-lg text-white/70">/ 12 sesiones a domicilio</span>
             </div>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <a
@@ -121,11 +121,11 @@ export default function LandingJalaCorrea() {
       <section className="bg-gray-50 py-16">
         <div className="mx-auto max-w-4xl px-4">
           <h2 className="text-center text-3xl font-extrabold text-gray-900">
-            La solución: Obediencia Básica
+            La solución: Programa Train & Go
           </h2>
           <p className="mt-3 text-center text-lg text-gray-500">
-            Protocolo específico para correa suelta. Resultados desde la primera
-            sesión.
+            12 sesiones a domicilio con protocolo específico para correa suelta.
+            Resultados desde la primera sesión.
           </p>
           <div className="mt-10 grid gap-3 sm:grid-cols-2">
             {[
@@ -162,14 +162,20 @@ export default function LandingJalaCorrea() {
           </h2>
           <div className="mt-6">
             <span className="text-5xl font-extrabold text-brand">
-              {formatPrice(PRICES.adiestramiento.poniente)}
+              {formatPrice(PRICES.adiestramiento.precio)}
             </span>
-            <span className="ml-2 text-lg text-gray-400">/ 4 sesiones</span>
+            <span className="ml-2 text-lg text-gray-400">
+              / {PRICES.adiestramiento.sesiones} sesiones a domicilio
+            </span>
           </div>
           <p className="mt-2 text-sm text-gray-500">
             Equivale a{" "}
-            {formatPrice(Math.round(PRICES.adiestramiento.poniente / 4))} por
-            sesión · Sesiones 1 a 1 · A domicilio o en instalaciones
+            {formatPrice(
+              Math.round(
+                PRICES.adiestramiento.precio / PRICES.adiestramiento.sesiones
+              )
+            )}{" "}
+            por sesión · 1 a 1 con especialista certificado · Siempre a domicilio
           </p>
 
           <div className="mt-8 flex items-center justify-center gap-3 rounded-xl border border-brand/20 bg-brand/5 p-4">

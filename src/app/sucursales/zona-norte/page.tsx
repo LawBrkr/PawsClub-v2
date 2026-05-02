@@ -301,10 +301,10 @@ export default function ZonaNortePage() {
                     🎓 Adiestramiento
                   </td>
                   <td className="px-6 py-4 text-right text-sm font-bold text-brand">
-                    {formatPrice(PRICES.adiestramiento.zonaNorte)}
+                    {formatPrice(PRICES.adiestramiento.precio)}
                   </td>
                   <td className="px-6 py-4 text-right text-xs text-gray-400">
-                    paquete 4 sesiones
+                    {PRICES.adiestramiento.unit}
                   </td>
                 </tr>
                 <tr>
