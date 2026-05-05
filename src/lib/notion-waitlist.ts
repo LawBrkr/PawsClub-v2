@@ -1,17 +1,19 @@
 /**
  * Notion client (vía REST, sin SDK) para persistir leads de la lista
- * de espera de la sucursal Poniente.
+ * de espera de Paws Club (ambas sucursales, hotel/guardería/adiestramiento).
  *
  * Variables requeridas:
  *  - NOTION_API_KEY       (token integration secret)
- *  - NOTION_DATABASE_ID   (ID de la base de datos "Poniente Waitlist")
+ *  - NOTION_DATABASE_ID   (ID de la base de datos "Waitlist")
  *
- * El schema esperado de la base de datos (ajusta si difiere):
+ * El schema esperado de la base de datos (campos opcionales se omiten si
+ * no existen en la base — Notion los ignora):
  *  - Nombre        (Title)
  *  - Email         (Email)
  *  - Colonia       (Rich text)
  *  - Servicio      (Select: hotel | guarderia | adiestramiento)
- *  - Origen        (Rich text)         — set a "poniente-lead-form"
+ *  - Sucursal      (Select: poniente | zona-norte | indistinto)
+ *  - Origen        (Rich text)         — "lead-form"
  *  - Fecha         (Created time)      — automática, no la mandamos
  */
 
@@ -23,6 +25,7 @@ export interface PonienteLead {
   email: string;
   colonia: string;
   servicio: "hotel" | "guarderia" | "adiestramiento";
+  sucursal?: "poniente" | "zona-norte" | "indistinto";
 }
 
 export interface NotionResult {
@@ -45,6 +48,8 @@ export async function createPonienteWaitlistEntry(
     };
   }
 
+  const sucursal = lead.sucursal ?? "indistinto";
+
   const body = {
     parent: { database_id: databaseId },
     properties: {
@@ -60,8 +65,11 @@ export async function createPonienteWaitlistEntry(
       Servicio: {
         select: { name: lead.servicio },
       },
+      Sucursal: {
+        select: { name: sucursal },
+      },
       Origen: {
-        rich_text: [{ text: { content: "poniente-lead-form" } }],
+        rich_text: [{ text: { content: "lead-form" } }],
       },
     },
   };

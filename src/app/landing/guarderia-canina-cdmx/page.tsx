@@ -1,22 +1,23 @@
 import Image from "next/image";
-import { SITE, PRICES } from "@/lib/constants";
-import { formatPrice } from "@/lib/utils";
+import Link from "next/link";
+import { SITE, WAITLIST_COPY } from "@/lib/constants";
 import {
   ArrowRight,
   CheckCircle,
-  Phone,
   Star,
   Shield,
   Sun,
   Camera,
   Users,
+  AlertCircle,
 } from "lucide-react";
 import type { Metadata } from "next";
+import WaitlistForm from "@/components/WaitlistForm";
 
 export const metadata: Metadata = {
-  title: "Guardería Canina en CDMX — Sin Jaulas, Cupo Limitado | Paws Club",
+  title: "Guardería Canina en CDMX — Lista de Espera | Paws Club",
   description:
-    "Guardería canina premium en CDMX. Máximo 5 perros, sin jaulas, socialización supervisada, reportes diarios. Desde $260/día. ¡Agenda prueba gratis!",
+    "Guardería canina sin jaulas en CDMX con cupo lleno en ambas sucursales. Únete a la lista de espera y te avisamos en cuanto liberemos lugar.",
   robots: { index: false, follow: false },
 };
 
@@ -24,8 +25,9 @@ export default function LandingGuarderia() {
   return (
     <div className="min-h-screen bg-white">
       {/* Topbar */}
-      <div className="bg-accent-orange py-3 text-center text-sm font-semibold text-white">
-        ☀️ Guardería Canina — Prueba de Socialización GRATIS · Cupo Limitado
+      <div className="bg-amber-500 py-3 text-center text-sm font-semibold text-white">
+        <AlertCircle className="mr-1.5 inline h-4 w-4" />
+        Guardería Canina · {WAITLIST_COPY.badge}
       </div>
 
       {/* Hero */}
@@ -57,36 +59,30 @@ export default function LandingGuarderia() {
             <h1 className="text-4xl font-extrabold leading-tight text-white md:text-5xl lg:text-6xl">
               Guardería Canina
               <br />
-              <span className="text-accent-orange">Sin Jaulas</span> en CDMX
+              <span className="text-amber-300">Sin Jaulas</span> en CDMX
             </h1>
             <p className="mt-4 text-xl text-white/90">
-              Diversión supervisada todo el día con máximo 5 lomitos.
-              Socialización positiva, reportes con fotos y mucho amor.
+              Cupo lleno en ambas sucursales. Únete a la lista de espera y
+              te avisamos en cuanto liberemos lugar — sin compromiso.
             </p>
-            <div className="mt-4 flex items-center gap-4">
-              <span className="text-3xl font-extrabold text-white">
-                Desde {formatPrice(PRICES.guarderia.zonaNorte)}
-              </span>
-              <span className="text-lg text-white/70">/día</span>
+            <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-amber-500/95 px-4 py-1.5 text-sm font-bold text-white shadow">
+              <AlertCircle className="h-4 w-4" />
+              {WAITLIST_COPY.badge}
             </div>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-              <a
-                href={SITE.whatsappUrl(
-                  "¡Hola! ☀️ Vi su anuncio de la guardería y me interesa para mi perrito. ¿Me pasan informes?"
-                )}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-green-500 px-8 py-4 text-lg font-bold text-white shadow-2xl transition-all hover:-translate-y-1 hover:bg-green-600"
+              <Link
+                href="#waitlist"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-amber-500 px-8 py-4 text-lg font-bold text-white shadow-2xl transition-all hover:-translate-y-1 hover:bg-amber-600"
               >
-                <Phone className="h-5 w-5" />
-                Agendar Prueba Gratis
-              </a>
-              <a
-                href={`tel:${SITE.phone}`}
+                {WAITLIST_COPY.ctaLong}
+                <ArrowRight className="h-5 w-5" />
+              </Link>
+              <Link
+                href="/servicios/paseos"
                 className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/60 px-8 py-4 text-lg font-bold text-white transition-all hover:bg-white/10"
               >
-                Llamar ahora
-              </a>
+                Ver paseos disponibles
+              </Link>
             </div>
           </div>
         </div>
@@ -111,40 +107,18 @@ export default function LandingGuarderia() {
         </div>
       </section>
 
-      {/* Day Routine */}
+      {/* Why Waitlist */}
       <section className="py-16">
-        <div className="mx-auto max-w-4xl px-4">
-          <h2 className="text-center text-3xl font-extrabold text-gray-900">
-            Un Día en la Guardería
-          </h2>
-          <div className="mt-10 space-y-4">
-            {[
-              { time: "6-10 a.m.", text: "Recepción matutina (L-V) — Check-in y bienvenida" },
-              { time: "7 a.m. - 1 p.m.", text: "Recepción (Sábado) — Bloque matutino" },
-              { time: "3-6 p.m.", text: "Recepción (Sábado) — Bloque vespertino" },
-              { time: "1-3 p.m.", text: "Recepción vespertina (L-V) — Check-in alterno" },
-              { time: "6:00 p.m.", text: "Reporte del día enviado por WhatsApp" },
-              { time: "7:00 p.m.", text: "Pick-up en sucursal y salida de lomitos" },
-              { time: "7:30 p.m.", text: "Inicio de entrega a domicilio (Transportación)" },
-            ].map((item, i) => (
-              <div key={i} className="flex items-center gap-4 rounded-xl bg-gray-50 p-4">
-                <span className="w-20 shrink-0 text-right text-sm font-bold text-brand">
-                  {item.time}
-                </span>
-                <div className="h-2 w-2 shrink-0 rounded-full bg-brand" />
-                <span className="text-sm text-gray-700">{item.text}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Benefits */}
-      <section className="bg-gray-50 py-16">
         <div className="mx-auto max-w-5xl px-4">
           <h2 className="text-center text-3xl font-extrabold text-gray-900">
-            Todo Incluido
+            ¿Por qué hay lista de espera?
           </h2>
+          <p className="mt-4 text-center text-lg text-gray-600">
+            Recibimos máximo 5 lomitos por sesión para garantizar atención
+            personalizada y socialización segura. En este momento ambas
+            sucursales están al tope. Apúntate y te contactamos por orden
+            de llegada cuando se libere un lugar.
+          </p>
           <div className="mt-10 grid gap-4 sm:grid-cols-2">
             {[
               "Juego y socialización supervisada todo el día",
@@ -154,7 +128,7 @@ export default function LandingGuarderia() {
               "Agua fresca ilimitada y snacks saludables",
               "Actividades de estimulación mental",
               "Evaluación continua de comportamiento",
-              "Prueba de socialización gratuita",
+              "Sin compromiso ni pago hasta confirmar",
             ].map((item) => (
               <div key={item} className="flex items-center gap-3">
                 <CheckCircle className="h-5 w-5 shrink-0 text-green-500" />
@@ -165,32 +139,27 @@ export default function LandingGuarderia() {
         </div>
       </section>
 
-      {/* Pricing */}
-      <section className="py-16">
-        <div className="mx-auto max-w-4xl px-4">
-          <h2 className="text-center text-3xl font-extrabold text-gray-900">
-            Precios Claros
-          </h2>
-          <div className="mt-10 grid gap-6 md:grid-cols-2">
-            <div className="rounded-2xl border border-gray-200 bg-white p-8 text-center">
-              <h3 className="text-lg font-bold text-gray-900">Poniente</h3>
-              <p className="text-sm text-gray-500">Polanco · Lomas · Tecamachalco</p>
-              <div className="mt-4 text-4xl font-extrabold text-gray-900">
-                {formatPrice(PRICES.guarderia.poniente)}
-              </div>
-              <span className="text-sm text-gray-400">/día</span>
-            </div>
-            <div className="relative rounded-2xl border-2 border-brand bg-white p-8 text-center shadow-lg">
-              <span className="absolute -top-3 right-6 rounded-full bg-accent-orange px-3 py-1 text-xs font-bold text-white">
-                Mejor precio
-              </span>
-              <h3 className="text-lg font-bold text-gray-900">Zona Norte</h3>
-              <p className="text-sm text-gray-500">Lindavista · Sta. María · Tlatelolco</p>
-              <div className="mt-4 text-4xl font-extrabold text-brand">
-                {formatPrice(PRICES.guarderia.zonaNorte)}
-              </div>
-              <span className="text-sm text-gray-400">/día</span>
-            </div>
+      {/* Waitlist Form */}
+      <section id="waitlist" className="bg-cream py-16">
+        <div className="mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-2 lg:items-center lg:gap-16">
+          <div>
+            <span className="inline-block rounded-full bg-amber-100 px-4 py-1.5 text-sm font-semibold text-amber-800">
+              Guardería · Cupo lleno
+            </span>
+            <h2 className="mt-4 text-3xl font-extrabold text-gray-900 md:text-4xl">
+              Apúntate a la lista de espera
+            </h2>
+            <p className="mt-4 text-lg text-gray-600">
+              Te contactamos por correo y WhatsApp en cuanto liberemos
+              cupo. Lugar reservado por orden de llegada.
+            </p>
+          </div>
+          <div>
+            <WaitlistForm
+              defaultServicio="guarderia"
+              title="Lista de espera · Guardería"
+              subtitle="Te avisamos en cuanto se libere un lugar."
+            />
           </div>
         </div>
       </section>
@@ -244,25 +213,40 @@ export default function LandingGuarderia() {
       <section className="bg-brand py-16 text-center text-white">
         <div className="mx-auto max-w-2xl px-4">
           <h2 className="text-3xl font-extrabold md:text-4xl">
-            Prueba de Socialización Gratis
+            Mientras se libera lugar…
           </h2>
           <p className="mt-4 text-lg text-white/90">
-            Agenda hoy y comprueba por qué somos la guardería favorita de CDMX.
-            Solo aceptamos 5 lomitos por turno.
+            Nuestros paseos diarios y aventuras de sábado siguen abiertos.
+            También ofrecemos el programa de adiestramiento Train & Go a
+            domicilio.
           </p>
-          <a
-            href={SITE.whatsappUrl(
-              "¡Hola! ☀️ Vi su anuncio de la guardería y me interesa para mi perrito. ¿Me pasan informes?"
-            )}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-10 py-5 text-xl font-bold text-brand shadow-2xl transition-all hover:-translate-y-1"
-          >
-            <Phone className="h-6 w-6" />
-            Agendar Prueba Gratis
-          </a>
-          <p className="mt-4 text-sm text-white/70">
-            Respuesta en menos de 30 minutos
+          <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <Link
+              href="/servicios/paseos"
+              className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-bold text-brand shadow-xl transition-all hover:-translate-y-1"
+            >
+              🐾 Ver paseos
+              <ArrowRight className="h-5 w-5" />
+            </Link>
+            <Link
+              href="/servicios/adiestramiento"
+              className="inline-flex items-center gap-2 text-lg font-semibold text-white/90 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white"
+            >
+              Programa Train & Go →
+            </Link>
+          </div>
+          <p className="mt-6 text-sm text-white/70">
+            ¿Dudas?{" "}
+            <a
+              href={SITE.whatsappUrl(
+                "¡Hola! 👋 Tengo dudas sobre la lista de espera de la Guardería."
+              )}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline decoration-white/40 hover:text-white"
+            >
+              Contáctanos por WhatsApp
+            </a>
           </p>
         </div>
       </section>

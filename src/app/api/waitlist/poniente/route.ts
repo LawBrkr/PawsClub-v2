@@ -30,6 +30,12 @@ const LeadSchema = z.object({
   servicio: z.enum(["hotel", "guarderia", "adiestramiento"], {
     errorMap: () => ({ message: "Servicio no válido" }),
   }),
+  sucursal: z
+    .enum(["poniente", "zona-norte", "indistinto"], {
+      errorMap: () => ({ message: "Sucursal no válida" }),
+    })
+    .optional()
+    .default("indistinto"),
 });
 
 export async function POST(req: NextRequest) {
@@ -66,9 +72,9 @@ export async function POST(req: NextRequest) {
 
     const lead: PonienteLead = parsed.data;
 
-    // Log no-PII: sólo servicio + colonia
+    // Log no-PII: sólo servicio + sucursal + colonia
     console.log(
-      `[${ts}] [${requestId}] /api/waitlist/poniente lead: servicio=${lead.servicio} colonia=${lead.colonia}`
+      `[${ts}] [${requestId}] /api/waitlist lead: servicio=${lead.servicio} sucursal=${lead.sucursal} colonia=${lead.colonia}`
     );
 
     // ── Persistencia en Notion ─────────────────────────────────
@@ -96,6 +102,7 @@ export async function POST(req: NextRequest) {
       email: lead.email,
       colonia: lead.colonia,
       servicio: lead.servicio,
+      sucursal: lead.sucursal,
       notionPageId: notion.pageId,
     });
 
@@ -135,10 +142,12 @@ export async function POST(req: NextRequest) {
 export async function GET() {
   return NextResponse.json(
     {
-      service: "waitlist-poniente",
+      service: "waitlist",
       method: "POST",
       requiredFields: ["nombre", "email", "colonia", "servicio"],
+      optionalFields: ["sucursal"],
       servicio: ["hotel", "guarderia", "adiestramiento"],
+      sucursal: ["poniente", "zona-norte", "indistinto"],
     },
     { status: 200 }
   );

@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { SITE, PRICES, BRANCHES, SERVICES } from "@/lib/constants";
-import { formatPrice } from "@/lib/utils";
+import { SITE, SERVICES, WAITLIST_COPY } from "@/lib/constants";
 import {
   ArrowRight,
   CheckCircle,
@@ -11,18 +10,19 @@ import {
   Home,
   Shield,
   Clock,
-  Star,
+  AlertCircle,
 } from "lucide-react";
 import type { Metadata } from "next";
+import WaitlistForm from "@/components/WaitlistForm";
 
 export const metadata: Metadata = {
-  title: "Hotel Boutique Canino Sin Jaulas | Paws Club CDMX",
+  title: "Hotel Boutique Canino Sin Jaulas — Lista de Espera | Paws Club CDMX",
   description:
-    "Hospedaje canino premium sin jaulas en CDMX. Tu perro dormirá dentro de casa con atención personalizada, reportes diarios y transporte a domicilio. Dos sucursales: Polanco y Zona Norte.",
+    "Hotel canino sin jaulas en CDMX. Cupo lleno en ambas sucursales (Polanco y Zona Norte). Únete a la lista de espera y te avisamos en cuanto liberemos lugar.",
   openGraph: {
-    title: "Hotel Boutique Canino Sin Jaulas | Paws Club CDMX",
+    title: "Hotel Boutique Canino — Lista de Espera | Paws Club CDMX",
     description:
-      "Hospedaje canino premium sin jaulas en CDMX. Reportes diarios con fotos y videos.",
+      "Hotel canino sin jaulas con cupo lleno. Apúntate a la waitlist.",
     images: ["/img/hotel.webp"],
   },
 };
@@ -77,34 +77,40 @@ const DETAILS = [
 
 const FAQS = [
   {
-    q: "¿Cuál es el horario de check-in y check-out?",
-    a: "Check-in: Lunes a Viernes de 6:00 a.m. a 8:00 p.m., Sábados de 7:00 a.m. a 8:00 p.m. Check-out: en el mismo horario. Los domingos solo aceptamos huéspedes con reserva previa y aplica un cargo adicional del 20%.",
+    q: "¿Por qué está en lista de espera?",
+    a: "Tenemos cupo lleno en ambas sucursales y no contamos con instalaciones disponibles para mostrar a nuevos clientes en este momento. Operamos con cupo estricto (máximo 5 lomitos) para mantener la calidad del cuidado.",
   },
   {
-    q: "¿Qué necesito para hospedar a mi perro?",
-    a: "Cartilla de vacunación al día (incluyendo Bordetella y Giardia), desparasitación vigente, y pasar una prueba de socialización gratuita antes de su primera estancia.",
+    q: "¿Cómo funciona la waitlist?",
+    a: "Te registras con tus datos y servicio de interés. En cuanto liberemos un lugar te contactamos por correo y WhatsApp en orden de llegada. No hay compromiso ni pago hasta que tú confirmes.",
   },
   {
-    q: "¿Puedo dejar la comida de mi perro?",
-    a: "Sí, de hecho lo recomendamos. Puedes traer su alimento habitual porcionado para cada comida. Si no traes, usamos alimento premium.",
+    q: "¿Cuánto tarda en liberarse un lugar?",
+    a: "Depende de la rotación de huéspedes y temporada. No podemos garantizar tiempos, pero te mantenemos informado por correo cuando hay novedades.",
   },
   {
-    q: "¿Aceptan perros de cualquier tamaño y raza?",
-    a: "Sí, aceptamos todas las razas y tamaños. La prueba de socialización nos ayuda a asegurar que todos los huéspedes convivan en armonía.",
+    q: "¿Qué servicios sí están disponibles ahora?",
+    a: "Paseos diarios y aventuras de sábado (Zona Norte) y el programa de adiestramiento Train & Go (12 sesiones a domicilio, ambas zonas).",
   },
   {
-    q: "¿Hay servicio los domingos?",
-    a: `Sí, los domingos ofrecemos servicio de hotel con reserva previa. El precio es de ${formatPrice(PRICES.hotel.poniente.sunday)} en Poniente y ${formatPrice(PRICES.hotel.zonaNorte.sunday)} en Zona Norte (incluye el recargo dominical).`,
+    q: "¿Qué requisitos pediremos cuando se libere lugar?",
+    a: "Cartilla de vacunación al día (incluyendo Bordetella y Giardia), desparasitación vigente, y una prueba de socialización gratuita antes de la primera estancia.",
   },
 ];
 
 export default function HotelPage() {
   return (
     <>
-      {/* Zona Norte Badge */}
-      <div className="bg-brand py-3 text-center text-sm font-semibold text-white">
-        <Shield className="mr-1 inline h-4 w-4" />
-        Servicio exclusivo Zona Norte — Santa María la Ribera, Lindavista, San Rafael y colonias cercanas
+      {/* Waitlist Banner */}
+      <div className="bg-amber-500 py-3 text-center text-sm font-semibold text-white">
+        <AlertCircle className="mr-1.5 inline h-4 w-4" />
+        {WAITLIST_COPY.badge} ·
+        <a
+          href="#waitlist"
+          className="ml-1 underline decoration-white/70 underline-offset-2 hover:decoration-white"
+        >
+          Apuntarme
+        </a>
       </div>
 
       {/* Hero */}
@@ -128,23 +134,23 @@ export default function HotelPage() {
           <p className="mt-4 max-w-2xl text-lg text-white/90">
             {service.description}
           </p>
+          <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-amber-500/95 px-4 py-1.5 text-sm font-bold text-white shadow">
+            <AlertCircle className="h-4 w-4" />
+            {WAITLIST_COPY.badge}
+          </div>
           <div className="mt-8 flex flex-wrap gap-4">
-            <a
-              href={SITE.whatsappUrl(
-                "¡Hola! 🏨 Me interesa el Hotel Canino. ¿Tienen disponibilidad para las próximas fechas?"
-              )}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="#waitlist"
               className="inline-flex items-center gap-2 rounded-full bg-brand px-8 py-4 text-lg font-bold text-white shadow-xl transition-all hover:-translate-y-1 hover:bg-brand-hover hover:shadow-2xl"
             >
-              Reservar ahora
+              {WAITLIST_COPY.ctaLong}
               <ArrowRight className="h-5 w-5" />
-            </a>
+            </Link>
             <Link
-              href="#precios"
+              href="/servicios/paseos"
               className="inline-flex items-center gap-2 rounded-full border-2 border-white/80 px-8 py-4 text-lg font-bold text-white backdrop-blur-sm transition-all hover:bg-white/10"
             >
-              Ver precios
+              Ver paseos disponibles
             </Link>
           </div>
         </div>
@@ -207,92 +213,43 @@ export default function HotelPage() {
         </div>
       </section>
 
-      {/* Pricing */}
-      <section id="precios" className="py-20">
-        <div className="mx-auto max-w-5xl px-4 lg:px-8">
-          <div className="mb-12 text-center">
-            <h2 className="text-3xl font-extrabold text-gray-900 md:text-4xl">
-              Precios por Sucursal
+      {/* Waitlist Form */}
+      <section id="waitlist" className="bg-cream py-20">
+        <div className="mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-2 lg:items-center lg:gap-16 lg:px-8">
+          <div>
+            <span className="inline-block rounded-full bg-amber-100 px-4 py-1.5 text-sm font-semibold text-amber-800">
+              Hotel · Cupo lleno en ambas sucursales
+            </span>
+            <h2 className="mt-4 text-3xl font-extrabold leading-tight text-gray-900 md:text-4xl">
+              Únete a la lista de espera del Hotel
             </h2>
-            <p className="mt-3 text-lg text-gray-500">
-              La misma calidad Paws Club, precios adaptados a cada zona.
+            <p className="mt-4 text-lg text-gray-600">
+              No tenemos cupo disponible en este momento. Apúntate y te
+              contactamos en cuanto se libere un lugar — sin compromiso ni
+              pago hasta que tú confirmes la reserva.
             </p>
+            <ul className="mt-6 space-y-3 text-gray-700">
+              <li className="flex items-start gap-2">
+                <CheckCircle className="mt-1 h-5 w-5 flex-shrink-0 text-brand" />
+                <span>Aviso por correo y WhatsApp en cuanto haya cupo</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle className="mt-1 h-5 w-5 flex-shrink-0 text-brand" />
+                <span>Lugar reservado por orden de llegada</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle className="mt-1 h-5 w-5 flex-shrink-0 text-brand" />
+                <span>Mismas condiciones: sin jaulas, máx. 5 huéspedes, supervisión 24/7</span>
+              </li>
+            </ul>
           </div>
-
-          <div className="grid gap-8 md:grid-cols-2">
-            <div className="rounded-2xl border-2 border-gray-200 bg-gray-50 p-8 shadow-sm">
-              <h3 className="text-xl font-bold text-gray-400">
-                {BRANCHES.poniente.name}
-              </h3>
-              <p className="mt-1 text-sm text-gray-400">
-                Polanco · Lomas · Tecamachalco
-              </p>
-              <div className="mt-6 flex flex-col items-center justify-center py-6">
-                <span className="text-lg font-bold text-gray-400">
-                  No disponible en esta zona
-                </span>
-                <p className="mt-2 text-sm text-gray-400 text-center">
-                  El hotel canino opera exclusivamente en Zona Norte.
-                </p>
-              </div>
-              <Link
-                href="/sucursales/zona-norte"
-                className="mt-6 block rounded-full bg-brand py-3 text-center text-sm font-semibold text-white transition-all hover:bg-brand-hover"
-              >
-                Ver Hotel en Zona Norte
-              </Link>
-            </div>
-
-            {/* Zona Norte */}
-            <div className="relative rounded-2xl border-2 border-brand bg-white p-8 shadow-lg">
-              <span className="absolute -top-3 right-6 rounded-full bg-accent-orange px-3 py-1 text-xs font-bold text-white">
-                Mejor precio
-              </span>
-              <h3 className="text-xl font-bold text-gray-900">
-                {BRANCHES["zona-norte"].name}
-              </h3>
-              <p className="mt-1 text-sm text-gray-500">
-                Lindavista · Sta. María la Ribera · Tlatelolco
-              </p>
-              <div className="mt-6 space-y-4">
-                <div className="flex items-end justify-between border-b border-gray-100 pb-3">
-                  <span className="text-sm text-gray-600">Lunes a Sábado</span>
-                  <span className="text-2xl font-extrabold text-brand">
-                    {formatPrice(PRICES.hotel.zonaNorte.weekday)}
-                    <span className="text-sm font-normal text-gray-400">
-                      /noche
-                    </span>
-                  </span>
-                </div>
-                <div className="flex items-end justify-between">
-                  <span className="text-sm text-gray-600">
-                    Domingo (con reserva)
-                  </span>
-                  <span className="text-2xl font-extrabold text-brand">
-                    {formatPrice(PRICES.hotel.zonaNorte.sunday)}
-                    <span className="text-sm font-normal text-gray-400">
-                      /noche
-                    </span>
-                  </span>
-                </div>
-              </div>
-              <a
-                href={SITE.whatsappUrl(
-                  "¡Hola! 🏨 Me interesa el Hotel Canino. Me interesa la sucursal Zona Norte. ¿Tienen cupo?"
-                )}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-6 block rounded-full bg-brand py-3 text-center text-sm font-semibold text-white transition-all hover:bg-brand-hover"
-              >
-                Reservar en Zona Norte
-              </a>
-            </div>
+          <div>
+            <WaitlistForm
+              defaultServicio="hotel"
+              title="Lista de espera · Hotel"
+              subtitle="Te avisamos en cuanto se libere un lugar."
+            />
           </div>
-
-          <p className="mt-6 text-center text-sm text-gray-400">
-            Todos los precios incluyen: estancia sin jaulas, supervisión 24/7,
-            reportes con fotos y limpieza diaria.
-          </p>
         </div>
       </section>
 
@@ -351,31 +308,40 @@ export default function HotelPage() {
       <section className="bg-brand py-20 text-center text-white">
         <div className="mx-auto max-w-3xl px-4">
           <h2 className="text-3xl font-extrabold md:text-4xl">
-            ¿Tu lomito necesita hospedaje?
+            ¿No quieres esperar?
           </h2>
           <p className="mt-4 text-lg text-white/90">
-            Agenda una visita para conocer nuestras instalaciones. La prueba de
-            socialización es gratuita.
+            Mientras se libera un lugar en el hotel, prueba nuestros paseos
+            diarios o el programa de adiestramiento Train & Go.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <Link
+              href="/servicios/paseos"
+              className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-bold text-brand shadow-xl transition-all hover:-translate-y-1 hover:shadow-2xl"
+            >
+              🐾 Ver paseos
+              <ArrowRight className="h-5 w-5" />
+            </Link>
+            <Link
+              href="/servicios/adiestramiento"
+              className="inline-flex items-center gap-2 text-lg font-semibold text-white/90 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white"
+            >
+              Programa Train & Go →
+            </Link>
+          </div>
+          <p className="mt-6 text-sm text-white/70">
+            ¿Dudas?{" "}
             <a
               href={SITE.whatsappUrl(
-                "¡Hola! 🏨 Me interesa el Hotel Canino. ¿Tienen disponibilidad para las próximas fechas?"
+                "¡Hola! 👋 Tengo dudas sobre la lista de espera del Hotel."
               )}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-bold text-brand shadow-xl transition-all hover:-translate-y-1 hover:shadow-2xl"
+              className="underline decoration-white/40 hover:text-white"
             >
-              Agendar visita
-              <ArrowRight className="h-5 w-5" />
+              Contáctanos por WhatsApp
             </a>
-            <Link
-              href="/servicios/guarderia"
-              className="inline-flex items-center gap-2 text-lg font-semibold text-white/90 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white"
-            >
-              También ofrecemos Guardería →
-            </Link>
-          </div>
+          </p>
         </div>
       </section>
     </>

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { SITE, BRANCHES } from "@/lib/constants";
+import { SITE } from "@/lib/constants";
 import { ArrowRight, Heart, Shield, Star, Users, Award, Leaf } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -216,25 +216,26 @@ export default function NosotrosPage() {
       <section className="bg-brand py-20 text-center text-white">
         <div className="mx-auto max-w-3xl px-4">
           <h2 className="text-3xl font-extrabold md:text-4xl">
-            ¿Listo para conocernos?
+            ¿Quieres saber más?
           </h2>
           <p className="mt-4 text-lg text-white/90">
-            Agenda una visita y comprueba por qué los papás perrunos nos eligen.
+            Reserva un paseo o el programa Train & Go. Para hotel y guardería,
+            apúntate a la lista de espera.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
               href={SITE.whatsappUrl(
-                "¡Hola! Me gustaría agendar una visita para conocer sus instalaciones. ¿Cómo le hacemos?"
+                "¡Hola! 👋 Me gustaría conocer más sobre Paws Club. ¿Me podrían dar informes?"
               )}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-bold text-brand shadow-xl transition-all hover:-translate-y-1 hover:shadow-2xl"
             >
-              Agendar visita
+              Contáctanos
               <ArrowRight className="h-5 w-5" />
             </a>
             <Link
-              href="/servicios/hotel"
+              href="/servicios/paseos"
               className="inline-flex items-center gap-2 text-lg font-semibold text-white/90 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white"
             >
               Explorar servicios →
