@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import GoogleMap from "@/components/GoogleMap";
-import { SITE, PRICES, BRANCHES, SERVICES } from "@/lib/constants";
+import { SITE, PRICES, BRANCHES, SERVICES, WAITLIST_COPY } from "@/lib/constants";
 import { formatPrice } from "@/lib/utils";
 import {
   ArrowRight,
@@ -10,11 +10,12 @@ import {
   MapPin,
   Phone,
   Star,
+  AlertCircle,
 } from "lucide-react";
 import type { Metadata } from "next";
 import SchemaMarkup from "@/components/SchemaMarkup";
 import { getLocalBusinessSchema } from "@/lib/schema";
-import PonienteLeadForm from "@/components/PonienteLeadForm";
+import WaitlistForm from "@/components/WaitlistForm";
 
 const branch = BRANCHES.poniente;
 
@@ -36,6 +37,17 @@ export default function PonientePage() {
   return (
     <>
       <SchemaMarkup data={getLocalBusinessSchema("poniente")} />
+      {/* Waitlist Banner */}
+      <div className="bg-amber-500 py-3 text-center text-sm font-semibold text-white">
+        <AlertCircle className="mr-1.5 inline h-4 w-4" />
+        Hotel y Guardería · {WAITLIST_COPY.badge} ·
+        <Link
+          href="#lista-espera"
+          className="ml-1 underline decoration-white/70 underline-offset-2 hover:decoration-white"
+        >
+          Apuntarme
+        </Link>
+      </div>
       {/* Hero */}
       <section className="relative flex min-h-[50vh] items-end md:items-center overflow-hidden">
         <Image
@@ -267,22 +279,21 @@ export default function PonientePage() {
             personalizado y acompañamiento post-sesión.
           </p>
 
-          {/* Redirect Hotel/Guardería */}
-          <div className="mt-12 rounded-2xl border border-brand/20 bg-brand/5 p-8 text-center">
-            <h3 className="text-xl font-bold text-gray-900">
-              ¿Hotel o guardería en Polanco?
+          {/* Hotel y Guardería waitlist note */}
+          <div className="mt-12 rounded-2xl border-2 border-amber-300 bg-amber-50 p-8 text-center">
+            <h3 className="text-xl font-bold text-amber-900">
+              Hotel y Guardería en Polanco · {WAITLIST_COPY.bannerTitle}
             </h3>
-            <p className="mt-3 text-sm text-gray-600">
-              Nuestros servicios de hotel y guardería canina operan exclusivamente
-              en Zona Norte (Santa María la Ribera, Lindavista, San Rafael y
-              colonias cercanas), donde contamos con las instalaciones adecuadas
-              y cupo controlado.
+            <p className="mt-3 text-sm text-amber-800">
+              No tenemos cupo disponible para hotel ni guardería en este
+              momento. Apúntate a la lista de espera y te avisamos en cuanto
+              liberemos lugar.
             </p>
             <Link
-              href="/sucursales/zona-norte"
-              className="mt-6 inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-bold text-white transition-all hover:bg-brand-hover"
+              href="#lista-espera"
+              className="mt-6 inline-flex items-center gap-2 rounded-full bg-amber-600 px-6 py-3 text-sm font-bold text-white transition-all hover:bg-amber-700"
             >
-              Ver Hotel y Guardería en Zona Norte
+              {WAITLIST_COPY.ctaShort}
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
@@ -322,33 +333,38 @@ export default function PonientePage() {
       <section id="lista-espera" className="bg-cream py-16 md:py-20">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-2 lg:items-center lg:gap-16 lg:px-8">
           <div>
-            <span className="inline-block rounded-full bg-accent-orange/15 px-4 py-1.5 text-sm font-semibold text-accent-orange">
-              Cupo limitado
+            <span className="inline-block rounded-full bg-amber-100 px-4 py-1.5 text-sm font-semibold text-amber-800">
+              Hotel y Guardería · Cupo lleno
             </span>
             <h2 className="mt-4 text-3xl font-extrabold leading-tight text-gray-900 md:text-4xl">
-              Paws Club Poniente esta en lista de espera
+              Lista de espera Paws Club Poniente
             </h2>
             <p className="mt-4 text-lg text-gray-600">
-              Estamos ampliando capacidad para Polanco, Lomas y Tecamachalco.
-              Registrate y eres el primero en saber cuando abramos cupo para tu servicio.
+              Hotel y guardería operan en lista de espera por cupo lleno.
+              Apúntate y te avisamos en cuanto liberemos lugar — sin
+              compromiso hasta que tú confirmes.
             </p>
             <ul className="mt-6 space-y-3 text-gray-700">
               <li className="flex items-start gap-2">
                 <CheckCircle className="mt-1 h-5 w-5 flex-shrink-0 text-brand" />
-                <span>Aviso prioritario antes de la apertura publica</span>
+                <span>Aviso por correo y WhatsApp en cuanto haya cupo</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="mt-1 h-5 w-5 flex-shrink-0 text-brand" />
-                <span>Tarifa de fundador para los primeros inscritos</span>
+                <span>Lugar reservado por orden de llegada</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="mt-1 h-5 w-5 flex-shrink-0 text-brand" />
-                <span>Evaluacion conductual sin costo al iniciar</span>
+                <span>Mientras tanto, paseos y adiestramiento siguen abiertos</span>
               </li>
             </ul>
           </div>
           <div>
-            <PonienteLeadForm />
+            <WaitlistForm
+              defaultSucursal="poniente"
+              title="Lista de espera · Poniente"
+              subtitle="Te avisamos en cuanto liberemos cupo."
+            />
           </div>
         </div>
       </section>
@@ -360,8 +376,8 @@ export default function PonientePage() {
             ¿Vives en Polanco o Lomas?
           </h2>
           <p className="mt-4 text-lg text-white/90">
-            Agenda la evaluación conductual sin costo. 45 minutos, sin
-            compromiso.
+            Agenda la evaluación conductual sin costo del programa Train & Go.
+            45 minutos, sin compromiso.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
@@ -376,10 +392,10 @@ export default function PonientePage() {
               <ArrowRight className="h-5 w-5" />
             </a>
             <Link
-              href="/sucursales/zona-norte"
+              href="#lista-espera"
               className="inline-flex items-center gap-2 text-lg font-semibold text-white/90 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white"
             >
-              Hotel y Guardería en Zona Norte →
+              Lista de espera Hotel/Guardería →
             </Link>
           </div>
         </div>

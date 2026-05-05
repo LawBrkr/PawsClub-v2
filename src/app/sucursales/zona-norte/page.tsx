@@ -1,7 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import GoogleMap from "@/components/GoogleMap";
-import { SITE, PRICES, BRANCHES, SERVICES } from "@/lib/constants";
+import {
+  SITE,
+  PRICES,
+  BRANCHES,
+  SERVICES,
+  isWaitlistService,
+  WAITLIST_COPY,
+} from "@/lib/constants";
 import { formatPrice } from "@/lib/utils";
 import {
   ArrowRight,
@@ -11,20 +18,21 @@ import {
   Phone,
   Star,
   Home,
-  ShieldCheck,
+  AlertCircle,
 } from "lucide-react";
 import type { Metadata } from "next";
 import SchemaMarkup from "@/components/SchemaMarkup";
 import { getLocalBusinessSchema } from "@/lib/schema";
+import WaitlistForm from "@/components/WaitlistForm";
 
 const branch = BRANCHES["zona-norte"];
 
 export const metadata: Metadata = {
-  title: `${branch.name} — Premium Homestay Canino | Paws Club`,
-  description: `${branch.name}: Premium Homestay con cuidado 24/7 sin jaulas. Servicios caninos completos incluyendo paseos diarios en Lindavista, Sta. María la Ribera, etc.`,
+  title: `${branch.name} — Paseos y Adiestramiento | Paws Club`,
+  description: `${branch.name}: paseos diarios, aventuras de sábado y adiestramiento Train & Go en Lindavista, Sta. María la Ribera y colonias cercanas. Hotel y guardería en lista de espera.`,
   openGraph: {
     title: `${branch.name} | Paws Club CDMX`,
-    description: `Premium Homestay: Cuidado 24/7 sin jaulas y ambiente 100% hogareño en Zona Norte CDMX.`,
+    description: `Paseos y adiestramiento abiertos. Hotel y guardería con lista de espera por cupo lleno.`,
     images: ["/img/Pome_feliz_en_parque.webp"],
   },
 };
@@ -33,6 +41,17 @@ export default function ZonaNortePage() {
   return (
     <>
       <SchemaMarkup data={getLocalBusinessSchema("zona-norte")} />
+      {/* Waitlist Banner */}
+      <div className="bg-amber-500 py-3 text-center text-sm font-semibold text-white">
+        <AlertCircle className="mr-1.5 inline h-4 w-4" />
+        Hotel y Guardería · {WAITLIST_COPY.badge} ·
+        <Link
+          href="#waitlist"
+          className="ml-1 underline decoration-white/70 underline-offset-2 hover:decoration-white"
+        >
+          Apuntarme
+        </Link>
+      </div>
       {/* Hero */}
       <section className="relative flex min-h-[50vh] items-end md:items-center overflow-hidden">
         <Image
@@ -47,30 +66,28 @@ export default function ZonaNortePage() {
         <div className="relative z-10 mx-auto w-full max-w-7xl px-4 py-20 lg:px-8">
           <div className="mb-4 flex flex-wrap gap-2">
             <span className="inline-flex items-center gap-1 rounded-full bg-brand/90 px-4 py-1.5 text-sm font-semibold text-white">
-              <Home className="h-4 w-4" /> Premium Homestay
+              <Home className="h-4 w-4" /> Sucursal Zona Norte
             </span>
             <span className="inline-block rounded-full bg-accent-orange px-4 py-1.5 text-sm font-semibold text-white">
-              Cuidado 24/7 sin jaulas
+              🐾 Paseos y adiestramiento abiertos
             </span>
           </div>
           <h1 className="max-w-3xl text-4xl font-extrabold leading-tight text-white md:text-5xl lg:text-6xl">
             {branch.name}
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-white/90">
-            Experimenta el verdadero <strong>Premium Homestay</strong>. Ofrecemos un ambiente 100% hogareño, supervisión constante y libertad total (cero jaulas). Disfruta de la tranquilidad de saber que tu mejor amigo es tratado como familia.
+            Paseos diarios, aventuras de sábado a parques caninos y programa
+            Train & Go con refuerzo positivo. Hotel y guardería en lista de
+            espera por cupo lleno.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
-            <a
-              href={SITE.whatsappUrl(
-                "¡Hola! 📍 Me interesa conocer sus servicios en la sucursal Zona Norte. ¿Me podrían dar informes?"
-              )}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/servicios/paseos"
               className="inline-flex items-center gap-2 rounded-full bg-brand px-8 py-4 text-lg font-bold text-white shadow-xl transition-all hover:-translate-y-1 hover:bg-brand-hover hover:shadow-2xl"
             >
-              Contactar Zona Norte
+              Reservar paseo
               <ArrowRight className="h-5 w-5" />
-            </a>
+            </Link>
             <Link
               href="#servicios"
               className="inline-flex items-center gap-2 rounded-full border-2 border-white/80 px-8 py-4 text-lg font-bold text-white backdrop-blur-sm transition-all hover:bg-white/10"
@@ -200,43 +217,56 @@ export default function ZonaNortePage() {
               Servicios en Zona Norte
             </h2>
             <p className="mt-3 text-lg text-gray-500">
-              La sucursal más completa: 4 servicios incluyendo paseos
-              exclusivos.
+              Paseos y adiestramiento disponibles. Hotel y guardería en
+              lista de espera.
             </p>
           </div>
           <div className="grid gap-6 sm:grid-cols-2">
-            {SERVICES.map((s) => (
-              <Link
-                key={s.id}
-                href={`/servicios/${s.slug}`}
-                className="group rounded-2xl bg-white p-6 shadow-sm transition-all hover:shadow-lg"
-              >
-                <div className="flex items-start justify-between">
-                  <span className="text-3xl">{s.icon}</span>
-                  {"exclusiveBranch" in s && (
-                    <span className="rounded-full bg-accent-orange/10 px-3 py-1 text-xs font-bold text-accent-orange">
-                      Exclusivo ZN
-                    </span>
-                  )}
-                </div>
-                <h3 className="mt-4 text-lg font-bold text-gray-900 group-hover:text-brand">
-                  {s.name}
-                </h3>
-                <p className="mt-2 text-sm text-gray-500">{s.tagline}</p>
-                <ul className="mt-4 space-y-2">
-                  {s.features.slice(0, 3).map((f) => (
-                    <li key={f} className="flex items-start gap-2 text-xs text-gray-600">
-                      <CheckCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-brand" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand">
-                  Ver detalles y precios
-                  <ArrowRight className="h-4 w-4" />
-                </span>
-              </Link>
-            ))}
+            {SERVICES.map((s) => {
+              const waitlist = isWaitlistService(s.id);
+              return (
+                <Link
+                  key={s.id}
+                  href={
+                    waitlist ? `/servicios/${s.slug}#waitlist` : `/servicios/${s.slug}`
+                  }
+                  className="group rounded-2xl bg-white p-6 shadow-sm transition-all hover:shadow-lg"
+                >
+                  <div className="flex items-start justify-between">
+                    <span className="text-3xl">{s.icon}</span>
+                    {waitlist ? (
+                      <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-800">
+                        Lista de espera
+                      </span>
+                    ) : "exclusiveBranch" in s ? (
+                      <span className="rounded-full bg-accent-orange/10 px-3 py-1 text-xs font-bold text-accent-orange">
+                        Exclusivo ZN
+                      </span>
+                    ) : null}
+                  </div>
+                  <h3 className="mt-4 text-lg font-bold text-gray-900 group-hover:text-brand">
+                    {s.name}
+                  </h3>
+                  <p className="mt-2 text-sm text-gray-500">{s.tagline}</p>
+                  <ul className="mt-4 space-y-2">
+                    {s.features.slice(0, 3).map((f) => (
+                      <li key={f} className="flex items-start gap-2 text-xs text-gray-600">
+                        <CheckCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-brand" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <span
+                    className={`mt-4 inline-flex items-center gap-1 text-sm font-semibold ${
+                      waitlist ? "text-amber-700" : "text-brand"
+                    }`}
+                  >
+                    {waitlist ? "Apuntarme a la lista" : "Ver detalles y precios"}
+                    <ArrowRight className="h-4 w-4" />
+                  </span>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -263,37 +293,30 @@ export default function ZonaNortePage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
-                <tr>
-                  <td className="px-6 py-4 text-sm text-gray-700">
-                    🏨 Hotel (L-S)
+                <tr className="bg-amber-50/40">
+                  <td className="px-6 py-4 text-sm text-gray-500">
+                    🏨 Hotel
                   </td>
-                  <td className="px-6 py-4 text-right text-sm font-bold text-brand">
-                    {formatPrice(PRICES.hotel.zonaNorte.weekday)}
+                  <td className="px-6 py-4 text-right text-xs font-bold text-amber-800">
+                    Lista de espera
                   </td>
-                  <td className="px-6 py-4 text-right text-xs text-gray-400">
-                    por noche
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-6 py-4 text-sm text-gray-700">
-                    🏨 Hotel (Domingo)
-                  </td>
-                  <td className="px-6 py-4 text-right text-sm font-bold text-brand">
-                    {formatPrice(PRICES.hotel.zonaNorte.sunday)}
-                  </td>
-                  <td className="px-6 py-4 text-right text-xs text-gray-400">
-                    por noche
+                  <td className="px-6 py-4 text-right text-xs text-amber-700">
+                    <Link href="#waitlist" className="underline hover:text-amber-900">
+                      Apuntarme
+                    </Link>
                   </td>
                 </tr>
-                <tr>
-                  <td className="px-6 py-4 text-sm text-gray-700">
+                <tr className="bg-amber-50/40">
+                  <td className="px-6 py-4 text-sm text-gray-500">
                     ☀️ Guardería
                   </td>
-                  <td className="px-6 py-4 text-right text-sm font-bold text-brand">
-                    {formatPrice(PRICES.guarderia.zonaNorte)}
+                  <td className="px-6 py-4 text-right text-xs font-bold text-amber-800">
+                    Lista de espera
                   </td>
-                  <td className="px-6 py-4 text-right text-xs text-gray-400">
-                    por día
+                  <td className="px-6 py-4 text-right text-xs text-amber-700">
+                    <Link href="#waitlist" className="underline hover:text-amber-900">
+                      Apuntarme
+                    </Link>
                   </td>
                 </tr>
                 <tr>
@@ -378,6 +401,46 @@ export default function ZonaNortePage() {
         </div>
       </section>
 
+      {/* Waitlist */}
+      <section id="waitlist" className="bg-cream py-20">
+        <div className="mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-2 lg:items-center lg:gap-16 lg:px-8">
+          <div>
+            <span className="inline-block rounded-full bg-amber-100 px-4 py-1.5 text-sm font-semibold text-amber-800">
+              Hotel y Guardería · Cupo lleno
+            </span>
+            <h2 className="mt-4 text-3xl font-extrabold leading-tight text-gray-900 md:text-4xl">
+              Lista de espera Zona Norte
+            </h2>
+            <p className="mt-4 text-lg text-gray-600">
+              No tenemos cupo disponible para hotel ni guardería en este
+              momento. Apúntate y te avisamos en cuanto se libere un lugar
+              — sin compromiso hasta que tú confirmes.
+            </p>
+            <ul className="mt-6 space-y-3 text-gray-700">
+              <li className="flex items-start gap-2">
+                <CheckCircle className="mt-1 h-5 w-5 flex-shrink-0 text-brand" />
+                <span>Aviso por correo y WhatsApp en cuanto haya cupo</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle className="mt-1 h-5 w-5 flex-shrink-0 text-brand" />
+                <span>Lugar reservado por orden de llegada</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle className="mt-1 h-5 w-5 flex-shrink-0 text-brand" />
+                <span>Mientras tanto, paseos y adiestramiento siguen abiertos</span>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <WaitlistForm
+              defaultSucursal="zona-norte"
+              title="Lista de espera · Zona Norte"
+              subtitle="Te avisamos en cuanto liberemos cupo."
+            />
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="bg-brand py-20 text-center text-white">
         <div className="mx-auto max-w-3xl px-4">
@@ -385,19 +448,19 @@ export default function ZonaNortePage() {
             ¿Vives en Zona Norte?
           </h2>
           <p className="mt-4 text-lg text-white/90">
-            Somos tu mejor opción para servicios caninos completos. Agenda una
-            visita hoy.
+            Reserva tu paseo o programa Train & Go. Para hotel y guardería,
+            apúntate a la lista de espera.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
               href={SITE.whatsappUrl(
-                "¡Hola! 📍 Me gustaría visitar la sucursal Zona Norte para conocerlos. ¿En qué horarios puedo ir?"
+                "¡Hola! 📍 Me interesa la sucursal Zona Norte. ¿Me podrían dar informes?"
               )}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-bold text-brand shadow-xl transition-all hover:-translate-y-1 hover:shadow-2xl"
             >
-              Agendar visita
+              Contáctanos
               <ArrowRight className="h-5 w-5" />
             </a>
             <Link

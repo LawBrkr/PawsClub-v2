@@ -24,6 +24,7 @@ export interface NotifyPayload {
   email: string;
   colonia: string;
   servicio: string;
+  sucursal?: string;
   notionPageId?: string;
 }
 
@@ -40,15 +41,25 @@ const SERVICIO_LABELS: Record<string, string> = {
   adiestramiento: "Adiestramiento Canino",
 };
 
+const SUCURSAL_LABELS: Record<string, string> = {
+  poniente: "Poniente",
+  "zona-norte": "Zona Norte",
+  indistinto: "Cualquiera",
+};
+
 function buildAdminMessage(p: NotifyPayload): string {
   const servicio = SERVICIO_LABELS[p.servicio] || p.servicio;
+  const sucursal = p.sucursal
+    ? SUCURSAL_LABELS[p.sucursal] || p.sucursal
+    : "—";
   return [
-    "🐾 Nuevo lead — Paws Club Poniente",
+    "🐾 Nuevo lead — Paws Club waitlist",
     "",
     `Nombre: ${p.nombre}`,
     `Email: ${p.email}`,
     `Colonia: ${p.colonia}`,
     `Servicio: ${servicio}`,
+    `Sucursal: ${sucursal}`,
     p.notionPageId ? `\nNotion: ${p.notionPageId}` : "",
   ]
     .filter(Boolean)
@@ -63,7 +74,7 @@ async function sendWebhook(p: NotifyPayload): Promise<NotifyResult> {
     const res = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ source: "poniente-waitlist", ...p }),
+      body: JSON.stringify({ source: "paws-waitlist", ...p }),
     });
     if (!res.ok) {
       const text = await res.text();
@@ -114,6 +125,12 @@ async function sendWhatsAppCloud(p: NotifyPayload): Promise<NotifyResult> {
               {
                 type: "text",
                 text: SERVICIO_LABELS[p.servicio] || p.servicio,
+              },
+              {
+                type: "text",
+                text: p.sucursal
+                  ? SUCURSAL_LABELS[p.sucursal] || p.sucursal
+                  : "—",
               },
             ],
           },

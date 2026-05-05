@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import GoogleMap from "@/components/GoogleMap";
 import { SITE, BRANCHES } from "@/lib/constants";
 import {
@@ -17,12 +16,11 @@ import type { FormEvent } from "react";
 
 export default function ContactoPage() {
   const [submitted, setSubmitted] = useState(false);
-  const router = useRouter();
 
-  function handleSucursalChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    if (e.target.value === "Poniente") {
-      router.push("/sucursales/poniente#lista-espera");
-    }
+  function handleSucursalChange(_e: React.ChangeEvent<HTMLSelectElement>) {
+    // Hotel y guardería operan en lista de espera en ambas sucursales; ya no
+    // forzamos redirect en select para no interrumpir si el usuario está
+    // pidiendo informes de paseos o adiestramiento.
   }
 
 
@@ -117,10 +115,10 @@ export default function ContactoPage() {
                       className="mt-1 w-full rounded-xl border border-gray-300 px-4 py-3 text-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
                     >
                       <option value="">Selecciona...</option>
-                      <option value="Hotel Boutique">🏨 Hotel Boutique</option>
-                      <option value="Guardería Canina">☀️ Guardería Canina</option>
-                      <option value="Adiestramiento">🎓 Adiestramiento</option>
                       <option value="Paseos Caninos">🐾 Paseos Caninos (Zona Norte)</option>
+                      <option value="Adiestramiento">🎓 Adiestramiento Train & Go</option>
+                      <option value="Hotel Boutique - Waitlist">🏨 Hotel Boutique — Lista de espera</option>
+                      <option value="Guardería Canina - Waitlist">☀️ Guardería Canina — Lista de espera</option>
                       <option value="Información general">ℹ️ Información general</option>
                     </select>
                   </div>
@@ -139,8 +137,8 @@ export default function ContactoPage() {
                       className="mt-1 w-full rounded-xl border border-gray-300 px-4 py-3 text-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
                     >
                       <option value="">Selecciona...</option>
-                      <option value="Poniente">📍 Poniente (Cupo Lleno — únete a la lista de espera)</option>
-                      <option value="Zona Norte">📍 Zona Norte (Lindavista, Sta. María)</option>
+                      <option value="Poniente">📍 Poniente (Polanco · Lomas · Tecamachalco)</option>
+                      <option value="Zona Norte">📍 Zona Norte (Lindavista · Sta. María · Tlatelolco)</option>
                       <option value="No estoy seguro">No estoy seguro</option>
                     </select>
                   </div>
@@ -229,7 +227,7 @@ export default function ContactoPage() {
                       Sábado: 7:00 a.m. - 8:00 p.m.
                     </p>
                     <p className="text-xs text-gray-400">
-                      Domingo: Solo hotel con reserva previa
+                      Domingo: cerrado (servicios vía waitlist)
                     </p>
                   </div>
                 </div>

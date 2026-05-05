@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import GoogleMap from "@/components/GoogleMap";
-import { SITE, BRANCHES } from "@/lib/constants";
+import { SITE, BRANCHES, WAITLIST_COPY } from "@/lib/constants";
 import {
   ZONA_NORTE_NEIGHBORHOODS,
   type Neighborhood,
@@ -10,15 +10,14 @@ import {
 import {
   ArrowRight,
   ArrowLeft,
-  CheckCircle,
   Clock,
   MapPin,
-  Phone,
   Star,
   Home,
   ShieldCheck,
   MessageCircle,
   Navigation,
+  AlertCircle,
 } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -77,6 +76,18 @@ export default async function NeighborhoodPage({ params }: Props) {
 
   return (
     <>
+      {/* ========== WAITLIST BANNER ========== */}
+      <div className="bg-amber-500 py-3 text-center text-sm font-semibold text-white">
+        <AlertCircle className="mr-1.5 inline h-4 w-4" />
+        Hotel y Guardería · {WAITLIST_COPY.badge} ·
+        <Link
+          href="/servicios/guarderia#waitlist"
+          className="ml-1 underline decoration-white/70 underline-offset-2 hover:decoration-white"
+        >
+          Apuntarme
+        </Link>
+      </div>
+
       {/* ========== HERO ========== */}
       <section className="relative flex min-h-[55vh] items-end md:items-center overflow-hidden">
         <Image
@@ -161,9 +172,9 @@ export default async function NeighborhoodPage({ params }: Props) {
               </h2>
               <p className="mt-4 text-lg text-gray-600">
                 Nuestra sucursal en <strong>Colonia San Simón Tolnahuac, CDMX (Zona Norte)</strong> es la más
-                cercana para los vecinos de <strong>{neighborhood.name}</strong>. Ofrecemos guardería,
-                hotel boutique, adiestramiento y paseos caninos — todo con
-                la calidad premium Paws Club.
+                cercana para los vecinos de <strong>{neighborhood.name}</strong>. Tenemos abiertos paseos
+                diarios, aventuras de sábado y el programa de adiestramiento Train & Go.
+                Hotel y guardería operan en lista de espera por cupo lleno.
                 <br /><br />
                 <span className="text-sm italic text-gray-500">Ubicación: Cerca de Tlatelolco y Santa María la Ribera. Dirección exacta tras confirmar reservación.</span>
               </p>
@@ -281,28 +292,32 @@ export default async function NeighborhoodPage({ params }: Props) {
           <div className="grid gap-6 sm:grid-cols-2">
             {[
               {
-                icon: "🏨",
-                title: "Hotel Boutique",
-                desc: "Hospedaje sin jaulas, dentro de casa. Dulces sueños para tu lomito.",
-                href: "/servicios/hotel",
-              },
-              {
-                icon: "☀️",
-                title: "Guardería Canina",
-                desc: "Diversión supervisada todo el día con cupo limitado.",
-                href: "/servicios/guarderia",
-              },
-              {
-                icon: "🎓",
-                title: "Adiestramiento",
-                desc: "Conexión y aprendizaje positivo. Sesiones individuales.",
-                href: "/servicios/adiestramiento",
-              },
-              {
                 icon: "🐾",
                 title: "Paseos Caninos",
                 desc: "Aventuras diarias a los mejores parques de CDMX.",
                 href: "/servicios/paseos",
+                waitlist: false,
+              },
+              {
+                icon: "🎓",
+                title: "Adiestramiento",
+                desc: "Programa Train & Go. 12 sesiones a domicilio con refuerzo positivo.",
+                href: "/servicios/adiestramiento",
+                waitlist: false,
+              },
+              {
+                icon: "🏨",
+                title: "Hotel Boutique",
+                desc: "Hospedaje sin jaulas. Cupo lleno · únete a la lista de espera.",
+                href: "/servicios/hotel#waitlist",
+                waitlist: true,
+              },
+              {
+                icon: "☀️",
+                title: "Guardería Canina",
+                desc: "Diversión supervisada. Cupo lleno · únete a la lista de espera.",
+                href: "/servicios/guarderia#waitlist",
+                waitlist: true,
               },
             ].map((s) => (
               <Link
@@ -311,13 +326,24 @@ export default async function NeighborhoodPage({ params }: Props) {
                 className="group flex items-start gap-4 rounded-2xl bg-white p-6 shadow-sm border border-gray-100 transition-all hover:shadow-lg hover:border-brand/20"
               >
                 <span className="text-3xl">{s.icon}</span>
-                <div>
-                  <h3 className="text-lg font-bold text-gray-900 group-hover:text-brand">
-                    {s.title}
-                  </h3>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between gap-2">
+                    <h3 className="text-lg font-bold text-gray-900 group-hover:text-brand">
+                      {s.title}
+                    </h3>
+                    {s.waitlist && (
+                      <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-amber-800">
+                        Waitlist
+                      </span>
+                    )}
+                  </div>
                   <p className="mt-1 text-sm text-gray-500">{s.desc}</p>
-                  <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-brand">
-                    Ver detalles <ArrowRight className="h-4 w-4" />
+                  <span
+                    className={`mt-3 inline-flex items-center gap-1 text-sm font-semibold ${
+                      s.waitlist ? "text-amber-700" : "text-brand"
+                    }`}
+                  >
+                    {s.waitlist ? "Apuntarme" : "Ver detalles"} <ArrowRight className="h-4 w-4" />
                   </span>
                 </div>
               </Link>
@@ -333,9 +359,9 @@ export default async function NeighborhoodPage({ params }: Props) {
             ¿Vives en {neighborhood.name}?
           </h2>
           <p className="mt-4 text-lg text-white/90">
-            Estás a solo <strong>{neighborhood.travelTime}</strong> de la
-            mejor guardería canina de la zona. Escríbenos y agenda tu visita
-            hoy.
+            Estás a solo <strong>{neighborhood.travelTime}</strong> de
+            nuestra sucursal. Reserva un paseo o el programa Train & Go;
+            para hotel y guardería, apúntate a la lista de espera.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a

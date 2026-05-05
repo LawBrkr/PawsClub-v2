@@ -1,21 +1,22 @@
 import Image from "next/image";
-import { SITE, PRICES } from "@/lib/constants";
-import { formatPrice } from "@/lib/utils";
+import Link from "next/link";
+import { SITE, WAITLIST_COPY } from "@/lib/constants";
 import {
   ArrowRight,
   CheckCircle,
-  Phone,
   Star,
   Shield,
   Clock,
   Camera,
+  AlertCircle,
 } from "lucide-react";
 import type { Metadata } from "next";
+import WaitlistForm from "@/components/WaitlistForm";
 
 export const metadata: Metadata = {
-  title: "Hotel para Perros en CDMX — Sin Jaulas, Desde $340/noche | Paws Club",
+  title: "Hotel para Perros en CDMX — Lista de Espera | Paws Club",
   description:
-    "Hotel canino premium sin jaulas en Ciudad de México. Supervisión 24/7, reportes con fotos, cupo máximo 5 perros. Desde $340/noche. ¡Reserva hoy por WhatsApp!",
+    "Hotel canino sin jaulas en CDMX con cupo lleno. Únete a la lista de espera y te avisamos en cuanto liberemos lugar. Mientras tanto, paseos y adiestramiento abiertos.",
   robots: { index: false, follow: false },
 };
 
@@ -23,8 +24,9 @@ export default function LandingHotel() {
   return (
     <div className="min-h-screen bg-white">
       {/* Topbar */}
-      <div className="bg-brand py-3 text-center text-sm font-semibold text-white">
-        🏨 Hotel Canino Sin Jaulas — Reserva Hoy y Obtén Prueba de Socialización Gratis
+      <div className="bg-amber-500 py-3 text-center text-sm font-semibold text-white">
+        <AlertCircle className="mr-1.5 inline h-4 w-4" />
+        Hotel Canino · {WAITLIST_COPY.badge}
       </div>
 
       {/* Hero */}
@@ -56,36 +58,30 @@ export default function LandingHotel() {
             <h1 className="text-4xl font-extrabold leading-tight text-white md:text-5xl lg:text-6xl">
               Hotel para Perros
               <br />
-              <span className="text-accent-orange">Sin Jaulas</span> en CDMX
+              <span className="text-amber-300">Sin Jaulas</span> en CDMX
             </h1>
             <p className="mt-4 text-xl text-white/90">
-              Tu lomito dormirá dentro de casa con atención personalizada.
-              Máximo 5 huéspedes, supervisión 24/7, reportes diarios.
+              Cupo lleno en ambas sucursales. Únete a la lista de espera y
+              te avisamos en cuanto se libere un lugar — sin compromiso.
             </p>
-            <div className="mt-4 flex items-center gap-4">
-              <span className="text-3xl font-extrabold text-white">
-                Desde {formatPrice(PRICES.hotel.zonaNorte.weekday)}
-              </span>
-              <span className="text-lg text-white/70">/noche</span>
+            <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-amber-500/95 px-4 py-1.5 text-sm font-bold text-white shadow">
+              <AlertCircle className="h-4 w-4" />
+              {WAITLIST_COPY.badge}
             </div>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-              <a
-                href={SITE.whatsappUrl(
-                  "¡Hola! 🏨 Vi su anuncio del hotel sin jaulas y me interesa reservar. ¿Tienen disponibilidad?"
-                )}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-green-500 px-8 py-4 text-lg font-bold text-white shadow-2xl transition-all hover:-translate-y-1 hover:bg-green-600"
+              <Link
+                href="#waitlist"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-amber-500 px-8 py-4 text-lg font-bold text-white shadow-2xl transition-all hover:-translate-y-1 hover:bg-amber-600"
               >
-                <Phone className="h-5 w-5" />
-                Reservar por WhatsApp
-              </a>
-              <a
-                href={`tel:${SITE.phone}`}
+                {WAITLIST_COPY.ctaLong}
+                <ArrowRight className="h-5 w-5" />
+              </Link>
+              <Link
+                href="/servicios/paseos"
                 className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/60 px-8 py-4 text-lg font-bold text-white transition-all hover:bg-white/10"
               >
-                Llamar ahora
-              </a>
+                Ver paseos disponibles
+              </Link>
             </div>
           </div>
         </div>
@@ -110,22 +106,28 @@ export default function LandingHotel() {
         </div>
       </section>
 
-      {/* Benefits */}
+      {/* Why Waitlist */}
       <section className="py-16">
         <div className="mx-auto max-w-5xl px-4">
           <h2 className="text-center text-3xl font-extrabold text-gray-900">
-            ¿Por qué Paws Club?
+            ¿Por qué hay lista de espera?
           </h2>
+          <p className="mt-4 text-center text-lg text-gray-600">
+            Operamos con cupo estricto (máximo 5 lomitos) para mantener la
+            calidad del cuidado. En este momento ambas sucursales están al
+            tope. Apúntate y te contactamos por orden de llegada cuando se
+            libere un lugar.
+          </p>
           <div className="mt-10 grid gap-6 sm:grid-cols-2">
             {[
               "Hospedaje sin jaulas dentro de casa",
               "Supervisión y monitoreo 24 horas",
               "Reportes diarios con fotos y videos por WhatsApp",
               "Cupo limitado: máximo 5 perros por turno",
-              "Prueba de socialización gratuita",
-              "Transporte a domicilio disponible",
-              "Check-in/out flexible: 7AM - 8PM",
+              "Prueba de socialización gratuita al iniciar",
+              "Transporte a domicilio disponible (costo adicional)",
               "Camas ortopédicas y limpieza diaria",
+              "Sin compromiso ni pago hasta confirmar",
             ].map((item) => (
               <div key={item} className="flex items-center gap-3">
                 <CheckCircle className="h-5 w-5 shrink-0 text-green-500" />
@@ -136,32 +138,27 @@ export default function LandingHotel() {
         </div>
       </section>
 
-      {/* Pricing */}
-      <section className="bg-gray-50 py-16">
-        <div className="mx-auto max-w-4xl px-4">
-          <h2 className="text-center text-3xl font-extrabold text-gray-900">
-            Precios Transparentes
-          </h2>
-          <div className="mt-10 grid gap-6 md:grid-cols-2">
-            <div className="rounded-2xl border border-gray-200 bg-white p-8 text-center">
-              <h3 className="text-lg font-bold text-gray-900">Poniente</h3>
-              <p className="text-sm text-gray-500">Polanco · Lomas · Tecamachalco</p>
-              <div className="mt-4 text-4xl font-extrabold text-gray-900">
-                {formatPrice(PRICES.hotel.poniente.weekday)}
-              </div>
-              <span className="text-sm text-gray-400">/noche (L-S)</span>
-            </div>
-            <div className="relative rounded-2xl border-2 border-brand bg-white p-8 text-center shadow-lg">
-              <span className="absolute -top-3 right-6 rounded-full bg-accent-orange px-3 py-1 text-xs font-bold text-white">
-                Mejor precio
-              </span>
-              <h3 className="text-lg font-bold text-gray-900">Zona Norte</h3>
-              <p className="text-sm text-gray-500">Lindavista · Sta. María · Tlatelolco</p>
-              <div className="mt-4 text-4xl font-extrabold text-brand">
-                {formatPrice(PRICES.hotel.zonaNorte.weekday)}
-              </div>
-              <span className="text-sm text-gray-400">/noche (L-S)</span>
-            </div>
+      {/* Waitlist Form */}
+      <section id="waitlist" className="bg-cream py-16">
+        <div className="mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-2 lg:items-center lg:gap-16">
+          <div>
+            <span className="inline-block rounded-full bg-amber-100 px-4 py-1.5 text-sm font-semibold text-amber-800">
+              Hotel · Cupo lleno
+            </span>
+            <h2 className="mt-4 text-3xl font-extrabold text-gray-900 md:text-4xl">
+              Apúntate a la lista de espera
+            </h2>
+            <p className="mt-4 text-lg text-gray-600">
+              Te contactamos por correo y WhatsApp en cuanto liberemos
+              cupo. Lugar reservado por orden de llegada.
+            </p>
+          </div>
+          <div>
+            <WaitlistForm
+              defaultServicio="hotel"
+              title="Lista de espera · Hotel"
+              subtitle="Te avisamos en cuanto se libere un lugar."
+            />
           </div>
         </div>
       </section>
@@ -215,24 +212,40 @@ export default function LandingHotel() {
       <section className="bg-brand py-16 text-center text-white">
         <div className="mx-auto max-w-2xl px-4">
           <h2 className="text-3xl font-extrabold md:text-4xl">
-            Reserva Hoy — Cupo Limitado
+            Mientras se libera lugar…
           </h2>
           <p className="mt-4 text-lg text-white/90">
-            Solo aceptamos 5 lomitos por turno. Agenda ahora y asegura su lugar.
+            Nuestros paseos diarios y aventuras de sábado siguen abiertos.
+            También ofrecemos el programa de adiestramiento Train & Go a
+            domicilio.
           </p>
-          <a
-            href={SITE.whatsappUrl(
-              "¡Hola! 🏨 Vi su anuncio del hotel sin jaulas y me interesa reservar. ¿Tienen disponibilidad?"
-            )}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-10 py-5 text-xl font-bold text-brand shadow-2xl transition-all hover:-translate-y-1"
-          >
-            <Phone className="h-6 w-6" />
-            Reservar por WhatsApp
-          </a>
-          <p className="mt-4 text-sm text-white/70">
-            Respuesta en menos de 30 minutos
+          <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <Link
+              href="/servicios/paseos"
+              className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-bold text-brand shadow-xl transition-all hover:-translate-y-1"
+            >
+              🐾 Ver paseos
+              <ArrowRight className="h-5 w-5" />
+            </Link>
+            <Link
+              href="/servicios/adiestramiento"
+              className="inline-flex items-center gap-2 text-lg font-semibold text-white/90 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white"
+            >
+              Programa Train & Go →
+            </Link>
+          </div>
+          <p className="mt-6 text-sm text-white/70">
+            ¿Dudas?{" "}
+            <a
+              href={SITE.whatsappUrl(
+                "¡Hola! 👋 Tengo dudas sobre la lista de espera del Hotel."
+              )}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline decoration-white/40 hover:text-white"
+            >
+              Contáctanos por WhatsApp
+            </a>
           </p>
         </div>
       </section>

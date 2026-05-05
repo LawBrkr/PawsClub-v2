@@ -75,6 +75,27 @@ export default function GuarderiaHotelInfoPage() {
         }
       `}</style>
 
+      {/* Waitlist banner */}
+      <div
+        className="no-print"
+        style={{
+          background: "#F59E0B",
+          color: "#fff",
+          padding: "10px 16px",
+          textAlign: "center",
+          fontSize: 13,
+          fontWeight: 600,
+        }}
+      >
+        ⚠️ Hotel y Guardería en lista de espera por cupo lleno ·{" "}
+        <a
+          href="/servicios/guarderia#waitlist"
+          style={{ color: "#fff", textDecoration: "underline" }}
+        >
+          Apuntarme
+        </a>
+      </div>
+
       {/* Sticky print button */}
       <div
         className="no-print"
@@ -468,10 +489,10 @@ export default function GuarderiaHotelInfoPage() {
         >
           <div>
             <div style={{ fontWeight: 800, fontSize: 18, marginBottom: 4 }}>
-              ¿Lista/o para agendar?
+              Cupo lleno · Únete a la lista de espera
             </div>
             <div style={{ opacity: 0.85, fontSize: 13 }}>
-              Comienza con el test de socialización gratuito · Sin compromiso
+              Te avisamos en cuanto se libere un lugar · Sin compromiso
             </div>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8, alignItems: "flex-end" }}>

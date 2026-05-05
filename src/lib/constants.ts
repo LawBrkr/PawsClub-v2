@@ -208,6 +208,7 @@ export const SERVICES = [
       "Check-in y check-out flexible",
     ],
     image: "/img/hotel.webp",
+    waitlist: true,
   },
   {
     id: "guarderia",
@@ -225,6 +226,7 @@ export const SERVICES = [
       "Higiene premium con limpieza profunda diaria",
     ],
     image: "/img/daycare.webp",
+    waitlist: true,
   },
   {
     id: "adiestramiento",
@@ -263,6 +265,30 @@ export const SERVICES = [
     exclusiveBranch: "zona-norte" as BranchId,
   },
 ] as const;
+
+// ============================================
+// HELPERS DE DISPONIBILIDAD
+// ============================================
+// Hotel y Guardería operan en lista de espera por cupo lleno en ambas
+// sucursales (sin instalaciones disponibles para mostrar). Paseos y
+// adiestramiento siguen tomando reservas normales.
+export type ServiceId = "hotel" | "guarderia" | "adiestramiento" | "paseos";
+
+export const WAITLIST_SERVICES: ServiceId[] = ["hotel", "guarderia"];
+
+export function isWaitlistService(id: string): boolean {
+  return WAITLIST_SERVICES.includes(id as ServiceId);
+}
+
+// Mensaje canónico de cupo lleno (reusable en banners/CTAs).
+export const WAITLIST_COPY = {
+  badge: "Cupo agotado · Únete a la waitlist",
+  bannerTitle: "Cupo agotado",
+  bannerBody:
+    "Únete a la waitlist y te avisamos en cuanto liberemos lugar.",
+  ctaShort: "Únete a la waitlist",
+  ctaLong: "Apuntarme a la lista de espera",
+} as const;
 
 // ============================================
 // NAVEGACIÓN

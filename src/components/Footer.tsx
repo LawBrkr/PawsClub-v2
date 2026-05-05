@@ -14,8 +14,8 @@ export default function Footer() {
               Paws Club<span className="text-brand">.</span>
             </h3>
             <p className="mt-3 text-sm text-gray-400">
-              El estándar en cuidado canino. Guardería, hotel y adiestramiento
-              premium en CDMX, sin jaulas y con cupo limitado.
+              Paseos y adiestramiento canino premium en CDMX. Hotel y
+              guardería en lista de espera por cupo lleno.
             </p>
             <div className="mt-5 flex gap-4">
               <a
@@ -45,8 +45,28 @@ export default function Footer() {
               Servicios
             </h4>
             <ul className="space-y-3 text-sm">
-              <li><Link href="/servicios/hotel" className="text-gray-300 transition-colors hover:text-white">Hotel Boutique</Link></li>
-              <li><Link href="/servicios/guarderia" className="text-gray-300 transition-colors hover:text-white">Guardería Canina</Link></li>
+              <li>
+                <Link
+                  href="/servicios/hotel"
+                  className="text-gray-300 transition-colors hover:text-white"
+                >
+                  Hotel Boutique{" "}
+                  <span className="ml-1 text-[10px] font-bold uppercase tracking-wide text-amber-400">
+                    Waitlist
+                  </span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/servicios/guarderia"
+                  className="text-gray-300 transition-colors hover:text-white"
+                >
+                  Guardería Canina{" "}
+                  <span className="ml-1 text-[10px] font-bold uppercase tracking-wide text-amber-400">
+                    Waitlist
+                  </span>
+                </Link>
+              </li>
               <li><Link href="/servicios/adiestramiento" className="text-gray-300 transition-colors hover:text-white">Adiestramiento</Link></li>
               <li><Link href="/servicios/paseos" className="text-gray-300 transition-colors hover:text-white">Paseos Caninos</Link></li>
             </ul>

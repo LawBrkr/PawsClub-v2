@@ -1,31 +1,48 @@
 import Image from "next/image";
 import Link from "next/link";
-import { SITE, SERVICES, PRICES, BRANCHES } from "@/lib/constants";
+import {
+  SITE,
+  SERVICES,
+  PRICES,
+  BRANCHES,
+  isWaitlistService,
+  WAITLIST_COPY,
+} from "@/lib/constants";
 import { formatPrice } from "@/lib/utils";
-import { Star, Shield, Camera, Sparkles, Home, MapPin, ArrowRight, CheckCircle, ShieldCheck } from "lucide-react";
+import {
+  Star,
+  Shield,
+  Camera,
+  Sparkles,
+  Home,
+  MapPin,
+  ArrowRight,
+  CheckCircle,
+  ShieldCheck,
+} from "lucide-react";
 
-import BookingButton from "@/components/BookingButton";
 import type { Metadata } from "next";
+import WaitlistForm from "@/components/WaitlistForm";
 
 export const metadata: Metadata = {
-  title: "Guardería, Hotel & Adiestramiento Premium en CDMX | Paws Club",
+  title: "Paseos y Adiestramiento Canino en CDMX | Paws Club",
   description:
-    "Hotel canino sin jaulas, guardería supervisada y adiestramiento con refuerzo positivo en CDMX. +45 noches, +28 lomitos felices, +10 graduados. Agenda hoy.",
+    "Paseos diarios, aventuras de sábado y adiestramiento Train & Go en CDMX. Hotel y guardería en lista de espera por cupo lleno. Refuerzo positivo, sin jaulas.",
   alternates: { canonical: "https://pawsclub.com.mx/" },
   openGraph: {
     type: "website",
     locale: "es_MX",
     url: "https://pawsclub.com.mx/",
     siteName: "Paws Club",
-    title: "Paws Club — Hotel, Guardería y Adiestramiento Canino en CDMX",
+    title: "Paws Club — Paseos y Adiestramiento Canino en CDMX",
     description:
-      "Cuidado canino premium sin jaulas en CDMX y EdoMex. Hotel, guardería, paseos y adiestramiento con refuerzo positivo.",
+      "Paseos diarios, aventuras de sábado a parques caninos y programa de adiestramiento Train & Go. Hotel y guardería con lista de espera.",
     images: [
       {
         url: "/img/paws-club-og.jpg",
         width: 1200,
         height: 630,
-        alt: "Paws Club — Hotel y Guardería Canina CDMX",
+        alt: "Paws Club — Paseos y Adiestramiento Canino CDMX",
       },
     ],
   },
@@ -49,24 +66,26 @@ function Hero() {
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20 md:bg-black/40" />
       <div className="relative z-10 mx-auto w-full max-w-7xl px-4 py-20 text-center md:text-center text-white lg:px-8">
         <h1 className="mx-auto max-w-4xl text-4xl font-extrabold leading-tight md:text-5xl lg:text-6xl">
-          Guardería, Hotel y Adiestramiento Canino en CDMX
+          Paseos y Adiestramiento Canino en CDMX
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-lg font-medium text-white/90 md:text-xl">
-          Sin jaulas. Cupo limitado. Supervisión 24/7. Ahora con servicio de
-          paseos en Zona Norte.
+          Paseos diarios, aventuras de sábado a parques caninos y programa
+          Train & Go con refuerzo positivo. Hotel y guardería en lista de
+          espera por cupo lleno.
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <BookingButton
-            className="inline-flex items-center gap-2 rounded-full bg-brand px-8 py-4 text-lg font-bold text-white shadow-xl transition-all hover:-translate-y-1 hover:bg-brand-hover hover:shadow-2xl"
-          >
-            Agenda tu visita
-            <ArrowRight className="h-5 w-5" />
-          </BookingButton>
           <Link
             href="/servicios/paseos"
+            className="inline-flex items-center gap-2 rounded-full bg-brand px-8 py-4 text-lg font-bold text-white shadow-xl transition-all hover:-translate-y-1 hover:bg-brand-hover hover:shadow-2xl"
+          >
+            🐾 Reservar paseo
+            <ArrowRight className="h-5 w-5" />
+          </Link>
+          <Link
+            href="/servicios/adiestramiento"
             className="inline-flex items-center gap-2 rounded-full border-2 border-white/80 px-8 py-4 text-lg font-bold text-white backdrop-blur-sm transition-all hover:bg-white/10"
           >
-            🐾 Nuevo: Paseos Caninos
+            🎓 Programa Train & Go
           </Link>
         </div>
       </div>
@@ -109,11 +128,8 @@ function FeaturesBar() {
 // ============================================
 function ServicesSection() {
   const getPriceLabel = (id: string) => {
+    if (isWaitlistService(id)) return "Lista de espera por cupo lleno";
     switch (id) {
-      case "hotel":
-        return `Desde ${formatPrice(PRICES.hotel.zonaNorte.weekday)} / noche`;
-      case "guarderia":
-        return `Desde ${formatPrice(PRICES.guarderia.zonaNorte)} / día`;
       case "adiestramiento":
         return `${formatPrice(PRICES.adiestramiento.precio)} / programa`;
       case "paseos":
@@ -128,58 +144,75 @@ function ServicesSection() {
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <div className="mb-12 text-center">
           <h2 className="text-3xl font-extrabold text-gray-900 md:text-4xl">
-            Servicios Exclusivos
+            Servicios disponibles
           </h2>
           <p className="mt-3 text-lg text-gray-500">
-            Diseñados para el bienestar físico y emocional de tu perro.
+            Paseos y adiestramiento abiertos. Hotel y guardería en lista de
+            espera.
           </p>
         </div>
 
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {SERVICES.map((service) => (
-            <Link
-              key={service.id}
-              href={`/servicios/${service.slug}`}
-              className="group overflow-hidden rounded-2xl bg-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl"
-            >
-              <div className="relative h-48 overflow-hidden bg-gray-200">
-                <Image
-                  src={service.image}
-                  alt={service.name}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  loading="lazy"
-                />
-                {"exclusiveBranch" in service && service.exclusiveBranch && (
-                  <span className="absolute right-3 top-3 rounded-full bg-accent-orange px-3 py-1 text-xs font-bold text-white">
-                    Zona Norte
-                  </span>
-                )}
-              </div>
-              <div className="p-5">
-                <h3 className="text-lg font-bold text-gray-900">
-                  {service.name}
-                </h3>
-                <p className="mt-1 text-sm font-semibold text-accent">
-                  {getPriceLabel(service.id)}
-                </p>
-                <p className="mt-2 text-sm text-gray-500 line-clamp-2">
-                  {service.description}
-                </p>
-                <ul className="mt-3 space-y-1">
-                  {service.features.slice(0, 2).map((f) => (
-                    <li
-                      key={f}
-                      className="flex items-center gap-2 text-xs text-gray-600"
-                    >
-                      <CheckCircle className="h-3.5 w-3.5 text-brand" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </Link>
-          ))}
+          {SERVICES.map((service) => {
+            const waitlist = isWaitlistService(service.id);
+            return (
+              <Link
+                key={service.id}
+                href={`/servicios/${service.slug}`}
+                className="group overflow-hidden rounded-2xl bg-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl"
+              >
+                <div className="relative h-48 overflow-hidden bg-gray-200">
+                  <Image
+                    src={service.image}
+                    alt={service.name}
+                    fill
+                    className={`object-cover transition-transform duration-500 group-hover:scale-105 ${
+                      waitlist ? "grayscale-[40%]" : ""
+                    }`}
+                    loading="lazy"
+                  />
+                  {waitlist ? (
+                    <span className="absolute right-3 top-3 rounded-full bg-amber-500 px-3 py-1 text-xs font-bold text-white shadow">
+                      {WAITLIST_COPY.badge}
+                    </span>
+                  ) : (
+                    "exclusiveBranch" in service &&
+                    service.exclusiveBranch && (
+                      <span className="absolute right-3 top-3 rounded-full bg-accent-orange px-3 py-1 text-xs font-bold text-white">
+                        Zona Norte
+                      </span>
+                    )
+                  )}
+                </div>
+                <div className="p-5">
+                  <h3 className="text-lg font-bold text-gray-900">
+                    {service.name}
+                  </h3>
+                  <p
+                    className={`mt-1 text-sm font-semibold ${
+                      waitlist ? "text-amber-700" : "text-accent"
+                    }`}
+                  >
+                    {getPriceLabel(service.id)}
+                  </p>
+                  <p className="mt-2 text-sm text-gray-500 line-clamp-2">
+                    {service.description}
+                  </p>
+                  <ul className="mt-3 space-y-1">
+                    {service.features.slice(0, 2).map((f) => (
+                      <li
+                        key={f}
+                        className="flex items-center gap-2 text-xs text-gray-600"
+                      >
+                        <CheckCircle className="h-3.5 w-3.5 text-brand" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -213,11 +246,6 @@ function BranchesPreview() {
                 <div>
                   <h3 className="text-xl font-bold text-gray-900 flex flex-wrap items-center gap-2">
                     {branch.name}
-                    {branch.id === "poniente" && (
-                      <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-bold text-amber-700">
-                        Próximamente · Lista de espera
-                      </span>
-                    )}
                   </h3>
                   <p className="mt-1 text-sm text-gray-500">{branch.schedule}</p>
                 </div>
@@ -241,19 +269,29 @@ function BranchesPreview() {
               <div className="mt-4 flex flex-wrap gap-2">
                 {branch.services.map((s) => {
                   const svc = SERVICES.find((sv) => sv.id === s);
-                  return svc ? (
+                  if (!svc) return null;
+                  const waitlist = isWaitlistService(s);
+                  return (
                     <span
                       key={s}
-                      className="rounded-full bg-cream px-3 py-1 text-xs font-semibold text-brand"
+                      className={`rounded-full px-3 py-1 text-xs font-semibold ${
+                        waitlist
+                          ? "bg-amber-100 text-amber-800 line-through decoration-amber-500/60"
+                          : "bg-cream text-brand"
+                      }`}
+                      title={waitlist ? "Lista de espera" : undefined}
                     >
                       {svc.icon} {svc.shortName}
                     </span>
-                  ) : null;
+                  );
                 })}
               </div>
+              <div className="mt-4 rounded-lg bg-amber-50 px-4 py-2 text-xs font-semibold text-amber-800">
+                Hotel y guardería en lista de espera por cupo lleno
+              </div>
               {branch.hasWalks && (
-                <div className="mt-4 rounded-lg bg-accent-orange/10 px-4 py-2 text-sm font-semibold text-accent-orange">
-                  🐾 Servicio exclusivo de paseos diarios y de fin de semana
+                <div className="mt-2 rounded-lg bg-accent-orange/10 px-4 py-2 text-sm font-semibold text-accent-orange">
+                  🐾 Paseos diarios y aventuras de fin de semana
                 </div>
               )}
               <p className="mt-4 flex items-center gap-1 text-sm font-semibold text-brand group-hover:underline">
@@ -482,24 +520,24 @@ function RequirementsSection() {
 // ============================================
 const FAQS = [
   {
-    q: "¿Es verdad que no usan jaulas?",
-    a: "Totalmente. En Paws Club los perros duermen dentro de casa y conviven en áreas libres supervisadas 24/7.",
+    q: "¿Tienen hotel o guardería disponibles?",
+    a: "Hotel y guardería están en lista de espera por cupo lleno en ambas sucursales. Si te interesa, regístrate en la waitlist y te avisamos en cuanto liberemos lugar. Mientras tanto, los servicios de paseos y adiestramiento siguen abiertos.",
   },
   {
-    q: "¿Qué necesito para inscribir a mi perro?",
-    a: "Cartilla de vacunación al día (incluyendo Bordetella y Giardia), desparasitación vigente y pasar una prueba de socialización gratuita.",
+    q: "¿Qué servicios sí están abiertos hoy?",
+    a: "Paseos diarios (Zona Norte), aventuras de sábado a parques caninos como Chapultepec o Los Dinamos, y el programa de adiestramiento Train & Go (12 sesiones a domicilio).",
   },
   {
-    q: "¿Tienen servicio de transporte?",
-    a: "Sí, contamos con recolección y entrega a domicilio en las zonas de cobertura de ambas sucursales.",
+    q: "¿Cómo funciona la lista de espera?",
+    a: "Te registras con nombre, correo, colonia y servicio de interés. Cuando liberamos cupo te contactamos por correo y WhatsApp en orden de llegada — sin compromiso hasta que tú confirmes.",
   },
   {
-    q: "¿Los precios son iguales en ambas sucursales?",
-    a: "No. Paws Club Poniente (Polanco/Lomas) tiene precios premium adaptados a la zona. Zona Norte ofrece los mismos servicios con precios más accesibles.",
+    q: "¿Qué necesito para inscribir a mi perro a paseos o adiestramiento?",
+    a: "Cartilla de vacunación al día (incluyendo Bordetella y Giardia) y desparasitación vigente. En adiestramiento incluimos una evaluación conductual inicial sin costo.",
   },
   {
-    q: "¿Qué incluye el paseo de fin de semana?",
-    a: "Es una salida de día completo los sábados a parques caninos como Chapultepec, Los Dinamos, Parque Bicentenario y más. Incluye transporte, supervisión, agua y snacks. Exclusivo Zona Norte.",
+    q: "¿Qué incluye la aventura de sábado?",
+    a: "Salida de día completo los sábados a parques caninos como Chapultepec, Los Dinamos, Parque Bicentenario y más. Incluye transporte, supervisión, agua y snacks. Exclusivo Zona Norte.",
   },
 ];
 
@@ -532,6 +570,48 @@ function FAQSection() {
 }
 
 // ============================================
+// WAITLIST SECTION
+// ============================================
+function WaitlistSection() {
+  return (
+    <section id="waitlist" className="bg-cream py-16 md:py-20">
+      <div className="mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-2 lg:items-center lg:gap-16 lg:px-8">
+        <div>
+          <span className="inline-block rounded-full bg-amber-100 px-4 py-1.5 text-sm font-semibold text-amber-800">
+            Hotel y Guardería · Cupo lleno
+          </span>
+          <h2 className="mt-4 text-3xl font-extrabold leading-tight text-gray-900 md:text-4xl">
+            Únete a la lista de espera
+          </h2>
+          <p className="mt-4 text-lg text-gray-600">
+            Hotel y guardería operan en lista de espera por cupo lleno en
+            ambas sucursales. Apúntate y te avisamos en cuanto se libere un
+            lugar — sin compromiso hasta que tú confirmes.
+          </p>
+          <ul className="mt-6 space-y-3 text-gray-700">
+            <li className="flex items-start gap-2">
+              <CheckCircle className="mt-1 h-5 w-5 flex-shrink-0 text-brand" />
+              <span>Aviso por correo y WhatsApp en cuanto liberemos cupo</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <CheckCircle className="mt-1 h-5 w-5 flex-shrink-0 text-brand" />
+              <span>Lugar reservado por orden de llegada</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <CheckCircle className="mt-1 h-5 w-5 flex-shrink-0 text-brand" />
+              <span>Mientras tanto, paseos y adiestramiento siguen abiertos</span>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <WaitlistForm />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ============================================
 // CTA
 // ============================================
 function CTASection() {
@@ -539,10 +619,11 @@ function CTASection() {
     <section className="bg-brand py-20 text-center text-white">
       <div className="mx-auto max-w-3xl px-4">
         <h2 className="text-3xl font-extrabold md:text-4xl">
-          ¿Listo para que tu lomito haga nuevos amigos?
+          Reserva un paseo o tu programa de adiestramiento
         </h2>
         <p className="mt-4 text-lg text-white/90">
-          Únete a la familia Paws Club hoy mismo.
+          Servicios abiertos hoy. Hotel y guardería: regístrate en la
+          waitlist arriba.
         </p>
         <a
           href={SITE.whatsappUrl(
@@ -574,6 +655,7 @@ export default function HomePage() {
       <ReviewsSection />
       <TrustSection />
       <RequirementsSection />
+      <WaitlistSection />
       <FAQSection />
       <CTASection />
     </>

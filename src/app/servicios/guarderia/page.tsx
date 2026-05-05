@@ -1,28 +1,28 @@
 import Image from "next/image";
 import Link from "next/link";
-import { SITE, PRICES, BRANCHES, SERVICES } from "@/lib/constants";
-import { formatPrice } from "@/lib/utils";
+import { SITE, SERVICES, WAITLIST_COPY } from "@/lib/constants";
 import {
   ArrowRight,
   CheckCircle,
   Sun,
   Camera,
   Users,
-  Sparkles,
   Shield,
   Clock,
   Truck,
+  AlertCircle,
 } from "lucide-react";
 import type { Metadata } from "next";
+import WaitlistForm from "@/components/WaitlistForm";
 
 export const metadata: Metadata = {
-  title: "Guardería Canina en CDMX — Sin Jaulas, Cupo Limitado | Paws Club",
+  title: "Guardería Canina en CDMX — Lista de Espera | Paws Club",
   description:
-    "Guardería canina premium con cupo limitado a 5 lomitos. Socialización positiva, supervisión constante, reportes diarios. Sucursales en Polanco y Zona Norte CDMX.",
+    "Guardería canina sin jaulas con cupo lleno en ambas sucursales (Polanco y Zona Norte). Únete a la lista de espera y te avisamos en cuanto liberemos lugar.",
   openGraph: {
-    title: "Guardería Canina en CDMX — Sin Jaulas | Paws Club",
+    title: "Guardería Canina — Lista de Espera | Paws Club CDMX",
     description:
-      "Guardería canina con cupo limitado. Socialización supervisada y reportes diarios por WhatsApp.",
+      "Guardería sin jaulas con cupo lleno. Apúntate a la waitlist.",
     images: ["/img/daycare.webp"],
   },
 };
@@ -77,34 +77,40 @@ const DETAILS = [
 
 const FAQS = [
   {
-    q: "¿Cuántos perros hay al mismo tiempo?",
-    a: "Máximo 5. Nuestro cupo es limitado para asegurar que cada lomito reciba la atención que merece.",
+    q: "¿Por qué está en lista de espera?",
+    a: "Tenemos cupo lleno en ambas sucursales (máximo 5 lomitos por sesión). No contamos con instalaciones disponibles para mostrar a nuevos clientes en este momento.",
   },
   {
-    q: "¿Mi perro necesita estar vacunado?",
-    a: "Sí. Requerimos cartilla de vacunación al día (incluyendo Bordetella y Giardia) y desparasitación vigente.",
+    q: "¿Cómo funciona la waitlist?",
+    a: "Te registras con tus datos y servicio de interés. En cuanto liberemos un lugar te contactamos por correo y WhatsApp en orden de llegada — sin compromiso ni pago hasta que tú confirmes.",
   },
   {
-    q: "¿Qué pasa si mi perro no socializa bien?",
-    a: "Antes de ingresar, todos los perros pasan una prueba de socialización gratuita. Si tu perro necesita más tiempo, trabajamos una integración gradual.",
+    q: "¿Cuánto tarda en liberarse un lugar?",
+    a: "Depende de la rotación de cupos. No podemos garantizar tiempos, pero te avisamos en cuanto haya novedades.",
   },
   {
-    q: "¿Puedo llevar a mi perro un solo día?",
-    a: "Por supuesto. Ofrecemos servicio por día sin necesidad de contratar paquetes. También puedes preguntar por nuestros paquetes para mejores tarifas.",
+    q: "¿Qué servicios sí están abiertos hoy?",
+    a: "Paseos diarios y aventuras de sábado (Zona Norte) y el programa de adiestramiento Train & Go (12 sesiones a domicilio).",
   },
   {
-    q: "¿Incluye comida?",
-    a: "Recomendamos que traigas su alimento porcionado. Tenemos agua fresca ilimitada y snacks saludables disponibles.",
+    q: "¿Qué requisitos pediremos cuando se libere lugar?",
+    a: "Cartilla de vacunación al día (incluyendo Bordetella y Giardia), desparasitación vigente, y una prueba de socialización gratuita.",
   },
 ];
 
 export default function GuarderiaPage() {
   return (
     <>
-      {/* Zona Norte Badge */}
-      <div className="bg-brand py-3 text-center text-sm font-semibold text-white">
-        <Shield className="mr-1 inline h-4 w-4" />
-        Servicio exclusivo Zona Norte — Santa María la Ribera, Lindavista, San Rafael y colonias cercanas
+      {/* Waitlist Banner */}
+      <div className="bg-amber-500 py-3 text-center text-sm font-semibold text-white">
+        <AlertCircle className="mr-1.5 inline h-4 w-4" />
+        {WAITLIST_COPY.badge} ·
+        <a
+          href="#waitlist"
+          className="ml-1 underline decoration-white/70 underline-offset-2 hover:decoration-white"
+        >
+          Apuntarme
+        </a>
       </div>
 
       {/* Hero */}
@@ -128,23 +134,23 @@ export default function GuarderiaPage() {
           <p className="mt-4 max-w-2xl text-lg text-white/90">
             {service.description}
           </p>
+          <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-amber-500/95 px-4 py-1.5 text-sm font-bold text-white shadow">
+            <AlertCircle className="h-4 w-4" />
+            {WAITLIST_COPY.badge}
+          </div>
           <div className="mt-8 flex flex-wrap gap-4">
-            <a
-              href={SITE.whatsappUrl(
-                "¡Hola! ☀️ Quiero informes sobre la Guardería. ¿Cómo puedo inscribir a mi perrito?"
-              )}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="#waitlist"
               className="inline-flex items-center gap-2 rounded-full bg-brand px-8 py-4 text-lg font-bold text-white shadow-xl transition-all hover:-translate-y-1 hover:bg-brand-hover hover:shadow-2xl"
             >
-              Agendar visita
+              {WAITLIST_COPY.ctaLong}
               <ArrowRight className="h-5 w-5" />
-            </a>
+            </Link>
             <Link
-              href="#precios"
+              href="/servicios/paseos"
               className="inline-flex items-center gap-2 rounded-full border-2 border-white/80 px-8 py-4 text-lg font-bold text-white backdrop-blur-sm transition-all hover:bg-white/10"
             >
-              Ver precios
+              Ver paseos disponibles
             </Link>
           </div>
         </div>
@@ -262,81 +268,43 @@ export default function GuarderiaPage() {
         </div>
       </section>
 
-      {/* Pricing */}
-      <section id="precios" className="py-20">
-        <div className="mx-auto max-w-5xl px-4 lg:px-8">
-          <div className="mb-12 text-center">
-            <h2 className="text-3xl font-extrabold text-gray-900 md:text-4xl">
-              Precios por Sucursal
+      {/* Waitlist Form */}
+      <section id="waitlist" className="bg-cream py-20">
+        <div className="mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-2 lg:items-center lg:gap-16 lg:px-8">
+          <div>
+            <span className="inline-block rounded-full bg-amber-100 px-4 py-1.5 text-sm font-semibold text-amber-800">
+              Guardería · Cupo lleno en ambas sucursales
+            </span>
+            <h2 className="mt-4 text-3xl font-extrabold leading-tight text-gray-900 md:text-4xl">
+              Únete a la lista de espera de la Guardería
             </h2>
-            <p className="mt-3 text-lg text-gray-500">
-              Mismo estándar de calidad, precios adaptados a cada zona.
+            <p className="mt-4 text-lg text-gray-600">
+              No tenemos cupo disponible en este momento. Apúntate y te
+              contactamos en cuanto se libere un lugar — sin compromiso ni
+              pago hasta que tú confirmes la inscripción.
             </p>
+            <ul className="mt-6 space-y-3 text-gray-700">
+              <li className="flex items-start gap-2">
+                <CheckCircle className="mt-1 h-5 w-5 flex-shrink-0 text-brand" />
+                <span>Aviso por correo y WhatsApp en cuanto haya cupo</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle className="mt-1 h-5 w-5 flex-shrink-0 text-brand" />
+                <span>Lugar reservado por orden de llegada</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle className="mt-1 h-5 w-5 flex-shrink-0 text-brand" />
+                <span>Mismas condiciones: máx. 5 lomitos, sin jaulas, supervisión continua</span>
+              </li>
+            </ul>
           </div>
-
-          <div className="grid gap-8 md:grid-cols-2">
-            <div className="rounded-2xl border-2 border-gray-200 bg-gray-50 p-8 shadow-sm">
-              <h3 className="text-xl font-bold text-gray-400">
-                {BRANCHES.poniente.name}
-              </h3>
-              <p className="mt-1 text-sm text-gray-400">
-                Polanco · Lomas · Tecamachalco
-              </p>
-              <div className="mt-6 flex flex-col items-center justify-center py-6">
-                <span className="text-lg font-bold text-gray-400">
-                  No disponible en esta zona
-                </span>
-                <p className="mt-2 text-sm text-gray-400 text-center">
-                  La guardería canina opera exclusivamente en Zona Norte.
-                </p>
-              </div>
-              <Link
-                href="/sucursales/zona-norte"
-                className="mt-6 block rounded-full bg-brand py-3 text-center text-sm font-semibold text-white transition-all hover:bg-brand-hover"
-              >
-                Ver Guardería en Zona Norte
-              </Link>
-            </div>
-
-            {/* Zona Norte */}
-            <div className="relative rounded-2xl border-2 border-brand bg-white p-8 shadow-lg">
-              <span className="absolute -top-3 right-6 rounded-full bg-accent-orange px-3 py-1 text-xs font-bold text-white">
-                Mejor precio
-              </span>
-              <h3 className="text-xl font-bold text-gray-900">
-                {BRANCHES["zona-norte"].name}
-              </h3>
-              <p className="mt-1 text-sm text-gray-500">
-                Lindavista · Sta. María la Ribera · Tlatelolco
-              </p>
-              <div className="mt-6">
-                <div className="flex items-end justify-between">
-                  <span className="text-sm text-gray-600">Por día</span>
-                  <span className="text-3xl font-extrabold text-brand">
-                    {formatPrice(PRICES.guarderia.zonaNorte)}
-                    <span className="text-sm font-normal text-gray-400">
-                      /día
-                    </span>
-                  </span>
-                </div>
-              </div>
-              <a
-                href={SITE.whatsappUrl(
-                  "¡Hola! ☀️ Quiero informes sobre la Guardería. Me interesa la sucursal Zona Norte. ¿Tienen cupo?"
-                )}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-6 block rounded-full bg-brand py-3 text-center text-sm font-semibold text-white transition-all hover:bg-brand-hover"
-              >
-                Inscribir en Zona Norte
-              </a>
-            </div>
+          <div>
+            <WaitlistForm
+              defaultServicio="guarderia"
+              title="Lista de espera · Guardería"
+              subtitle="Te avisamos en cuanto se libere un lugar."
+            />
           </div>
-
-          <p className="mt-6 text-center text-sm text-gray-400">
-            Incluye: estancia sin jaulas, supervisión, socialización, reportes
-            diarios y limpieza premium.
-          </p>
         </div>
       </section>
 
@@ -395,30 +363,40 @@ export default function GuarderiaPage() {
       <section className="bg-brand py-20 text-center text-white">
         <div className="mx-auto max-w-3xl px-4">
           <h2 className="text-3xl font-extrabold md:text-4xl">
-            ¿Listo para que tu lomito haga nuevos amigos?
+            ¿No quieres esperar?
           </h2>
           <p className="mt-4 text-lg text-white/90">
-            Agenda una visita y prueba de socialización gratuita.
+            Mientras se libera un lugar en la guardería, prueba nuestros
+            paseos diarios o el programa Train & Go.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <Link
+              href="/servicios/paseos"
+              className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-bold text-brand shadow-xl transition-all hover:-translate-y-1 hover:shadow-2xl"
+            >
+              🐾 Ver paseos
+              <ArrowRight className="h-5 w-5" />
+            </Link>
+            <Link
+              href="/servicios/adiestramiento"
+              className="inline-flex items-center gap-2 text-lg font-semibold text-white/90 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white"
+            >
+              Programa Train & Go →
+            </Link>
+          </div>
+          <p className="mt-6 text-sm text-white/70">
+            ¿Dudas?{" "}
             <a
               href={SITE.whatsappUrl(
-                "¡Hola! ☀️ Quiero informes sobre la Guardería. ¿Cómo puedo inscribir a mi perrito?"
+                "¡Hola! 👋 Tengo dudas sobre la lista de espera de la Guardería."
               )}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-bold text-brand shadow-xl transition-all hover:-translate-y-1 hover:shadow-2xl"
+              className="underline decoration-white/40 hover:text-white"
             >
-              Agendar prueba gratis
-              <ArrowRight className="h-5 w-5" />
+              Contáctanos por WhatsApp
             </a>
-            <Link
-              href="/servicios/hotel"
-              className="inline-flex items-center gap-2 text-lg font-semibold text-white/90 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white"
-            >
-              ¿Necesitas hospedaje? Ver Hotel →
-            </Link>
-          </div>
+          </p>
         </div>
       </section>
     </>

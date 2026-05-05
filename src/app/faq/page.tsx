@@ -20,15 +20,15 @@ const FAQ_SECTIONS = [
     faqs: [
       {
         q: "¿Qué servicios ofrecen?",
-        a: "Ofrecemos Hotel Boutique (hospedaje sin jaulas), Guardería Canina, Adiestramiento con Refuerzo Positivo, y Paseos Caninos (exclusivo Zona Norte). Todos los servicios incluyen reportes diarios.",
+        a: "Hoy tenemos abiertos Paseos diarios y Aventuras de Sábado (Zona Norte) y el programa de Adiestramiento Train & Go (12 sesiones a domicilio). Hotel y Guardería están en lista de espera por cupo lleno en ambas sucursales.",
       },
       {
         q: "¿Cuántas sucursales tienen?",
-        a: "Dos: Paws Club Poniente (zona Polanco, Lomas, Tecamachalco) y Paws Club Zona Norte (Lindavista, Sta. María la Ribera, Tlatelolco y colonias aledañas).",
+        a: "Dos: Paws Club Poniente (Polanco, Lomas, Tecamachalco) y Paws Club Zona Norte (Lindavista, Sta. María la Ribera, Tlatelolco y colonias aledañas).",
       },
       {
         q: "¿Cuál es el horario de atención?",
-        a: "Lunes a Viernes de 6:00 a.m. a 8:00 p.m. y Sábados de 7:00 a.m. a 8:00 p.m. en ambas sucursales. Domingos solo hotel con reserva previa y recargo del 20%.",
+        a: "Lunes a Viernes de 6:00 a.m. a 8:00 p.m. y Sábados de 7:00 a.m. a 8:00 p.m. en ambas sucursales.",
       },
       {
         q: "¿Cómo los contacto?",
@@ -37,49 +37,36 @@ const FAQ_SECTIONS = [
     ],
   },
   {
+    title: "Hotel y Guardería · Lista de espera",
+    faqs: [
+      {
+        q: "¿Por qué están en lista de espera?",
+        a: "Tenemos cupo lleno en ambas sucursales y no contamos con instalaciones disponibles para mostrar a nuevos clientes en este momento. Operamos con cupo estricto (máximo 5 lomitos) para mantener la calidad del cuidado.",
+      },
+      {
+        q: "¿Cómo funciona la waitlist?",
+        a: "Te registras con nombre, correo, colonia y servicio de interés. Cuando liberemos un lugar te contactamos por correo y WhatsApp en orden de llegada. No hay compromiso ni pago hasta que tú confirmes.",
+      },
+      {
+        q: "¿Cuánto tarda en liberarse un lugar?",
+        a: "Depende de la rotación de huéspedes y temporada. No podemos garantizar tiempos pero te mantenemos informado por correo cuando hay novedades.",
+      },
+      {
+        q: "¿Mientras tanto qué puedo contratar?",
+        a: "Paseos diarios y aventuras de sábado (Zona Norte) y el programa Train & Go de adiestramiento (a domicilio en ambas zonas). Son la mejor opción para gastar energía y trabajar conducta hasta que se libere cupo.",
+      },
+    ],
+  },
+  {
     title: "Requisitos",
     faqs: [
       {
         q: "¿Qué requisitos necesita mi perro?",
-        a: "Cartilla de vacunación al día (incluyendo Bordetella y Giardia), desparasitación vigente, y pasar una prueba de socialización gratuita antes de su primera visita.",
+        a: "Cartilla de vacunación al día (incluyendo Bordetella y Giardia) y desparasitación vigente. Para hotel y guardería pediremos también una prueba de socialización gratuita cuando se libere lugar.",
       },
       {
         q: "¿Aceptan todas las razas y tamaños?",
-        a: "Sí, aceptamos todas las razas y tamaños. La prueba de socialización nos ayuda a garantizar una convivencia segura entre todos los lomitos.",
-      },
-      {
-        q: "¿Qué es la prueba de socialización?",
-        a: "Es una evaluación gratuita donde observamos el comportamiento de tu perro con otros. Nos permite garantizar la seguridad de todos y asignar el grupo más adecuado.",
-      },
-    ],
-  },
-  {
-    title: "Hotel Boutique",
-    faqs: [
-      {
-        q: "¿Realmente no usan jaulas?",
-        a: "Correcto. Es nuestra política más firme. Los perros duermen dentro de casa, en sus propias camas o las nuestras. Nunca en jaulas ni kennels.",
-      },
-      {
-        q: "¿Cuánto cuesta el hotel?",
-        a: `Poniente: ${formatPrice(PRICES.hotel.poniente.weekday)}/noche (L-S) y ${formatPrice(PRICES.hotel.poniente.sunday)}/noche (domingo). Zona Norte: ${formatPrice(PRICES.hotel.zonaNorte.weekday)}/noche (L-S) y ${formatPrice(PRICES.hotel.zonaNorte.sunday)}/noche (domingo).`,
-      },
-      {
-        q: "¿Cuántos perros hay al mismo tiempo?",
-        a: "Máximo 5 lomitos por turno. Nuestro cupo es limitado para garantizar atención personalizada.",
-      },
-    ],
-  },
-  {
-    title: "Guardería",
-    faqs: [
-      {
-        q: "¿Cuánto cuesta la guardería?",
-        a: `Poniente: ${formatPrice(PRICES.guarderia.poniente)}/día. Zona Norte: ${formatPrice(PRICES.guarderia.zonaNorte)}/día. Incluye estancia sin jaulas, socialización, reportes y limpieza premium.`,
-      },
-      {
-        q: "¿Puedo llevar a mi perro un solo día?",
-        a: "Sí, ofrecemos servicio por día sin necesidad de contratar paquetes.",
+        a: "Sí, aceptamos todas las razas y tamaños.",
       },
     ],
   },

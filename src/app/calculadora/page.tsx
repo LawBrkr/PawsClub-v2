@@ -4,10 +4,9 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import { SITE, PRICES } from "@/lib/constants";
 import { formatPrice } from "@/lib/utils";
-import { ArrowRight, Calculator, Info } from "lucide-react";
+import { ArrowRight, Calculator, Info, AlertCircle } from "lucide-react";
 
-type ServiceType = "hotel" | "guarderia" | "adiestramiento" | "paseos";
-type BranchType = "poniente" | "zona-norte";
+type ServiceType = "adiestramiento" | "paseos";
 
 interface PriceResult {
   label: string;
@@ -16,10 +15,7 @@ interface PriceResult {
 }
 
 export default function CalculadoraPage() {
-  const [service, setService] = useState<ServiceType>("hotel");
-  const [branch, setBranch] = useState<BranchType>("zona-norte");
-  const [days, setDays] = useState(1);
-  const [includeSunday, setIncludeSunday] = useState(false);
+  const [service, setService] = useState<ServiceType>("paseos");
   const [secondDog, setSecondDog] = useState(false);
   const [walkPlan, setWalkPlan] = useState<
     "individual" | "paquete5" | "paquete10" | "mensual"
@@ -30,47 +26,6 @@ export default function CalculadoraPage() {
   const [includeSaturday, setIncludeSaturday] = useState(false);
 
   const result = useMemo<PriceResult | null>(() => {
-    if (service === "hotel") {
-      const weekdayPrice =
-        branch === "poniente"
-          ? PRICES.hotel.poniente.weekday
-          : PRICES.hotel.zonaNorte.weekday;
-      const sundayPrice =
-        branch === "poniente"
-          ? PRICES.hotel.poniente.sunday
-          : PRICES.hotel.zonaNorte.sunday;
-
-      if (includeSunday && days > 0) {
-        const sundayNights = 1;
-        const weekdayNights = Math.max(0, days - 1);
-        const total = weekdayNights * weekdayPrice + sundayNights * sundayPrice;
-        return {
-          label: "Hotel Boutique",
-          total,
-          breakdown: `${weekdayNights} noches L-S (${formatPrice(weekdayPrice)}) + 1 domingo (${formatPrice(sundayPrice)})`,
-        };
-      }
-      const total = days * weekdayPrice;
-      return {
-        label: "Hotel Boutique",
-        total,
-        breakdown: `${days} noche${days > 1 ? "s" : ""} × ${formatPrice(weekdayPrice)}`,
-      };
-    }
-
-    if (service === "guarderia") {
-      const price =
-        branch === "poniente"
-          ? PRICES.guarderia.poniente
-          : PRICES.guarderia.zonaNorte;
-      const total = days * price;
-      return {
-        label: "Guardería Canina",
-        total,
-        breakdown: `${days} día${days > 1 ? "s" : ""} × ${formatPrice(price)}`,
-      };
-    }
-
     if (service === "adiestramiento") {
       // Programa Train & Go: precio único, sin distinción por sucursal
       // (siempre a domicilio del cliente).
@@ -136,7 +91,7 @@ export default function CalculadoraPage() {
     }
 
     return null;
-  }, [service, branch, days, includeSunday, secondDog, walkPlan, saturdayPlan, includeSaturday]);
+  }, [service, secondDog, walkPlan, saturdayPlan, includeSaturday]);
 
   return (
     <>
@@ -148,33 +103,53 @@ export default function CalculadoraPage() {
             Calculadora de Precios
           </h1>
           <p className="mt-4 text-lg text-white/90">
-            Selecciona el servicio, sucursal y opciones para ver tu precio
-            estimado.
+            Calcula precios para paseos y adiestramiento. Hotel y guardería
+            están en lista de espera por cupo lleno.
           </p>
         </div>
       </section>
 
       <section className="py-20">
         <div className="mx-auto max-w-3xl px-4">
+          {/* Waitlist note for Hotel/Guardería */}
+          <div className="mb-8 flex items-start gap-3 rounded-2xl border-2 border-amber-300 bg-amber-50 p-5">
+            <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-amber-600" />
+            <div>
+              <p className="text-sm font-bold text-amber-900">
+                Hotel y Guardería · Cupo lleno en ambas sucursales
+              </p>
+              <p className="mt-1 text-sm text-amber-800">
+                Estos servicios están en lista de espera.{" "}
+                <Link
+                  href="/servicios/hotel#waitlist"
+                  className="font-semibold underline decoration-amber-600/50 underline-offset-2 hover:decoration-amber-700"
+                >
+                  Apuntarme al hotel
+                </Link>{" "}
+                ·{" "}
+                <Link
+                  href="/servicios/guarderia#waitlist"
+                  className="font-semibold underline decoration-amber-600/50 underline-offset-2 hover:decoration-amber-700"
+                >
+                  Apuntarme a guardería
+                </Link>
+              </p>
+            </div>
+          </div>
           <div className="space-y-6">
             {/* Service */}
             <div>
               <label className="block text-sm font-bold text-gray-900">
                 Servicio
               </label>
-              <div className="mt-2 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <div className="mt-2 grid grid-cols-2 gap-3">
                 {[
-                  { id: "hotel" as const, label: "🏨 Hotel", all: true },
-                  { id: "guarderia" as const, label: "☀️ Guardería", all: true },
-                  { id: "adiestramiento" as const, label: "🎓 Adiestrar", all: true },
-                  { id: "paseos" as const, label: "🐾 Paseos", all: false },
+                  { id: "adiestramiento" as const, label: "🎓 Adiestrar" },
+                  { id: "paseos" as const, label: "🐾 Paseos" },
                 ].map((s) => (
                   <button
                     key={s.id}
-                    onClick={() => {
-                      setService(s.id);
-                      if (!s.all) setBranch("zona-norte");
-                    }}
+                    onClick={() => setService(s.id)}
                     className={`rounded-xl border-2 p-3 text-center text-sm font-semibold transition-all ${
                       service === s.id
                         ? "border-brand bg-brand/5 text-brand"
@@ -187,36 +162,6 @@ export default function CalculadoraPage() {
               </div>
             </div>
 
-            {/* Branch */}
-            {service !== "paseos" && (
-              <div>
-                <label className="block text-sm font-bold text-gray-900">
-                  Sucursal
-                </label>
-                <div className="mt-2 grid grid-cols-2 gap-3">
-                  {[
-                    { id: "poniente" as const, label: "📍 Poniente (Cupo Lleno)", disabled: true },
-                    { id: "zona-norte" as const, label: "📍 Zona Norte", disabled: false },
-                  ].map((b) => (
-                    <button
-                      key={b.id}
-                      onClick={() => !b.disabled && setBranch(b.id)}
-                      disabled={b.disabled}
-                      className={`rounded-xl border-2 p-3 text-center text-sm font-semibold transition-all ${
-                        b.disabled 
-                          ? "opacity-50 cursor-not-allowed bg-gray-50 border-gray-200 text-gray-400" 
-                          : branch === b.id
-                            ? "border-brand bg-brand/5 text-brand"
-                            : "border-gray-200 text-gray-600 hover:border-gray-300"
-                      }`}
-                    >
-                      {b.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
             {service === "paseos" && (
               <div className="flex items-start gap-2 rounded-xl bg-accent-orange/10 p-4">
                 <Info className="mt-0.5 h-4 w-4 shrink-0 text-accent-orange" />
@@ -224,47 +169,6 @@ export default function CalculadoraPage() {
                   Los paseos caninos son exclusivos de Paws Club Zona Norte.
                 </p>
               </div>
-            )}
-
-            {/* Days (hotel & guardería) */}
-            {(service === "hotel" || service === "guarderia") && (
-              <div>
-                <label className="block text-sm font-bold text-gray-900">
-                  {service === "hotel" ? "Noches" : "Días"}
-                </label>
-                <div className="mt-2 flex items-center gap-4">
-                  <button
-                    onClick={() => setDays(Math.max(1, days - 1))}
-                    className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-gray-200 text-lg font-bold text-gray-600 hover:border-brand hover:text-brand"
-                  >
-                    −
-                  </button>
-                  <span className="w-12 text-center text-2xl font-extrabold text-gray-900">
-                    {days}
-                  </span>
-                  <button
-                    onClick={() => setDays(days + 1)}
-                    className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-gray-200 text-lg font-bold text-gray-600 hover:border-brand hover:text-brand"
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {/* Sunday toggle (hotel) */}
-            {service === "hotel" && (
-              <label className="flex items-center gap-3">
-                <input
-                  type="checkbox"
-                  checked={includeSunday}
-                  onChange={(e) => setIncludeSunday(e.target.checked)}
-                  className="h-4 w-4 rounded text-brand focus:ring-brand"
-                />
-                <span className="text-sm text-gray-700">
-                  Incluye noche de domingo (+20%)
-                </span>
-              </label>
             )}
 
             {/* Walk Plan */}
@@ -368,12 +272,7 @@ export default function CalculadoraPage() {
               <div className="mt-8 rounded-2xl border-2 border-brand bg-brand/5 p-8">
                 <div className="text-center">
                   <span className="text-sm font-semibold text-brand">
-                    {result.label} •{" "}
-                    {service === "paseos"
-                      ? "Zona Norte"
-                      : branch === "poniente"
-                      ? "Poniente"
-                      : "Zona Norte"}
+                    {result.label} • Zona Norte
                   </span>
                   <div className="mt-2 text-5xl font-extrabold text-gray-900">
                     {formatPrice(result.total)}
@@ -384,7 +283,7 @@ export default function CalculadoraPage() {
                 </div>
                 <a
                   href={SITE.whatsappUrl(
-                    `¡Hola! 🐾 Usé su calculadora para ${result.label} en ${service === "paseos" ? "Zona Norte" : branch === "poniente" ? "Poniente" : "Zona Norte"} (${formatPrice(result.total)}). ¿Cómo puedo reservar?`
+                    `¡Hola! 🐾 Usé su calculadora para ${result.label} (${formatPrice(result.total)}). ¿Cómo puedo reservar?`
                   )}
                   target="_blank"
                   rel="noopener noreferrer"

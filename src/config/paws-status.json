@@ -2,11 +2,12 @@
   "poniente": {
     "hotel": { "full": true },
     "guarderia": { "full": true },
-    "adiestramiento": { "full": false }
+    "adiestramiento": { "full": false },
+    "paseos": { "full": false }
   },
   "zona-norte": {
-    "hotel": { "full": false },
-    "guarderia": { "full": false },
+    "hotel": { "full": true },
+    "guarderia": { "full": true },
     "adiestramiento": { "full": false },
     "paseos": { "full": false }
   }
