@@ -236,6 +236,17 @@
         <input type="checkbox" id="show-url" checked>
       </div>
 
+      <div class="field" style="margin-top: 12px;">
+        <label class="file-input" for="logo-input" style="padding: 10px; font-size: 13px;">
+          🖼️ Logo HD (opcional, queda guardado)
+          <input type="file" id="logo-input" accept="image/png,image/svg+xml,image/webp,image/jpeg">
+        </label>
+        <div class="file-info" id="logo-info">El logo bundleado es 500×500. Sube uno ≥ 1024px (PNG con fondo transparente o SVG ideal). Se guarda en este navegador.</div>
+        <button class="btn btn-secondary" id="logo-reset-btn" style="margin-top: 6px; padding: 8px; font-size: 13px; display: none;">
+          ↺ Volver al logo bundleado
+        </button>
+      </div>
+
       <button class="btn btn-success" id="download-btn" disabled>
         ⬇️ Descargar PNG
       </button>
@@ -305,16 +316,34 @@
   const URL_TEXT = 'pawsclub.com.mx';
 
   // ============================================================
-  // PRELOAD LOGO
+  // LOGO LOADING (bundleado o HD del usuario, persistido en localStorage)
   // ============================================================
-  function loadLogo() {
+  const LOGO_STORAGE_KEY = 'pawsclub.marketing.customLogo';
+  const DEFAULT_LOGO_PATH = '/img/logo.webp';
+
+  function loadLogoFromSrc(src) {
     return new Promise((resolve) => {
       const img = new Image();
       img.crossOrigin = 'anonymous';
       img.onload = () => resolve(img);
       img.onerror = () => resolve(null);
-      img.src = '/img/logo.webp';
+      img.src = src;
     });
+  }
+
+  function getStoredLogoDataUrl() {
+    try { return localStorage.getItem(LOGO_STORAGE_KEY); }
+    catch (e) { return null; }
+  }
+
+  function setStoredLogoDataUrl(dataUrl) {
+    try { localStorage.setItem(LOGO_STORAGE_KEY, dataUrl); }
+    catch (e) { /* quota o privacy mode — fallback silencioso */ }
+  }
+
+  function clearStoredLogo() {
+    try { localStorage.removeItem(LOGO_STORAGE_KEY); }
+    catch (e) {}
   }
 
   // ============================================================
@@ -337,6 +366,9 @@
   const testimonialInput = document.getElementById('testimonial');
   const showHandleCb = document.getElementById('show-handle');
   const showUrlCb = document.getElementById('show-url');
+  const logoInput = document.getElementById('logo-input');
+  const logoInfo = document.getElementById('logo-info');
+  const logoResetBtn = document.getElementById('logo-reset-btn');
 
   // ============================================================
   // INPUT HANDLERS
@@ -395,6 +427,37 @@
   showHandleCb.addEventListener('change', () => { state.showHandle = showHandleCb.checked; render(); });
   showUrlCb.addEventListener('change', () => { state.showUrl = showUrlCb.checked; render(); });
 
+  logoInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const dataUrl = ev.target.result;
+      const img = new Image();
+      img.onload = () => {
+        state.logo = img;
+        setStoredLogoDataUrl(dataUrl);
+        logoInfo.textContent = `Logo HD activo: ${file.name} (${img.naturalWidth}×${img.naturalHeight}). Se aplica en todas las plantillas.`;
+        logoResetBtn.style.display = 'block';
+        render();
+      };
+      img.onerror = () => {
+        logoInfo.textContent = 'No se pudo cargar el logo. Probá con un PNG o SVG.';
+      };
+      img.src = dataUrl;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  logoResetBtn.addEventListener('click', async () => {
+    clearStoredLogo();
+    logoInput.value = '';
+    state.logo = await loadLogoFromSrc(DEFAULT_LOGO_PATH);
+    logoInfo.textContent = 'El logo bundleado es 500×500. Sube uno ≥ 1024px (PNG con fondo transparente o SVG ideal). Se guarda en este navegador.';
+    logoResetBtn.style.display = 'none';
+    render();
+  });
+
   resetBtn.addEventListener('click', () => {
     if (!confirm('¿Limpiar foto y campos? No se puede deshacer.')) return;
     state.photo = null;
@@ -434,6 +497,13 @@
     const fmt = FORMATS[state.format];
     canvas.width = fmt.w;
     canvas.height = fmt.h;
+
+    // Smoothing alta calidad: muchos navegadores defaultean a "low",
+    // lo que pixelea logos y fotos al downscale. Esto es lo que más mejora
+    // la nitidez del export final.
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+
     ctx.clearRect(0, 0, fmt.w, fmt.h);
 
     // Background fallback
@@ -724,10 +794,23 @@
   // ============================================================
   // INIT
   // ============================================================
-  loadLogo().then((img) => {
-    state.logo = img;
+  (async () => {
+    const stored = getStoredLogoDataUrl();
+    if (stored) {
+      const img = await loadLogoFromSrc(stored);
+      if (img) {
+        state.logo = img;
+        logoInfo.textContent = `Logo HD activo: guardado en este navegador (${img.naturalWidth}×${img.naturalHeight}). Se aplica en todas las plantillas.`;
+        logoResetBtn.style.display = 'block';
+        if (state.photo) render();
+        return;
+      }
+      // Si falla la carga del custom (corrupto), limpia y cae al default
+      clearStoredLogo();
+    }
+    state.logo = await loadLogoFromSrc(DEFAULT_LOGO_PATH);
     if (state.photo) render();
-  });
+  })();
 })();
 </script>
 </body>
