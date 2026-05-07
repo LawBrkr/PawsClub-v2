@@ -283,6 +283,12 @@
       <button class="btn btn-success" id="download-btn" disabled>
         ⬇️ Descargar PNG
       </button>
+      <button class="btn btn-primary endcard-only-block" id="export-animated-btn" style="display:none; background: var(--accent);">
+        🎬 Exportar video animado (3s)
+      </button>
+      <div class="endcard-only-block" id="export-animated-info" style="display:none; font-size:11px; color: var(--muted); margin-top: 4px; text-align: center;">
+        Genera WebM (o MP4 si tu navegador lo soporta). Animación: logo fade-in → headline → CTA. Listo para arrastrar a CapCut.
+      </div>
       <button class="btn btn-secondary" id="reset-btn">
         ↺ Limpiar y empezar de cero
       </button>
@@ -416,6 +422,7 @@
   const transparentBgCb = document.getElementById('transparent-bg');
   const photoOnlyEls = document.querySelectorAll('.photo-only, .photo-only-block');
   const endcardOnlyEls = document.querySelectorAll('.endcard-only-block');
+  const exportAnimatedBtn = document.getElementById('export-animated-btn');
 
   // ============================================================
   // INPUT HANDLERS
@@ -545,6 +552,8 @@
 
   downloadBtn.addEventListener('click', () => {
     if (state.template !== 'endcard' && !state.photo) return;
+    // Asegura render estático (no un frame intermedio si venimos de animar)
+    render();
     const stamp = new Date().toISOString().slice(0,10);
     const slug = state.template === 'endcard'
       ? (state.endcardHeadline || 'endcard').toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 30)
@@ -558,6 +567,17 @@
       a.click();
       setTimeout(() => URL.revokeObjectURL(url), 1000);
     }, 'image/png');
+  });
+
+  exportAnimatedBtn.addEventListener('click', () => {
+    exportAnimatedEndcard().catch((e) => {
+      console.error(e);
+      alert('Error al exportar: ' + (e.message || e));
+      exportAnimatedBtn.disabled = false;
+      downloadBtn.disabled = false;
+      exportAnimatedBtn.textContent = '🎬 Exportar video animado (3s)';
+      render();
+    });
   });
 
   // ============================================================
@@ -823,8 +843,19 @@
   // ============================================================
   // PLANTILLA 4 — END-CARD VIDEO (slide final 3s para CapCut)
   // ============================================================
-  function renderEndcard(fmt) {
+  // progress: 0..1 controla el timeline de animación.
+  // Valor 1 (default) = render estático completo.
+  function renderEndcard(fmt, progress) {
+    if (progress === undefined) progress = 1;
     const pad = Math.round(fmt.w * 0.08);
+
+    // Phases (timeline normalizado al rango 0..1)
+    const clamp01 = (x) => Math.max(0, Math.min(1, x));
+    const eOut = (x) => 1 - Math.pow(1 - x, 3);
+    const phaseLogo = clamp01((progress - 0.00) / 0.25);
+    const phaseHead = clamp01((progress - 0.20) / 0.25);
+    const phaseCta  = clamp01((progress - 0.40) / 0.20);
+    const phaseCon  = clamp01((progress - 0.50) / 0.20);
 
     // Fondo: gradiente sutil de marca (a menos que sea transparente)
     if (!state.transparentBg) {
@@ -835,46 +866,57 @@
       ctx.fillRect(0, 0, fmt.w, fmt.h);
     }
 
-    // El color de texto cambia según fondo:
-    // - sólido (brand): texto cream
-    // - transparente: usamos brand para el texto sin asumir el video debajo,
-    //   con sombra blanca leve para que sea legible sobre cualquier color
     const textColor = state.transparentBg ? BRAND.primaryDark : BRAND.cream;
     const accentColor = state.transparentBg ? BRAND.primary : BRAND.cream;
 
-    // Layout vertical: logo (centrado) → headline → CTA → datos de contacto
-    // Calculamos posiciones según altura del formato.
     const logoSize = Math.round(Math.min(fmt.w, fmt.h) * 0.36);
     const logoX = (fmt.w - logoSize) / 2;
-    // Centro del bloque más arriba en formatos altos para dejar espacio abajo
     const isStory = state.format === 'story';
     const logoY = isStory
       ? Math.round(fmt.h * 0.18)
       : Math.round(fmt.h * 0.12);
 
-    if (state.logo) {
-      ctx.drawImage(state.logo, logoX, logoY, logoSize, logoSize);
+    // Logo con fade + scale
+    if (phaseLogo > 0 && state.logo) {
+      ctx.save();
+      ctx.globalAlpha = eOut(phaseLogo);
+      const scale = 0.85 + 0.15 * eOut(phaseLogo);
+      const sw = logoSize * scale;
+      const dxy = (logoSize - sw) / 2;
+      ctx.drawImage(state.logo, logoX + dxy, logoY + dxy, sw, sw);
+      ctx.restore();
     }
 
-    // Headline debajo del logo
+    // Headline con fade + slide-up
     let cursorY = logoY + logoSize + Math.round(fmt.h * 0.04);
     const headlineSize = Math.round(fmt.w * 0.075);
-    ctx.font = `800 ${headlineSize}px -apple-system, system-ui, sans-serif`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'top';
-    ctx.fillStyle = textColor;
-    if (state.transparentBg) {
-      ctx.shadowColor = 'rgba(255,255,255,0.6)';
-      ctx.shadowBlur = 8;
-    }
     const headline = state.endcardHeadline || 'Reserva tu lugar';
-    const headlineLines = countWrapLines(ctx, headline, fmt.w - pad * 2);
-    wrapText(ctx, headline, fmt.w / 2, cursorY, fmt.w - pad * 2, headlineSize * 1.15);
-    cursorY += headlineLines * headlineSize * 1.15 + Math.round(fmt.h * 0.04);
-    ctx.shadowBlur = 0;
+    const headlineLines = (() => {
+      ctx.font = `800 ${headlineSize}px -apple-system, system-ui, sans-serif`;
+      return countWrapLines(ctx, headline, fmt.w - pad * 2);
+    })();
 
-    // CTA principal (pill button)
+    if (phaseHead > 0) {
+      const opacity = eOut(phaseHead);
+      const slideOffset = (1 - eOut(phaseHead)) * Math.round(fmt.h * 0.025);
+      ctx.save();
+      ctx.globalAlpha = opacity;
+      ctx.font = `800 ${headlineSize}px -apple-system, system-ui, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      ctx.fillStyle = textColor;
+      if (state.transparentBg) {
+        ctx.shadowColor = 'rgba(255,255,255,0.6)';
+        ctx.shadowBlur = 8;
+      }
+      wrapText(ctx, headline, fmt.w / 2, cursorY + slideOffset, fmt.w - pad * 2, headlineSize * 1.15);
+      ctx.restore();
+    }
+    cursorY += headlineLines * headlineSize * 1.15 + Math.round(fmt.h * 0.04);
+
+    // CTA pill con scale-in
     const cta = state.endcardCta || '';
+    let ctaH = 0;
     if (cta) {
       const ctaFontSize = Math.round(fmt.w * 0.046);
       ctx.font = `700 ${ctaFontSize}px -apple-system, system-ui, sans-serif`;
@@ -883,38 +925,56 @@
       const btnPadY = Math.round(ctaFontSize * 0.55);
       const btnW = ctaTextW + btnPadX * 2;
       const btnH = ctaFontSize + btnPadY * 2;
-      const btnX = (fmt.w - btnW) / 2;
-      const btnR = btnH / 2;
+      ctaH = btnH;
 
-      ctx.fillStyle = accentColor;
-      roundRect(ctx, btnX, cursorY, btnW, btnH, btnR);
-      ctx.fill();
+      if (phaseCta > 0) {
+        const opacity = eOut(phaseCta);
+        // Pulse leve después de que termina la entrada
+        let scale = 0.7 + 0.3 * eOut(phaseCta);
+        if (progress > 0.85) {
+          const pulseT = (progress - 0.85) / 0.15;
+          scale *= 1 + 0.04 * Math.sin(pulseT * Math.PI);
+        }
 
-      ctx.fillStyle = state.transparentBg ? BRAND.cream : BRAND.primaryDark;
-      ctx.textBaseline = 'middle';
-      ctx.fillText(cta, fmt.w / 2, cursorY + btnH / 2 + ctaFontSize * 0.05);
-      ctx.textBaseline = 'top';
+        ctx.save();
+        ctx.globalAlpha = opacity;
+        const cx = fmt.w / 2;
+        const cy = cursorY + btnH / 2;
+        ctx.translate(cx, cy);
+        ctx.scale(scale, scale);
+        ctx.translate(-cx, -cy);
+
+        ctx.fillStyle = accentColor;
+        roundRect(ctx, (fmt.w - btnW) / 2, cursorY, btnW, btnH, btnH / 2);
+        ctx.fill();
+
+        ctx.fillStyle = state.transparentBg ? BRAND.cream : BRAND.primaryDark;
+        ctx.font = `700 ${ctaFontSize}px -apple-system, system-ui, sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(cta, fmt.w / 2, cursorY + btnH / 2 + ctaFontSize * 0.05);
+        ctx.restore();
+      }
       cursorY += btnH + Math.round(fmt.h * 0.035);
     }
 
-    // Datos de contacto al pie (teléfono, URL, handle)
+    // Contact lines con fade
     const contactLines = [];
     if (state.showPhone) contactLines.push(PHONE_FORMATTED);
     if (state.showUrl) contactLines.push(URL_TEXT);
     if (state.showHandle) contactLines.push(HANDLE);
 
-    if (contactLines.length) {
+    if (contactLines.length && phaseCon > 0) {
       const contactSize = Math.round(fmt.w * 0.034);
       const contactGap = contactSize * 1.5;
       const totalContactH = contactLines.length * contactGap;
-
-      // Anclamos al pie, con padding inferior generoso
       const bottomPad = Math.round(fmt.h * 0.08);
       let contactY = fmt.h - bottomPad - totalContactH;
-
-      // No invadir el bloque superior — si no cabe, lo subimos justo después del CTA
       if (contactY < cursorY) contactY = cursorY;
 
+      const slideOffset = (1 - eOut(phaseCon)) * Math.round(fmt.h * 0.015);
+      ctx.save();
+      ctx.globalAlpha = eOut(phaseCon);
       ctx.font = `600 ${contactSize}px -apple-system, system-ui, sans-serif`;
       ctx.fillStyle = textColor;
       ctx.textAlign = 'center';
@@ -924,11 +984,114 @@
         ctx.shadowBlur = 6;
       }
       contactLines.forEach((line) => {
-        ctx.fillText(line, fmt.w / 2, contactY);
+        ctx.fillText(line, fmt.w / 2, contactY + slideOffset);
         contactY += contactGap;
       });
-      ctx.shadowBlur = 0;
+      ctx.restore();
     }
+  }
+
+  // ============================================================
+  // EXPORT ANIMADO (WebM/MP4 vía MediaRecorder)
+  // ============================================================
+  async function exportAnimatedEndcard() {
+    if (state.template !== 'endcard') return;
+    if (!canvas.captureStream || typeof MediaRecorder === 'undefined') {
+      alert('Tu navegador no soporta exportar video. Usa la descarga PNG y anímalo en CapCut.');
+      return;
+    }
+
+    // Elegir el mejor mimeType disponible (mp4 si Safari/iOS, webm en el resto)
+    const candidates = [
+      'video/mp4;codecs=avc1',
+      'video/webm;codecs=vp9',
+      'video/webm;codecs=vp8',
+      'video/webm',
+    ];
+    const mimeType = candidates.find(t => {
+      try { return MediaRecorder.isTypeSupported(t); }
+      catch (e) { return false; }
+    });
+    if (!mimeType) {
+      alert('Tu navegador no soporta MediaRecorder. Usa la descarga PNG.');
+      return;
+    }
+
+    const fmt = FORMATS[state.format];
+    canvas.width = fmt.w;
+    canvas.height = fmt.h;
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+
+    const fps = 30;
+    const stream = canvas.captureStream(fps);
+    const chunks = [];
+    let recorder;
+    try {
+      recorder = new MediaRecorder(stream, {
+        mimeType,
+        videoBitsPerSecond: 6_000_000,
+      });
+    } catch (e) {
+      alert('No se pudo iniciar la grabación: ' + e.message);
+      return;
+    }
+    recorder.ondataavailable = (e) => { if (e.data && e.data.size > 0) chunks.push(e.data); };
+
+    // Bloquear UI durante grabación
+    const origAnimText = exportAnimatedBtn.textContent;
+    exportAnimatedBtn.disabled = true;
+    downloadBtn.disabled = true;
+    exportAnimatedBtn.textContent = '⏺ Grabando 0% ...';
+
+    // Frame inicial (transparente o background — para que el primer frame no sea negro)
+    ctx.clearRect(0, 0, fmt.w, fmt.h);
+    if (!state.transparentBg) {
+      ctx.fillStyle = BRAND.cream;
+      ctx.fillRect(0, 0, fmt.w, fmt.h);
+    }
+
+    recorder.start();
+
+    const duration = 3000;
+    const startT = performance.now();
+    await new Promise((resolve) => {
+      function tick(now) {
+        const elapsed = now - startT;
+        const t = Math.min(elapsed / duration, 1);
+        ctx.clearRect(0, 0, fmt.w, fmt.h);
+        renderEndcard(fmt, t);
+        exportAnimatedBtn.textContent = `⏺ Grabando ${Math.round(t * 100)}% ...`;
+        if (t >= 1) {
+          // Hold un frame extra para que la grabación lo capture
+          setTimeout(resolve, 100);
+        } else {
+          requestAnimationFrame(tick);
+        }
+      }
+      requestAnimationFrame(tick);
+    });
+
+    recorder.stop();
+    await new Promise((resolve) => { recorder.onstop = resolve; });
+
+    const blob = new Blob(chunks, { type: mimeType });
+    const ext = mimeType.includes('mp4') ? 'mp4' : 'webm';
+    const stamp = new Date().toISOString().slice(0, 10);
+    const slug = (state.endcardHeadline || 'endcard')
+      .toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 30);
+    const filename = `pawsclub-endcard-${slug}-${fmt.label}-${stamp}.${ext}`;
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename; a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
+
+    // Restaurar UI
+    exportAnimatedBtn.disabled = false;
+    downloadBtn.disabled = false;
+    exportAnimatedBtn.textContent = origAnimText;
+    render(); // vuelve al estado estático
   }
 
   // ============================================================
