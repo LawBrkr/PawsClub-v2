@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Marketing Paws Club">
+<title>Marketing de Fotos · Paws Club (interno)</title>
+<style>
+  :root {
+    color-scheme: light;
+    --brand: #547097;
+    --brand-hover: #3F5471;
+    --cream: #FFF8E7;
+    --accent: #E1306C;
+    --accent-orange: #F4A261;
+    --bg: #f8f9fa;
+    --card: #ffffff;
+    --text: #1F2937;
+    --muted: #4B5563;
+    --border: #e5e7eb;
+    --success: #10b981;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    background: var(--bg); color: var(--text); margin: 0; padding: 12px;
+    line-height: 1.5; font-size: 16px;
+  }
+  .container { max-width: 1280px; margin: 0 auto; }
+  header {
+    text-align: center; margin-bottom: 18px; padding: 18px;
+    background: linear-gradient(135deg, var(--brand), var(--brand-hover));
+    border-radius: 14px; color: white;
+  }
+  header h1 { margin: 0 0 4px 0; font-size: 22px; font-weight: 800; }
+  header p { margin: 0; opacity: 0.9; font-size: 13px; }
+  .grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  @media (min-width: 1000px) { .grid { grid-template-columns: 380px 1fr; } }
+  .card {
+    background: var(--card); border-radius: 14px; padding: 18px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05); border: 1px solid var(--border);
+  }
+  .card h2 {
+    margin: 0 0 14px 0; font-size: 16px; color: var(--brand);
+    border-bottom: 2px solid var(--brand); padding-bottom: 8px;
+  }
+  .card h3 {
+    margin: 16px 0 8px 0; font-size: 12px; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700;
+  }
+  .field { margin-bottom: 12px; }
+  label {
+    display: block; font-size: 13px; font-weight: 600;
+    margin-bottom: 5px; color: var(--text);
+  }
+  input[type="text"], input[type="number"], select, textarea {
+    width: 100%; padding: 10px 12px; border: 1.5px solid var(--border);
+    border-radius: 8px; font-size: 15px; font-family: inherit;
+    background: var(--card); color: var(--text); transition: border-color 0.15s;
+    -webkit-appearance: none; appearance: none;
+  }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--brand); }
+  textarea { min-height: 70px; resize: vertical; line-height: 1.4; }
+  .help { font-size: 11px; color: var(--muted); margin-top: 3px; }
+  .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  .file-input {
+    display: block; width: 100%; padding: 14px; border: 2px dashed var(--brand);
+    border-radius: 10px; background: #f0f4fa; text-align: center;
+    cursor: pointer; font-weight: 600; color: var(--brand);
+    transition: background 0.15s;
+  }
+  .file-input:hover { background: #e3ebf6; }
+  .file-input input { display: none; }
+  .file-info { font-size: 11px; color: var(--muted); margin-top: 6px; text-align: center; }
+
+  .seg-group { display: grid; gap: 6px; }
+  .seg-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .seg-btn {
+    padding: 10px 6px; border: 1.5px solid var(--border); border-radius: 10px;
+    background: white; cursor: pointer; text-align: center;
+    font-weight: 600; font-size: 12px; transition: all 0.15s;
+    font-family: inherit; color: var(--muted); line-height: 1.2;
+  }
+  .seg-btn.active {
+    background: var(--brand); color: white; border-color: var(--brand);
+    box-shadow: 0 2px 6px rgba(84,112,151,0.3);
+  }
+  .seg-btn:hover:not(.active) { background: #f3f4f6; color: var(--text); }
+  .seg-btn .seg-sub { display: block; font-size: 10px; opacity: 0.8; font-weight: 500; margin-top: 2px; }
+
+  .slider-row { display: flex; align-items: center; gap: 10px; }
+  .slider-row input[type="range"] { flex: 1; }
+  .slider-row .slider-val { font-size: 12px; color: var(--muted); width: 40px; text-align: right; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    width: 100%; padding: 12px 18px; border: none; border-radius: 10px;
+    font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.15s;
+    font-family: inherit; margin-top: 8px;
+  }
+  .btn-primary { background: var(--brand); color: white; }
+  .btn-primary:hover { background: var(--brand-hover); }
+  .btn-success { background: var(--success); color: white; }
+  .btn-secondary { background: white; color: var(--text); border: 1.5px solid var(--border); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .preview-wrap {
+    background: #f3f4f6; border-radius: 12px; padding: 18px;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 320px;
+  }
+  .preview-canvas {
+    max-width: 100%; max-height: 70vh; height: auto;
+    border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    background: white;
+  }
+  .empty-state {
+    text-align: center; color: var(--muted); padding: 40px 20px;
+  }
+  .empty-state .empty-icon { font-size: 48px; margin-bottom: 12px; }
+
+  .alert { padding: 10px 14px; border-radius: 10px; margin-bottom: 12px; font-size: 13px; font-weight: 500; }
+  .alert-info { background: #dbeafe; color: #1e40af; border-left: 4px solid var(--brand); }
+
+  footer { text-align: center; margin-top: 20px; padding: 14px; font-size: 11px; color: var(--muted); }
+
+  .toggle-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 0; border-top: 1px dashed var(--border);
+  }
+  .toggle-row:first-of-type { border-top: none; }
+  .toggle-row label { margin-bottom: 0; cursor: pointer; }
+  .toggle-row input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>🎨 Marketing de fotos · Paws Club</h1>
+    <p>Sube la foto del cliente y exporta lista para Instagram con tu marca.</p>
+  </header>
+
+  <div class="grid">
+    <!-- ========== PANEL IZQUIERDO: CONTROLES ========== -->
+    <div class="card">
+      <h2>Configuración</h2>
+
+      <div class="field photo-only">
+        <label class="file-input" for="file-input">
+          📷 Sube la foto del cliente
+          <input type="file" id="file-input" accept="image/*">
+        </label>
+        <div class="file-info" id="file-info">PNG, JPG o WebP · Se procesa local en tu navegador.</div>
+      </div>
+
+      <h3>Plantilla</h3>
+      <div class="seg-group">
+        <button class="seg-btn active" data-template="watermark">
+          Watermark sutil
+          <span class="seg-sub">Logo discreto en esquina</span>
+        </button>
+        <button class="seg-btn" data-template="cliente-feliz">
+          Cliente feliz
+          <span class="seg-sub">Banner inferior con datos</span>
+        </button>
+        <button class="seg-btn" data-template="testimonio">
+          Testimonio
+          <span class="seg-sub">Frase en overlay</span>
+        </button>
+        <button class="seg-btn" data-template="endcard">
+          End-card video (CapCut)
+          <span class="seg-sub">Slide final 3s · sin foto</span>
+        </button>
+      </div>
+
+      <h3>Formato</h3>
+      <div class="seg-row">
+        <button class="seg-btn active" data-format="square">
+          Cuadrado
+          <span class="seg-sub">1080×1080</span>
+        </button>
+        <button class="seg-btn" data-format="portrait">
+          Retrato
+          <span class="seg-sub">1080×1350</span>
+        </button>
+        <button class="seg-btn" data-format="story">
+          Story/Reel
+          <span class="seg-sub">1080×1920</span>
+        </button>
+      </div>
+
+      <div class="photo-only-block">
+        <h3>Encuadre de la foto</h3>
+        <div class="field">
+          <label>Recorte vertical (sube/baja la foto)</label>
+          <div class="slider-row">
+            <input type="range" id="offset-y" min="0" max="100" value="50">
+            <span class="slider-val" id="offset-y-val">50%</span>
+          </div>
+          <div class="help">Ajusta para centrar la cara del peludo dentro del marco.</div>
+        </div>
+        <div class="field">
+          <label>Zoom</label>
+          <div class="slider-row">
+            <input type="range" id="zoom" min="100" max="200" value="100">
+            <span class="slider-val" id="zoom-val">100%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="photo-only-block">
+        <h3>Texto</h3>
+        <div class="field">
+          <label for="pet-name">Nombre del peludo</label>
+          <input type="text" id="pet-name" placeholder="Ej. Luna" maxlength="30">
+        </div>
+        <div class="field">
+          <label for="service">Servicio / etiqueta</label>
+          <select id="service">
+            <option value="">— Sin etiqueta —</option>
+            <option value="Hospedaje">🏨 Hospedaje</option>
+            <option value="Guardería">☀️ Guardería</option>
+            <option value="Paseos">🐕‍🦺 Paseos</option>
+            <option value="Adiestramiento">🎓 Adiestramiento</option>
+            <option value="Cliente feliz">💛 Cliente feliz</option>
+          </select>
+        </div>
+        <div class="field" id="testimonial-field" style="display:none;">
+          <label for="testimonial">Frase del dueño / headline</label>
+          <textarea id="testimonial" placeholder="Ej. Luna llegó tímida y se va siendo la consentida del hotel."></textarea>
+          <div class="help">Máx ~120 caracteres. Si lo dejas vacío, sale solo el headline genérico.</div>
+        </div>
+      </div>
+
+      <div class="endcard-only-block" style="display:none;">
+        <h3>Texto del end-card</h3>
+        <div class="field">
+          <label for="endcard-headline">Headline (frase principal)</label>
+          <input type="text" id="endcard-headline" placeholder="Reserva tu lugar" value="Reserva tu lugar" maxlength="40">
+          <div class="help">Ej. "Reserva tu lugar", "Hospedaje en CDMX", "Tu peludo merece lo mejor".</div>
+        </div>
+        <div class="field">
+          <label for="endcard-cta">Call to action</label>
+          <input type="text" id="endcard-cta" placeholder="📱 Reserva por WhatsApp" value="📱 Reserva por WhatsApp" maxlength="40">
+        </div>
+        <div class="toggle-row">
+          <label for="show-phone">Mostrar teléfono</label>
+          <input type="checkbox" id="show-phone" checked>
+        </div>
+        <div class="toggle-row">
+          <label for="transparent-bg">Fondo transparente (overlay)</label>
+          <input type="checkbox" id="transparent-bg">
+        </div>
+        <div class="help" style="margin-top: 6px;">
+          Sin transparencia: slide final sólido para los últimos 3s del video.<br>
+          Con transparencia: PNG sin fondo para overlay encima del video.
+        </div>
+      </div>
+
+      <h3>Marca</h3>
+      <div class="toggle-row">
+        <label for="show-handle">Mostrar @pawsclubmx</label>
+        <input type="checkbox" id="show-handle" checked>
+      </div>
+      <div class="toggle-row">
+        <label for="show-url">Mostrar pawsclub.com.mx</label>
+        <input type="checkbox" id="show-url" checked>
+      </div>
+
+      <div class="field" style="margin-top: 12px;">
+        <label class="file-input" for="logo-input" style="padding: 10px; font-size: 13px;">
+          🖼️ Logo HD (opcional, queda guardado)
+          <input type="file" id="logo-input" accept="image/png,image/svg+xml,image/webp,image/jpeg">
+        </label>
+        <div class="file-info" id="logo-info">El logo bundleado es 500×500. Sube uno ≥ 1024px (PNG con fondo transparente o SVG ideal). Se guarda en este navegador.</div>
+        <button class="btn btn-secondary" id="logo-reset-btn" style="margin-top: 6px; padding: 8px; font-size: 13px; display: none;">
+          ↺ Volver al logo bundleado
+        </button>
+      </div>
+
+      <button class="btn btn-success" id="download-btn" disabled>
+        ⬇️ Descargar PNG
+      </button>
+      <button class="btn btn-secondary" id="reset-btn">
+        ↺ Limpiar y empezar de cero
+      </button>
+
+      <div class="alert alert-info" style="margin-top: 14px;">
+        💡 <strong>Antes de publicar:</strong> pide permiso al dueño por WhatsApp y, si tiene IG público, etiquétalo.
+      </div>
+    </div>
+
+    <!-- ========== PANEL DERECHO: PREVIEW ========== -->
+    <div class="card">
+      <h2>Vista previa</h2>
+      <div class="preview-wrap" id="preview-wrap">
+        <div class="empty-state" id="empty-state">
+          <div class="empty-icon">📷</div>
+          <div>Sube una foto para ver la vista previa.</div>
+        </div>
+        <canvas id="canvas" class="preview-canvas" style="display:none;"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Paws Club · Herramienta interna · Las fotos se procesan en tu navegador, nunca se suben a un servidor.
+  </footer>
+</div>
+
+<script>
+(() => {
+  'use strict';
+
+  // ============================================================
+  // ESTADO
+  // ============================================================
+  const state = {
+    photo: null,           // Image object de la foto del cliente
+    logo: null,            // Image object del logo (preload)
+    template: 'watermark', // watermark | cliente-feliz | testimonio | endcard
+    format: 'square',      // square | portrait | story
+    offsetY: 50,
+    zoom: 100,
+    petName: '',
+    service: '',
+    testimonial: '',
+    showHandle: true,
+    showUrl: true,
+    // End-card fields
+    endcardHeadline: 'Reserva tu lugar',
+    endcardCta: '📱 Reserva por WhatsApp',
+    showPhone: true,
+    transparentBg: false,
+  };
+
+  // SITE info (de src/lib/constants.ts)
+  const PHONE_FORMATTED = '55 5644 0856';
+
+  const FORMATS = {
+    square:   { w: 1080, h: 1080, label: 'cuadrado' },
+    portrait: { w: 1080, h: 1350, label: 'retrato' },
+    story:    { w: 1080, h: 1920, label: 'story' },
+  };
+
+  const BRAND = {
+    primary: '#547097',
+    primaryDark: '#3F5471',
+    cream: '#FFF8E7',
+    accent: '#E1306C',
+    text: '#1F2937',
+  };
+
+  const HANDLE = '@pawsclubmx';
+  const URL_TEXT = 'pawsclub.com.mx';
+
+  // ============================================================
+  // LOGO LOADING (bundleado o HD del usuario, persistido en localStorage)
+  // ============================================================
+  const LOGO_STORAGE_KEY = 'pawsclub.marketing.customLogo';
+  const DEFAULT_LOGO_PATH = '/img/logo.webp';
+
+  function loadLogoFromSrc(src) {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => resolve(img);
+      img.onerror = () => resolve(null);
+      img.src = src;
+    });
+  }
+
+  function getStoredLogoDataUrl() {
+    try { return localStorage.getItem(LOGO_STORAGE_KEY); }
+    catch (e) { return null; }
+  }
+
+  function setStoredLogoDataUrl(dataUrl) {
+    try { localStorage.setItem(LOGO_STORAGE_KEY, dataUrl); }
+    catch (e) { /* quota o privacy mode — fallback silencioso */ }
+  }
+
+  function clearStoredLogo() {
+    try { localStorage.removeItem(LOGO_STORAGE_KEY); }
+    catch (e) {}
+  }
+
+  // ============================================================
+  // DOM REFERENCES
+  // ============================================================
+  const fileInput = document.getElementById('file-input');
+  const fileInfo = document.getElementById('file-info');
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  const emptyState = document.getElementById('empty-state');
+  const downloadBtn = document.getElementById('download-btn');
+  const resetBtn = document.getElementById('reset-btn');
+  const offsetYSlider = document.getElementById('offset-y');
+  const offsetYVal = document.getElementById('offset-y-val');
+  const zoomSlider = document.getElementById('zoom');
+  const zoomVal = document.getElementById('zoom-val');
+  const petNameInput = document.getElementById('pet-name');
+  const serviceSelect = document.getElementById('service');
+  const testimonialField = document.getElementById('testimonial-field');
+  const testimonialInput = document.getElementById('testimonial');
+  const showHandleCb = document.getElementById('show-handle');
+  const showUrlCb = document.getElementById('show-url');
+  const logoInput = document.getElementById('logo-input');
+  const logoInfo = document.getElementById('logo-info');
+  const logoResetBtn = document.getElementById('logo-reset-btn');
+  const endcardHeadlineInput = document.getElementById('endcard-headline');
+  const endcardCtaInput = document.getElementById('endcard-cta');
+  const showPhoneCb = document.getElementById('show-phone');
+  const transparentBgCb = document.getElementById('transparent-bg');
+  const photoOnlyEls = document.querySelectorAll('.photo-only, .photo-only-block');
+  const endcardOnlyEls = document.querySelectorAll('.endcard-only-block');
+
+  // ============================================================
+  // INPUT HANDLERS
+  // ============================================================
+  fileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    fileInfo.textContent = `${file.name} · ${(file.size / 1024).toFixed(0)} KB`;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const img = new Image();
+      img.onload = () => {
+        state.photo = img;
+        canvas.style.display = 'block';
+        emptyState.style.display = 'none';
+        downloadBtn.disabled = false;
+        render();
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  document.querySelectorAll('[data-template]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-template]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.template = btn.dataset.template;
+      testimonialField.style.display = state.template === 'testimonio' ? 'block' : 'none';
+      applyTemplateMode();
+      render();
+    });
+  });
+
+  function applyTemplateMode() {
+    const isEndcard = state.template === 'endcard';
+    photoOnlyEls.forEach(el => { el.style.display = isEndcard ? 'none' : ''; });
+    endcardOnlyEls.forEach(el => { el.style.display = isEndcard ? '' : 'none'; });
+
+    if (isEndcard) {
+      // End-card no requiere foto: muestra canvas y habilita descarga
+      canvas.style.display = 'block';
+      emptyState.style.display = 'none';
+      downloadBtn.disabled = false;
+    } else {
+      // Vuelve al estado dependiente de la foto
+      const hasPhoto = !!state.photo;
+      canvas.style.display = hasPhoto ? 'block' : 'none';
+      emptyState.style.display = hasPhoto ? 'none' : 'block';
+      downloadBtn.disabled = !hasPhoto;
+    }
+  }
+
+  document.querySelectorAll('[data-format]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-format]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.format = btn.dataset.format;
+      render();
+    });
+  });
+
+  offsetYSlider.addEventListener('input', () => {
+    state.offsetY = +offsetYSlider.value;
+    offsetYVal.textContent = state.offsetY + '%';
+    render();
+  });
+  zoomSlider.addEventListener('input', () => {
+    state.zoom = +zoomSlider.value;
+    zoomVal.textContent = state.zoom + '%';
+    render();
+  });
+  petNameInput.addEventListener('input', () => { state.petName = petNameInput.value.trim(); render(); });
+  serviceSelect.addEventListener('change', () => { state.service = serviceSelect.value; render(); });
+  testimonialInput.addEventListener('input', () => { state.testimonial = testimonialInput.value.trim(); render(); });
+  showHandleCb.addEventListener('change', () => { state.showHandle = showHandleCb.checked; render(); });
+  showUrlCb.addEventListener('change', () => { state.showUrl = showUrlCb.checked; render(); });
+  endcardHeadlineInput.addEventListener('input', () => { state.endcardHeadline = endcardHeadlineInput.value; render(); });
+  endcardCtaInput.addEventListener('input', () => { state.endcardCta = endcardCtaInput.value; render(); });
+  showPhoneCb.addEventListener('change', () => { state.showPhone = showPhoneCb.checked; render(); });
+  transparentBgCb.addEventListener('change', () => { state.transparentBg = transparentBgCb.checked; render(); });
+
+  logoInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const dataUrl = ev.target.result;
+      const img = new Image();
+      img.onload = () => {
+        state.logo = img;
+        setStoredLogoDataUrl(dataUrl);
+        logoInfo.textContent = `Logo HD activo: ${file.name} (${img.naturalWidth}×${img.naturalHeight}). Se aplica en todas las plantillas.`;
+        logoResetBtn.style.display = 'block';
+        render();
+      };
+      img.onerror = () => {
+        logoInfo.textContent = 'No se pudo cargar el logo. Probá con un PNG o SVG.';
+      };
+      img.src = dataUrl;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  logoResetBtn.addEventListener('click', async () => {
+    clearStoredLogo();
+    logoInput.value = '';
+    state.logo = await loadLogoFromSrc(DEFAULT_LOGO_PATH);
+    logoInfo.textContent = 'El logo bundleado es 500×500. Sube uno ≥ 1024px (PNG con fondo transparente o SVG ideal). Se guarda en este navegador.';
+    logoResetBtn.style.display = 'none';
+    render();
+  });
+
+  resetBtn.addEventListener('click', () => {
+    if (!confirm('¿Limpiar foto y campos? No se puede deshacer.')) return;
+    state.photo = null;
+    state.petName = '';
+    state.service = '';
+    state.testimonial = '';
+    fileInput.value = '';
+    fileInfo.textContent = 'PNG, JPG o WebP · Se procesa local en tu navegador.';
+    petNameInput.value = '';
+    serviceSelect.value = '';
+    testimonialInput.value = '';
+    applyTemplateMode();
+  });
+
+  downloadBtn.addEventListener('click', () => {
+    if (state.template !== 'endcard' && !state.photo) return;
+    const stamp = new Date().toISOString().slice(0,10);
+    const slug = state.template === 'endcard'
+      ? (state.endcardHeadline || 'endcard').toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 30)
+      : (state.petName || 'cliente').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const filename = `pawsclub-${state.template}-${slug}-${FORMATS[state.format].label}-${stamp}.png`;
+    canvas.toBlob((blob) => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }, 'image/png');
+  });
+
+  // ============================================================
+  // RENDER ENGINE
+  // ============================================================
+  function render() {
+    // End-card no requiere foto; el resto sí
+    if (state.template !== 'endcard' && !state.photo) return;
+
+    const fmt = FORMATS[state.format];
+    canvas.width = fmt.w;
+    canvas.height = fmt.h;
+
+    // Smoothing alta calidad: muchos navegadores defaultean a "low",
+    // lo que pixelea logos y fotos al downscale. Esto es lo que más mejora
+    // la nitidez del export final.
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+
+    ctx.clearRect(0, 0, fmt.w, fmt.h);
+
+    // Background fallback (cream) salvo end-card transparente
+    if (!(state.template === 'endcard' && state.transparentBg)) {
+      ctx.fillStyle = BRAND.cream;
+      ctx.fillRect(0, 0, fmt.w, fmt.h);
+    }
+
+    // Render por plantilla
+    if (state.template === 'watermark') renderWatermark(fmt);
+    else if (state.template === 'cliente-feliz') renderClienteFeliz(fmt);
+    else if (state.template === 'testimonio') renderTestimonio(fmt);
+    else if (state.template === 'endcard') renderEndcard(fmt);
+  }
+
+  // Dibuja la foto en el rect (x,y,w,h) con cover-fit + offsetY% + zoom
+  function drawPhotoCover(x, y, w, h) {
+    const img = state.photo;
+    const zoom = state.zoom / 100;
+    const targetRatio = w / h;
+    const imgRatio = img.width / img.height;
+
+    let sw, sh;
+    if (imgRatio > targetRatio) {
+      // imagen más ancha → recortar lados
+      sh = img.height / zoom;
+      sw = sh * targetRatio;
+    } else {
+      // imagen más alta → recortar arriba/abajo
+      sw = img.width / zoom;
+      sh = sw / targetRatio;
+    }
+    const sx = (img.width - sw) / 2;
+    const maxSy = img.height - sh;
+    const sy = maxSy * (state.offsetY / 100);
+
+    ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
+  }
+
+  // ============================================================
+  // PLANTILLA 1 — WATERMARK SUTIL
+  // ============================================================
+  function renderWatermark(fmt) {
+    drawPhotoCover(0, 0, fmt.w, fmt.h);
+
+    // Logo + handle bottom-right con sombra suave
+    const pad = Math.round(fmt.w * 0.04);
+    const logoSize = Math.round(fmt.w * 0.12);
+
+    if (state.logo) {
+      ctx.save();
+      ctx.globalAlpha = 0.85;
+      // sombra detrás del logo para legibilidad
+      ctx.shadowColor = 'rgba(0,0,0,0.5)';
+      ctx.shadowBlur = 12;
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 2;
+      ctx.drawImage(state.logo, fmt.w - pad - logoSize, fmt.h - pad - logoSize, logoSize, logoSize);
+      ctx.restore();
+    }
+
+    // Texto del handle/url debajo del logo o en su lugar
+    if (state.showHandle || state.showUrl) {
+      const fontSize = Math.round(fmt.w * 0.022);
+      ctx.font = `700 ${fontSize}px -apple-system, system-ui, sans-serif`;
+      ctx.textAlign = 'right';
+      ctx.textBaseline = 'bottom';
+      ctx.fillStyle = '#ffffff';
+      ctx.shadowColor = 'rgba(0,0,0,0.7)';
+      ctx.shadowBlur = 8;
+      ctx.shadowOffsetY = 1;
+
+      let textY = fmt.h - pad;
+      if (state.showUrl) {
+        ctx.fillText(URL_TEXT, fmt.w - pad - logoSize - pad/2, textY);
+        textY -= fontSize * 1.2;
+      }
+      if (state.showHandle) {
+        ctx.fillText(HANDLE, fmt.w - pad - logoSize - pad/2, textY);
+      }
+      ctx.shadowBlur = 0;
+    }
+  }
+
+  // ============================================================
+  // PLANTILLA 2 — CLIENTE FELIZ (banner inferior con datos)
+  // ============================================================
+  function renderClienteFeliz(fmt) {
+    // Foto ocupa parte superior (~78% de altura)
+    const bannerH = Math.round(fmt.h * 0.22);
+    const photoH = fmt.h - bannerH;
+    drawPhotoCover(0, 0, fmt.w, photoH);
+
+    // Banner inferior color brand
+    ctx.fillStyle = BRAND.primary;
+    ctx.fillRect(0, photoH, fmt.w, bannerH);
+
+    // Banda decorativa cream arriba del banner
+    ctx.fillStyle = BRAND.cream;
+    ctx.fillRect(0, photoH, fmt.w, Math.max(4, Math.round(fmt.h * 0.005)));
+
+    const pad = Math.round(fmt.w * 0.05);
+
+    // Logo a la derecha del banner
+    let logoArea = 0;
+    if (state.logo) {
+      const logoSize = Math.round(bannerH * 0.6);
+      const logoY = photoH + (bannerH - logoSize) / 2;
+      // recuadro cream redondeado para el logo
+      const boxPad = Math.round(logoSize * 0.12);
+      const boxX = fmt.w - pad - logoSize - boxPad * 2;
+      const boxY = logoY - boxPad;
+      const boxSize = logoSize + boxPad * 2;
+      ctx.fillStyle = BRAND.cream;
+      roundRect(ctx, boxX, boxY, boxSize, boxSize, Math.round(boxSize * 0.18));
+      ctx.fill();
+      ctx.drawImage(state.logo, boxX + boxPad, boxY + boxPad, logoSize, logoSize);
+      logoArea = pad + boxSize + pad;
+    }
+
+    // Texto a la izquierda del banner
+    const textX = pad;
+    const textMaxW = fmt.w - logoArea - pad;
+    const centerY = photoH + bannerH / 2;
+
+    ctx.textAlign = 'left';
+    ctx.fillStyle = BRAND.cream;
+
+    if (state.petName) {
+      const nameSize = Math.round(bannerH * 0.32);
+      ctx.font = `800 ${nameSize}px -apple-system, system-ui, sans-serif`;
+      ctx.textBaseline = 'alphabetic';
+      ctx.fillText(`¡Hola, ${state.petName}!`, textX, centerY - 4, textMaxW);
+
+      // Línea inferior: servicio + handle/url
+      const subParts = [];
+      if (state.service) subParts.push(state.service);
+      if (state.showHandle) subParts.push(HANDLE);
+      else if (state.showUrl) subParts.push(URL_TEXT);
+      if (subParts.length) {
+        const subSize = Math.round(bannerH * 0.16);
+        ctx.font = `500 ${subSize}px -apple-system, system-ui, sans-serif`;
+        ctx.globalAlpha = 0.92;
+        ctx.fillText(subParts.join('  ·  '), textX, centerY + subSize + 4, textMaxW);
+        ctx.globalAlpha = 1;
+      }
+    } else {
+      // Sin nombre → headline genérico
+      const headSize = Math.round(bannerH * 0.26);
+      ctx.font = `800 ${headSize}px -apple-system, system-ui, sans-serif`;
+      ctx.textBaseline = 'alphabetic';
+      ctx.fillText('Otro consentido del PawsClub', textX, centerY - 2, textMaxW);
+
+      const subParts = [];
+      if (state.service) subParts.push(state.service);
+      if (state.showHandle) subParts.push(HANDLE);
+      else if (state.showUrl) subParts.push(URL_TEXT);
+      if (subParts.length) {
+        const subSize = Math.round(bannerH * 0.15);
+        ctx.font = `500 ${subSize}px -apple-system, system-ui, sans-serif`;
+        ctx.globalAlpha = 0.92;
+        ctx.fillText(subParts.join('  ·  '), textX, centerY + subSize + 6, textMaxW);
+        ctx.globalAlpha = 1;
+      }
+    }
+  }
+
+  // ============================================================
+  // PLANTILLA 3 — TESTIMONIO (overlay con frase)
+  // ============================================================
+  function renderTestimonio(fmt) {
+    drawPhotoCover(0, 0, fmt.w, fmt.h);
+
+    // Gradient overlay arriba (oscurece para legibilidad del texto)
+    const topGradH = Math.round(fmt.h * 0.45);
+    const topGrad = ctx.createLinearGradient(0, 0, 0, topGradH);
+    topGrad.addColorStop(0, 'rgba(63, 84, 113, 0.85)');
+    topGrad.addColorStop(1, 'rgba(63, 84, 113, 0)');
+    ctx.fillStyle = topGrad;
+    ctx.fillRect(0, 0, fmt.w, topGradH);
+
+    // Gradient overlay abajo
+    const botGradH = Math.round(fmt.h * 0.30);
+    const botGrad = ctx.createLinearGradient(0, fmt.h - botGradH, 0, fmt.h);
+    botGrad.addColorStop(0, 'rgba(0,0,0,0)');
+    botGrad.addColorStop(1, 'rgba(0,0,0,0.75)');
+    ctx.fillStyle = botGrad;
+    ctx.fillRect(0, fmt.h - botGradH, fmt.w, botGradH);
+
+    const pad = Math.round(fmt.w * 0.06);
+
+    // Texto arriba: frase del dueño o headline
+    const quote = state.testimonial || '"Otro consentido del PawsClub"';
+    const text = state.testimonial ? `"${state.testimonial}"` : quote;
+    ctx.fillStyle = '#ffffff';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'top';
+
+    const quoteSize = Math.round(fmt.w * 0.058);
+    ctx.font = `800 ${quoteSize}px Georgia, "Times New Roman", serif`;
+    wrapText(ctx, text, pad, pad * 1.5, fmt.w - pad * 2, quoteSize * 1.15);
+
+    // Subtítulo: nombre + servicio (si hay)
+    if (state.petName || state.service) {
+      const subSize = Math.round(fmt.w * 0.028);
+      ctx.font = `600 ${subSize}px -apple-system, system-ui, sans-serif`;
+      ctx.fillStyle = BRAND.cream;
+      const parts = [];
+      if (state.petName) parts.push(`— ${state.petName}`);
+      if (state.service) parts.push(state.service);
+      const linesUsed = countWrapLines(ctx, text, fmt.w - pad * 2);
+      const subY = pad * 1.5 + linesUsed * quoteSize * 1.15 + subSize * 0.5;
+      ctx.fillText(parts.join('  ·  '), pad, subY);
+    }
+
+    // Logo + handle abajo
+    const bottomY = fmt.h - pad;
+    if (state.logo) {
+      const logoSize = Math.round(fmt.w * 0.13);
+      ctx.drawImage(state.logo, pad, bottomY - logoSize, logoSize, logoSize);
+
+      // Texto al lado del logo
+      const textX = pad + logoSize + pad * 0.5;
+      const fontSize = Math.round(fmt.w * 0.026);
+      ctx.font = `700 ${fontSize}px -apple-system, system-ui, sans-serif`;
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'bottom';
+
+      let textY = bottomY - logoSize * 0.3;
+      if (state.showHandle) {
+        ctx.fillText(HANDLE, textX, textY);
+        textY += fontSize * 1.2;
+      }
+      if (state.showUrl) {
+        ctx.font = `500 ${fontSize * 0.85}px -apple-system, system-ui, sans-serif`;
+        ctx.globalAlpha = 0.85;
+        ctx.fillText(URL_TEXT, textX, textY);
+        ctx.globalAlpha = 1;
+      }
+    }
+  }
+
+  // ============================================================
+  // PLANTILLA 4 — END-CARD VIDEO (slide final 3s para CapCut)
+  // ============================================================
+  function renderEndcard(fmt) {
+    const pad = Math.round(fmt.w * 0.08);
+
+    // Fondo: gradiente sutil de marca (a menos que sea transparente)
+    if (!state.transparentBg) {
+      const grad = ctx.createLinearGradient(0, 0, 0, fmt.h);
+      grad.addColorStop(0, BRAND.primary);
+      grad.addColorStop(1, BRAND.primaryDark);
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, fmt.w, fmt.h);
+    }
+
+    // El color de texto cambia según fondo:
+    // - sólido (brand): texto cream
+    // - transparente: usamos brand para el texto sin asumir el video debajo,
+    //   con sombra blanca leve para que sea legible sobre cualquier color
+    const textColor = state.transparentBg ? BRAND.primaryDark : BRAND.cream;
+    const accentColor = state.transparentBg ? BRAND.primary : BRAND.cream;
+
+    // Layout vertical: logo (centrado) → headline → CTA → datos de contacto
+    // Calculamos posiciones según altura del formato.
+    const logoSize = Math.round(Math.min(fmt.w, fmt.h) * 0.36);
+    const logoX = (fmt.w - logoSize) / 2;
+    // Centro del bloque más arriba en formatos altos para dejar espacio abajo
+    const isStory = state.format === 'story';
+    const logoY = isStory
+      ? Math.round(fmt.h * 0.18)
+      : Math.round(fmt.h * 0.12);
+
+    if (state.logo) {
+      ctx.drawImage(state.logo, logoX, logoY, logoSize, logoSize);
+    }
+
+    // Headline debajo del logo
+    let cursorY = logoY + logoSize + Math.round(fmt.h * 0.04);
+    const headlineSize = Math.round(fmt.w * 0.075);
+    ctx.font = `800 ${headlineSize}px -apple-system, system-ui, sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    ctx.fillStyle = textColor;
+    if (state.transparentBg) {
+      ctx.shadowColor = 'rgba(255,255,255,0.6)';
+      ctx.shadowBlur = 8;
+    }
+    const headline = state.endcardHeadline || 'Reserva tu lugar';
+    const headlineLines = countWrapLines(ctx, headline, fmt.w - pad * 2);
+    wrapText(ctx, headline, fmt.w / 2, cursorY, fmt.w - pad * 2, headlineSize * 1.15);
+    cursorY += headlineLines * headlineSize * 1.15 + Math.round(fmt.h * 0.04);
+    ctx.shadowBlur = 0;
+
+    // CTA principal (pill button)
+    const cta = state.endcardCta || '';
+    if (cta) {
+      const ctaFontSize = Math.round(fmt.w * 0.046);
+      ctx.font = `700 ${ctaFontSize}px -apple-system, system-ui, sans-serif`;
+      const ctaTextW = ctx.measureText(cta).width;
+      const btnPadX = Math.round(ctaFontSize * 1.1);
+      const btnPadY = Math.round(ctaFontSize * 0.55);
+      const btnW = ctaTextW + btnPadX * 2;
+      const btnH = ctaFontSize + btnPadY * 2;
+      const btnX = (fmt.w - btnW) / 2;
+      const btnR = btnH / 2;
+
+      ctx.fillStyle = accentColor;
+      roundRect(ctx, btnX, cursorY, btnW, btnH, btnR);
+      ctx.fill();
+
+      ctx.fillStyle = state.transparentBg ? BRAND.cream : BRAND.primaryDark;
+      ctx.textBaseline = 'middle';
+      ctx.fillText(cta, fmt.w / 2, cursorY + btnH / 2 + ctaFontSize * 0.05);
+      ctx.textBaseline = 'top';
+      cursorY += btnH + Math.round(fmt.h * 0.035);
+    }
+
+    // Datos de contacto al pie (teléfono, URL, handle)
+    const contactLines = [];
+    if (state.showPhone) contactLines.push(PHONE_FORMATTED);
+    if (state.showUrl) contactLines.push(URL_TEXT);
+    if (state.showHandle) contactLines.push(HANDLE);
+
+    if (contactLines.length) {
+      const contactSize = Math.round(fmt.w * 0.034);
+      const contactGap = contactSize * 1.5;
+      const totalContactH = contactLines.length * contactGap;
+
+      // Anclamos al pie, con padding inferior generoso
+      const bottomPad = Math.round(fmt.h * 0.08);
+      let contactY = fmt.h - bottomPad - totalContactH;
+
+      // No invadir el bloque superior — si no cabe, lo subimos justo después del CTA
+      if (contactY < cursorY) contactY = cursorY;
+
+      ctx.font = `600 ${contactSize}px -apple-system, system-ui, sans-serif`;
+      ctx.fillStyle = textColor;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      if (state.transparentBg) {
+        ctx.shadowColor = 'rgba(255,255,255,0.6)';
+        ctx.shadowBlur = 6;
+      }
+      contactLines.forEach((line) => {
+        ctx.fillText(line, fmt.w / 2, contactY);
+        contactY += contactGap;
+      });
+      ctx.shadowBlur = 0;
+    }
+  }
+
+  // ============================================================
+  // HELPERS
+  // ============================================================
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y,     x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x,     y + h, r);
+    ctx.arcTo(x,     y + h, x,     y,     r);
+    ctx.arcTo(x,     y,     x + w, y,     r);
+    ctx.closePath();
+  }
+
+  function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+    const words = text.split(/\s+/);
+    let line = '';
+    let cursorY = y;
+    for (let i = 0; i < words.length; i++) {
+      const test = line ? line + ' ' + words[i] : words[i];
+      if (ctx.measureText(test).width > maxWidth && line) {
+        ctx.fillText(line, x, cursorY);
+        line = words[i];
+        cursorY += lineHeight;
+      } else {
+        line = test;
+      }
+    }
+    if (line) ctx.fillText(line, x, cursorY);
+  }
+
+  function countWrapLines(ctx, text, maxWidth) {
+    const words = text.split(/\s+/);
+    let line = '';
+    let lines = 0;
+    for (let i = 0; i < words.length; i++) {
+      const test = line ? line + ' ' + words[i] : words[i];
+      if (ctx.measureText(test).width > maxWidth && line) {
+        lines++;
+        line = words[i];
+      } else {
+        line = test;
+      }
+    }
+    if (line) lines++;
+    return lines;
+  }
+
+  // ============================================================
+  // INIT
+  // ============================================================
+  (async () => {
+    const stored = getStoredLogoDataUrl();
+    if (stored) {
+      const img = await loadLogoFromSrc(stored);
+      if (img) {
+        state.logo = img;
+        logoInfo.textContent = `Logo HD activo: guardado en este navegador (${img.naturalWidth}×${img.naturalHeight}). Se aplica en todas las plantillas.`;
+        logoResetBtn.style.display = 'block';
+        if (state.photo) render();
+        return;
+      }
+      // Si falla la carga del custom (corrupto), limpia y cae al default
+      clearStoredLogo();
+    }
+    state.logo = await loadLogoFromSrc(DEFAULT_LOGO_PATH);
+    if (state.photo) render();
+  })();
+})();
+</script>
+</body>
+</html>
