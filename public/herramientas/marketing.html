@@ -147,7 +147,7 @@
     <div class="card">
       <h2>Configuración</h2>
 
-      <div class="field">
+      <div class="field photo-only">
         <label class="file-input" for="file-input">
           📷 Sube la foto del cliente
           <input type="file" id="file-input" accept="image/*">
@@ -169,6 +169,10 @@
           Testimonio
           <span class="seg-sub">Frase en overlay</span>
         </button>
+        <button class="seg-btn" data-template="endcard">
+          End-card video (CapCut)
+          <span class="seg-sub">Slide final 3s · sin foto</span>
+        </button>
       </div>
 
       <h3>Formato</h3>
@@ -187,43 +191,72 @@
         </button>
       </div>
 
-      <h3>Encuadre de la foto</h3>
-      <div class="field">
-        <label>Recorte vertical (sube/baja la foto)</label>
-        <div class="slider-row">
-          <input type="range" id="offset-y" min="0" max="100" value="50">
-          <span class="slider-val" id="offset-y-val">50%</span>
+      <div class="photo-only-block">
+        <h3>Encuadre de la foto</h3>
+        <div class="field">
+          <label>Recorte vertical (sube/baja la foto)</label>
+          <div class="slider-row">
+            <input type="range" id="offset-y" min="0" max="100" value="50">
+            <span class="slider-val" id="offset-y-val">50%</span>
+          </div>
+          <div class="help">Ajusta para centrar la cara del peludo dentro del marco.</div>
         </div>
-        <div class="help">Ajusta para centrar la cara del peludo dentro del marco.</div>
-      </div>
-      <div class="field">
-        <label>Zoom</label>
-        <div class="slider-row">
-          <input type="range" id="zoom" min="100" max="200" value="100">
-          <span class="slider-val" id="zoom-val">100%</span>
+        <div class="field">
+          <label>Zoom</label>
+          <div class="slider-row">
+            <input type="range" id="zoom" min="100" max="200" value="100">
+            <span class="slider-val" id="zoom-val">100%</span>
+          </div>
         </div>
       </div>
 
-      <h3>Texto</h3>
-      <div class="field">
-        <label for="pet-name">Nombre del peludo</label>
-        <input type="text" id="pet-name" placeholder="Ej. Luna" maxlength="30">
+      <div class="photo-only-block">
+        <h3>Texto</h3>
+        <div class="field">
+          <label for="pet-name">Nombre del peludo</label>
+          <input type="text" id="pet-name" placeholder="Ej. Luna" maxlength="30">
+        </div>
+        <div class="field">
+          <label for="service">Servicio / etiqueta</label>
+          <select id="service">
+            <option value="">— Sin etiqueta —</option>
+            <option value="Hospedaje">🏨 Hospedaje</option>
+            <option value="Guardería">☀️ Guardería</option>
+            <option value="Paseos">🐕‍🦺 Paseos</option>
+            <option value="Adiestramiento">🎓 Adiestramiento</option>
+            <option value="Cliente feliz">💛 Cliente feliz</option>
+          </select>
+        </div>
+        <div class="field" id="testimonial-field" style="display:none;">
+          <label for="testimonial">Frase del dueño / headline</label>
+          <textarea id="testimonial" placeholder="Ej. Luna llegó tímida y se va siendo la consentida del hotel."></textarea>
+          <div class="help">Máx ~120 caracteres. Si lo dejas vacío, sale solo el headline genérico.</div>
+        </div>
       </div>
-      <div class="field">
-        <label for="service">Servicio / etiqueta</label>
-        <select id="service">
-          <option value="">— Sin etiqueta —</option>
-          <option value="Hospedaje">🏨 Hospedaje</option>
-          <option value="Guardería">☀️ Guardería</option>
-          <option value="Paseos">🐕‍🦺 Paseos</option>
-          <option value="Adiestramiento">🎓 Adiestramiento</option>
-          <option value="Cliente feliz">💛 Cliente feliz</option>
-        </select>
-      </div>
-      <div class="field" id="testimonial-field" style="display:none;">
-        <label for="testimonial">Frase del dueño / headline</label>
-        <textarea id="testimonial" placeholder="Ej. Luna llegó tímida y se va siendo la consentida del hotel."></textarea>
-        <div class="help">Máx ~120 caracteres. Si lo dejas vacío, sale solo el headline genérico.</div>
+
+      <div class="endcard-only-block" style="display:none;">
+        <h3>Texto del end-card</h3>
+        <div class="field">
+          <label for="endcard-headline">Headline (frase principal)</label>
+          <input type="text" id="endcard-headline" placeholder="Reserva tu lugar" value="Reserva tu lugar" maxlength="40">
+          <div class="help">Ej. "Reserva tu lugar", "Hospedaje en CDMX", "Tu peludo merece lo mejor".</div>
+        </div>
+        <div class="field">
+          <label for="endcard-cta">Call to action</label>
+          <input type="text" id="endcard-cta" placeholder="📱 Reserva por WhatsApp" value="📱 Reserva por WhatsApp" maxlength="40">
+        </div>
+        <div class="toggle-row">
+          <label for="show-phone">Mostrar teléfono</label>
+          <input type="checkbox" id="show-phone" checked>
+        </div>
+        <div class="toggle-row">
+          <label for="transparent-bg">Fondo transparente (overlay)</label>
+          <input type="checkbox" id="transparent-bg">
+        </div>
+        <div class="help" style="margin-top: 6px;">
+          Sin transparencia: slide final sólido para los últimos 3s del video.<br>
+          Con transparencia: PNG sin fondo para overlay encima del video.
+        </div>
       </div>
 
       <h3>Marca</h3>
@@ -287,7 +320,7 @@
   const state = {
     photo: null,           // Image object de la foto del cliente
     logo: null,            // Image object del logo (preload)
-    template: 'watermark', // watermark | cliente-feliz | testimonio
+    template: 'watermark', // watermark | cliente-feliz | testimonio | endcard
     format: 'square',      // square | portrait | story
     offsetY: 50,
     zoom: 100,
@@ -296,7 +329,15 @@
     testimonial: '',
     showHandle: true,
     showUrl: true,
+    // End-card fields
+    endcardHeadline: 'Reserva tu lugar',
+    endcardCta: '📱 Reserva por WhatsApp',
+    showPhone: true,
+    transparentBg: false,
   };
+
+  // SITE info (de src/lib/constants.ts)
+  const PHONE_FORMATTED = '55 5644 0856';
 
   const FORMATS = {
     square:   { w: 1080, h: 1080, label: 'cuadrado' },
@@ -369,6 +410,12 @@
   const logoInput = document.getElementById('logo-input');
   const logoInfo = document.getElementById('logo-info');
   const logoResetBtn = document.getElementById('logo-reset-btn');
+  const endcardHeadlineInput = document.getElementById('endcard-headline');
+  const endcardCtaInput = document.getElementById('endcard-cta');
+  const showPhoneCb = document.getElementById('show-phone');
+  const transparentBgCb = document.getElementById('transparent-bg');
+  const photoOnlyEls = document.querySelectorAll('.photo-only, .photo-only-block');
+  const endcardOnlyEls = document.querySelectorAll('.endcard-only-block');
 
   // ============================================================
   // INPUT HANDLERS
@@ -398,9 +445,29 @@
       btn.classList.add('active');
       state.template = btn.dataset.template;
       testimonialField.style.display = state.template === 'testimonio' ? 'block' : 'none';
+      applyTemplateMode();
       render();
     });
   });
+
+  function applyTemplateMode() {
+    const isEndcard = state.template === 'endcard';
+    photoOnlyEls.forEach(el => { el.style.display = isEndcard ? 'none' : ''; });
+    endcardOnlyEls.forEach(el => { el.style.display = isEndcard ? '' : 'none'; });
+
+    if (isEndcard) {
+      // End-card no requiere foto: muestra canvas y habilita descarga
+      canvas.style.display = 'block';
+      emptyState.style.display = 'none';
+      downloadBtn.disabled = false;
+    } else {
+      // Vuelve al estado dependiente de la foto
+      const hasPhoto = !!state.photo;
+      canvas.style.display = hasPhoto ? 'block' : 'none';
+      emptyState.style.display = hasPhoto ? 'none' : 'block';
+      downloadBtn.disabled = !hasPhoto;
+    }
+  }
 
   document.querySelectorAll('[data-format]').forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -426,6 +493,10 @@
   testimonialInput.addEventListener('input', () => { state.testimonial = testimonialInput.value.trim(); render(); });
   showHandleCb.addEventListener('change', () => { state.showHandle = showHandleCb.checked; render(); });
   showUrlCb.addEventListener('change', () => { state.showUrl = showUrlCb.checked; render(); });
+  endcardHeadlineInput.addEventListener('input', () => { state.endcardHeadline = endcardHeadlineInput.value; render(); });
+  endcardCtaInput.addEventListener('input', () => { state.endcardCta = endcardCtaInput.value; render(); });
+  showPhoneCb.addEventListener('change', () => { state.showPhone = showPhoneCb.checked; render(); });
+  transparentBgCb.addEventListener('change', () => { state.transparentBg = transparentBgCb.checked; render(); });
 
   logoInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
@@ -469,15 +540,15 @@
     petNameInput.value = '';
     serviceSelect.value = '';
     testimonialInput.value = '';
-    canvas.style.display = 'none';
-    emptyState.style.display = 'block';
-    downloadBtn.disabled = true;
+    applyTemplateMode();
   });
 
   downloadBtn.addEventListener('click', () => {
-    if (!state.photo) return;
+    if (state.template !== 'endcard' && !state.photo) return;
     const stamp = new Date().toISOString().slice(0,10);
-    const slug = (state.petName || 'cliente').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const slug = state.template === 'endcard'
+      ? (state.endcardHeadline || 'endcard').toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 30)
+      : (state.petName || 'cliente').toLowerCase().replace(/[^a-z0-9]+/g, '-');
     const filename = `pawsclub-${state.template}-${slug}-${FORMATS[state.format].label}-${stamp}.png`;
     canvas.toBlob((blob) => {
       const url = URL.createObjectURL(blob);
@@ -493,7 +564,9 @@
   // RENDER ENGINE
   // ============================================================
   function render() {
-    if (!state.photo) return;
+    // End-card no requiere foto; el resto sí
+    if (state.template !== 'endcard' && !state.photo) return;
+
     const fmt = FORMATS[state.format];
     canvas.width = fmt.w;
     canvas.height = fmt.h;
@@ -506,14 +579,17 @@
 
     ctx.clearRect(0, 0, fmt.w, fmt.h);
 
-    // Background fallback
-    ctx.fillStyle = BRAND.cream;
-    ctx.fillRect(0, 0, fmt.w, fmt.h);
+    // Background fallback (cream) salvo end-card transparente
+    if (!(state.template === 'endcard' && state.transparentBg)) {
+      ctx.fillStyle = BRAND.cream;
+      ctx.fillRect(0, 0, fmt.w, fmt.h);
+    }
 
     // Render por plantilla
     if (state.template === 'watermark') renderWatermark(fmt);
     else if (state.template === 'cliente-feliz') renderClienteFeliz(fmt);
     else if (state.template === 'testimonio') renderTestimonio(fmt);
+    else if (state.template === 'endcard') renderEndcard(fmt);
   }
 
   // Dibuja la foto en el rect (x,y,w,h) con cover-fit + offsetY% + zoom
@@ -741,6 +817,117 @@
         ctx.fillText(URL_TEXT, textX, textY);
         ctx.globalAlpha = 1;
       }
+    }
+  }
+
+  // ============================================================
+  // PLANTILLA 4 — END-CARD VIDEO (slide final 3s para CapCut)
+  // ============================================================
+  function renderEndcard(fmt) {
+    const pad = Math.round(fmt.w * 0.08);
+
+    // Fondo: gradiente sutil de marca (a menos que sea transparente)
+    if (!state.transparentBg) {
+      const grad = ctx.createLinearGradient(0, 0, 0, fmt.h);
+      grad.addColorStop(0, BRAND.primary);
+      grad.addColorStop(1, BRAND.primaryDark);
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, fmt.w, fmt.h);
+    }
+
+    // El color de texto cambia según fondo:
+    // - sólido (brand): texto cream
+    // - transparente: usamos brand para el texto sin asumir el video debajo,
+    //   con sombra blanca leve para que sea legible sobre cualquier color
+    const textColor = state.transparentBg ? BRAND.primaryDark : BRAND.cream;
+    const accentColor = state.transparentBg ? BRAND.primary : BRAND.cream;
+
+    // Layout vertical: logo (centrado) → headline → CTA → datos de contacto
+    // Calculamos posiciones según altura del formato.
+    const logoSize = Math.round(Math.min(fmt.w, fmt.h) * 0.36);
+    const logoX = (fmt.w - logoSize) / 2;
+    // Centro del bloque más arriba en formatos altos para dejar espacio abajo
+    const isStory = state.format === 'story';
+    const logoY = isStory
+      ? Math.round(fmt.h * 0.18)
+      : Math.round(fmt.h * 0.12);
+
+    if (state.logo) {
+      ctx.drawImage(state.logo, logoX, logoY, logoSize, logoSize);
+    }
+
+    // Headline debajo del logo
+    let cursorY = logoY + logoSize + Math.round(fmt.h * 0.04);
+    const headlineSize = Math.round(fmt.w * 0.075);
+    ctx.font = `800 ${headlineSize}px -apple-system, system-ui, sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    ctx.fillStyle = textColor;
+    if (state.transparentBg) {
+      ctx.shadowColor = 'rgba(255,255,255,0.6)';
+      ctx.shadowBlur = 8;
+    }
+    const headline = state.endcardHeadline || 'Reserva tu lugar';
+    const headlineLines = countWrapLines(ctx, headline, fmt.w - pad * 2);
+    wrapText(ctx, headline, fmt.w / 2, cursorY, fmt.w - pad * 2, headlineSize * 1.15);
+    cursorY += headlineLines * headlineSize * 1.15 + Math.round(fmt.h * 0.04);
+    ctx.shadowBlur = 0;
+
+    // CTA principal (pill button)
+    const cta = state.endcardCta || '';
+    if (cta) {
+      const ctaFontSize = Math.round(fmt.w * 0.046);
+      ctx.font = `700 ${ctaFontSize}px -apple-system, system-ui, sans-serif`;
+      const ctaTextW = ctx.measureText(cta).width;
+      const btnPadX = Math.round(ctaFontSize * 1.1);
+      const btnPadY = Math.round(ctaFontSize * 0.55);
+      const btnW = ctaTextW + btnPadX * 2;
+      const btnH = ctaFontSize + btnPadY * 2;
+      const btnX = (fmt.w - btnW) / 2;
+      const btnR = btnH / 2;
+
+      ctx.fillStyle = accentColor;
+      roundRect(ctx, btnX, cursorY, btnW, btnH, btnR);
+      ctx.fill();
+
+      ctx.fillStyle = state.transparentBg ? BRAND.cream : BRAND.primaryDark;
+      ctx.textBaseline = 'middle';
+      ctx.fillText(cta, fmt.w / 2, cursorY + btnH / 2 + ctaFontSize * 0.05);
+      ctx.textBaseline = 'top';
+      cursorY += btnH + Math.round(fmt.h * 0.035);
+    }
+
+    // Datos de contacto al pie (teléfono, URL, handle)
+    const contactLines = [];
+    if (state.showPhone) contactLines.push(PHONE_FORMATTED);
+    if (state.showUrl) contactLines.push(URL_TEXT);
+    if (state.showHandle) contactLines.push(HANDLE);
+
+    if (contactLines.length) {
+      const contactSize = Math.round(fmt.w * 0.034);
+      const contactGap = contactSize * 1.5;
+      const totalContactH = contactLines.length * contactGap;
+
+      // Anclamos al pie, con padding inferior generoso
+      const bottomPad = Math.round(fmt.h * 0.08);
+      let contactY = fmt.h - bottomPad - totalContactH;
+
+      // No invadir el bloque superior — si no cabe, lo subimos justo después del CTA
+      if (contactY < cursorY) contactY = cursorY;
+
+      ctx.font = `600 ${contactSize}px -apple-system, system-ui, sans-serif`;
+      ctx.fillStyle = textColor;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      if (state.transparentBg) {
+        ctx.shadowColor = 'rgba(255,255,255,0.6)';
+        ctx.shadowBlur = 6;
+      }
+      contactLines.forEach((line) => {
+        ctx.fillText(line, fmt.w / 2, contactY);
+        contactY += contactGap;
+      });
+      ctx.shadowBlur = 0;
     }
   }
 
